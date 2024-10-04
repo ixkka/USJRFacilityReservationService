@@ -1,10 +1,13 @@
 ﻿@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
-<header class="@((ViewBag.LoginView == true) ? "hide-navbar" : "")">
+<header class="@((ViewBag.LoginView == true) ? "hide-navbar" : "")" style="padding: 0; margin: 0;">
     <div class="logosec hover-pointer">
-        <img src="~/img/asi-logo-invert.svg"
-             style="width: 185px;" alt="logo"
+        <img src="~/img/usjr_logo.png"
+             style="width: 100px;" alt="logo"
              onclick="window.location.href = '@Url.Action("Index", "Home")';">
+        <span style="font-size: 20px; color: green; font-weight: 700;">
+            Facility Reservation Service
+        </span>
     </div>
     <div class="logosec">
         @HttpContextAccessor.HttpContext.Session.GetString("UserName")

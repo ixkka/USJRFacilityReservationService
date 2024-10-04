@@ -28,7 +28,7 @@ body {
 }
 
 header {
-    height: 70px;
+    height: 90px;
     width: 100vw;
     padding: 0 30px;
     background-color: var(--background-color1);
@@ -361,4 +361,11 @@ header {
     background-color: rgb(0, 177, 0);
     color: white;
     border-radius: 4px;
+}
+
+@font-face {
+    font-family: 'Lexend Deca'; 
+    src:url('/fonts/LexendDecaRegular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
