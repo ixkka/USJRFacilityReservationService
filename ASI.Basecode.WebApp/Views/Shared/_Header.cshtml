@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
-<header class="@((ViewBag.LoginView == true) ? "hide-navbar" : "")" style="padding: 0; margin: 0;">
+<header class="@((ViewBag.LoginView == false) ? "hide-navbar" : "")" style="padding: 0; margin: 0;">
     <div class="logosec hover-pointer">
         <img src="~/img/usjr_logo.png"
              style="width: 100px;" alt="logo"
@@ -9,7 +9,7 @@
             Facility Reservation Service
         </span>
     </div>
- @*    <div class="logosec">
+    @* <div class="logosec">
         @HttpContextAccessor.HttpContext.Session.GetString("UserName")
         <div class="mr-20 hover-pointer" style="position: relative">
             <div class="dp">
