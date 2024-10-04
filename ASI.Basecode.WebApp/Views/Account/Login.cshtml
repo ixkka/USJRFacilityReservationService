@@ -10,53 +10,92 @@
 <div>
     @Html.AntiForgeryToken()
 </div>
-<div class="container py-5" style="display:flex; align-content:center;height:calc(100vh - 64px)">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-xl-10">
-            <div class="card rounded-3 text-black">
-                <div class="row g-0 w-1000px">
-                    <div class="col-lg-6">
-                        <div class="card-body p-md-5 mx-md-4">
-                            <div class="text-center">
-                                <img src="~/img/asi-logo-invert.svg"
-                                     style="width: 185px;" alt="logo">
+
+<div class="container-fluid d-flex justify-content-center align-items-center vh-100">
+    <div class="card rounded-3 shadow-lg text-black" style="width: 400px; border-radius: 15px; background-color: rgba(255, 255, 255, 0.9);">
+        <div class="row g-0">
+           
+            <div class="col-lg-12">
+                <div class="card-body d-flex flex-column justify-content-center p-4 mx-md-4">
+                    <form method="post" action="/Account/Login" id="loginForm">
+                        <div class="mb-3">
+                            <label class="form-label" for="form2Example11"></label>
+                            <div class="position-relative">
+                                <input type="text" id="form2Example11" class="form-control" asp-for="UserId" placeholder="ID Number" style="padding-left: 40px;" />
+                                <img src="~/img/id_icon.png" alt="ID Icon" class="position-absolute placeholder-icon" id="idIcon" />
                             </div>
-                            <form method="post" action="/Account/Login" id="loginForm">
-                                <div class="form-outline mb-4">
-                                    <label class="form-label" for="form2Example11">@UserId</label>
-                                    <input type="text" id="form2Example11" class="form-control"
-                                           asp-for="UserId" placeholder="Enter userid" />
-                                    <span asp-validation-for="UserId" class="text-danger"></span>
-                                </div>
-                                <div class="form-outline mb-4">
-                                    <label class="form-label" for="form2Example22">@Password</label>
-                                    <input type="password" id="form2Example22" class="form-control"
-                                           asp-for="Password" placeholder="Enter password" />
-                                    <span asp-validation-for="Password" class="text-danger"></span>
-                                </div>
-                                <div class="text-center pt-1 mb-5 pb-1 d-flex flex-column align-items-center">
-                                    <button class="btn btn-primary btn-block login-btn gradient-custom-2 mb-3" type="submit">
-                                        @Login
-                                    </button>
-                                    <div>
-                                        <a class="text-muted" href="#!">@ForgotPass</a>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-center pb-4">
-                                    <p class="mb-0 me-2 mr-1">@DontHaveAcc</p>
-                                    <a asp-controller="Account" asp-action="Register" class="btn btn-outline-danger">@CreateNew</a>
-                                </div>
-                            </form>
+                            <span asp-validation-for="UserId" class="text-danger"></span>
                         </div>
-                    </div>
-                    <div class="col-lg-6 d-flex">
-                        <img style="width:400px"src="~/img/LiveIT.png" />
-                    </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="form2Example22"></label>
+                            <div class="position-relative">
+                                <input type="password" id="form2Example22" class="form-control" asp-for="Password" placeholder="Password" style="padding-left: 40px;" />
+                                <img src="~/img/password_icon.png" alt="Password Icon" class="position-absolute placeholder-icon" id="passwordIcon" />
+                            </div>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+
+                            <!-- Forgot password link aligned to the right -->
+                            <div class="d-flex justify-content-end mt-1">
+                                <a class="text-muted small" href="#!">Forgot password?</a>
+                            </div>
+                        </div>
+
+                        <style>
+                            .placeholder-icon {
+                                width: 20px;
+                                height: 20px;
+                                top: 50%;
+                                left: 10px;
+                                transform: translateY(-50%);
+                                pointer-events: none;
+                            }
+                        </style>
+
+                        <script>
+                            document.getElementById("form2Example11").addEventListener("focus", function () {
+                                document.getElementById("idIcon").style.display = "none";
+                                this.setAttribute("placeholder", ""); // Remove placeholder text
+                            });
+
+                            document.getElementById("form2Example11").addEventListener("blur", function () {
+                                if (this.value === "") {
+                                    document.getElementById("idIcon").style.display = "block";
+                                    this.setAttribute("placeholder", "ID Number"); // Add placeholder text back
+                                }
+                            });
+
+                            document.getElementById("form2Example22").addEventListener("focus", function () {
+                                document.getElementById("passwordIcon").style.display = "none";
+                                this.setAttribute("placeholder", ""); // Remove placeholder text
+                            });
+
+                            document.getElementById("form2Example22").addEventListener("blur", function () {
+                                if (this.value === "") {
+                                    document.getElementById("passwordIcon").style.display = "block";
+                                    this.setAttribute("placeholder", "Password"); // Add placeholder text back
+                                }
+                            });
+                        </script>
+
+                        <div class="text-center mb-2 d-flex flex-column align-items-center">
+                            <button class="btn btn-primary btn-block mb-2" type="submit" style="background-color: #137301; border-color: #137301;">Login</button>
+                        </div>
+
+                        <div class="d-flex align-items-center justify-content-center pb-3">
+                            <p class="mb-0 me-2">Don't have an account?</p>
+                            <a asp-controller="Account" asp-action="Register" class="btn btn-outline-danger">Create new</a>
+                        </div>
+
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+
 
 @section scripts {
     <script>
