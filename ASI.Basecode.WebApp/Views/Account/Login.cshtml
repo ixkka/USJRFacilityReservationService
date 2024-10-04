@@ -9,17 +9,12 @@
 }
 
 
-
-
 <div>
     @Html.AntiForgeryToken()
 </div>
 <div class="container-fluid d-flex justify-content-center align-items-start vh-100">
-   
     <div class="card shadow-lg text-black" style="width: 400px; border-radius: 15px; background-color: rgba(255, 255, 255, 0.9); margin-top: 150px;">
-        
         <div class="d-flex flex-column align-items-center" style="margin-top: 50px;">
-           
             <p class="text-center mb-4" style="font-size: 36px; font-weight: bold;">Login</p>
         </div>
         <div class="card-body d-flex flex-column justify-content-center p-4 mx-md-4">
@@ -38,10 +33,12 @@
                     <div class="position-relative">
                         <input type="password" id="form2Example22" class="form-control" asp-for="Password" placeholder="Password" style="padding-left: 40px;" />
                         <img src="~/img/password_icon.png" alt="Password Icon" class="position-absolute placeholder-icon" id="passwordIcon" />
+
+                        <!-- Password visibility toggle using Bootstrap Icons -->
+                        <i class="bi bi-eye-slash position-absolute toggle-password" id="togglePassword" style="right: 10px; cursor: pointer;"></i>
                     </div>
                     <span asp-validation-for="Password" class="text-danger"></span>
 
-          
                     <div class="d-flex justify-content-end mt-1">
                         <a class="text-muted small" href="#!">Forgot password?</a>
                     </div>
@@ -55,6 +52,12 @@
                         left: 10px;
                         transform: translateY(-50%);
                         pointer-events: none;
+                    }
+
+                    .toggle-password {
+                        font-size: 20px;
+                        top: 50%;
+                        transform: translateY(-50%);
                     }
                 </style>
 
@@ -82,18 +85,30 @@
                             this.setAttribute("placeholder", "Password"); // Add placeholder text back
                         }
                     });
+
+                    // Toggle password visibility
+                    const togglePassword = document.getElementById('togglePassword');
+                    const passwordField = document.getElementById('form2Example22');
+
+                    togglePassword.addEventListener('click', function () {
+                        // Toggle the type attribute
+                        const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                        passwordField.setAttribute('type', type);
+
+                        // Toggle the icon (between eye and eye-slash)
+                        this.classList.toggle('bi-eye');
+                        this.classList.toggle('bi-eye-slash');
+                    });
                 </script>
 
                 <div class="text-center mb-2 d-flex flex-column align-items-center">
                     <button class="btn btn-primary btn-block mb-2" type="submit" style="background-color: #137301; border-color: #137301;">Login</button>
                 </div>
-
-                
-
             </form>
         </div>
     </div>
 </div>
+
 
 
 
