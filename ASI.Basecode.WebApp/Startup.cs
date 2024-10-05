@@ -153,14 +153,6 @@ namespace ASI.Basecode.WebApp
             this._app.UseAuthentication();
             this._app.UseAuthorization();
 
-            // TRIAL
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
-            });
         }
     }
 }

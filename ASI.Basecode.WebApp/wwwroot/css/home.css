@@ -1,0 +1,85 @@
+﻿*{
+    margin: 0px;
+    padding: 0px;
+}
+
+#sidebar {
+    position: absolute;
+    left: 0px;
+    padding: 25px 0px 0px 5px;
+    display: flex;
+    height: 100vh;
+    width: 250px;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 4px 0px 15px rgba(0, 0, 0, 0.2);
+    /*    background-color: green;*/
+}
+
+#roundeddiv {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background-color: rgba(19, 115, 1, 0.2);
+    /*    background-color: black;*/
+}
+
+#sidebar #roundeddiv {
+    margin-bottom: 15px;
+}
+
+#sidebar p {
+    margin-bottom: 0px;
+    font-family: Arial;
+    font-size: 22px;
+}
+
+.navbar {
+    margin-bottom: 15px;
+    margin-top: 45px;
+    width: 100%;
+/*        background-color: black;*/
+}
+
+.navbar p {
+    color: darkgrey;
+    font-weight: bold;
+}
+
+ul {
+    padding: 0px 0px 0px 3px;
+    list-style-type: none;
+}
+
+li {
+    width: 200px; /* Set a fixed width */
+    height: 50px; /* Set a fixed height */
+    display: flex; /* Use flexbox for centering */
+    align-items: center; /* Center items vertically */
+    justify-content: flex-start; /* Align items to the left */
+    padding: 5px 0; /* Control padding */
+    /*    padding: 5px 0px 5px 0px;*/
+    font-family: Arial;
+    font-size: 20px;
+    color: darkgrey;
+    transition: background-color 0.3s;
+}
+
+li img {
+    width: 30px;
+    height: 30px;
+    padding: 0px 7px 5px 0px;
+}
+
+.hover:hover {
+    color: #137301;
+    background-color: rgba(19, 115, 1, 0.2);
+    border-radius: 10px; /* Adjust this value to increase/decrease the roundness */
+    padding: 5px 10px;
+}
+
+.hover:hover img {
+    filter: brightness(0) saturate(100%) invert(27%) sepia(92%) saturate(300%) hue-rotate(110deg) brightness(95%) contrast(100%);
+}
+
+
