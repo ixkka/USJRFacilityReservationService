@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
-<header class="@((ViewBag.LoginView == false) ? "hide-navbar" : "")" style="padding: 0; margin: 0;">
-    <div class="logosec hover-pointer">
+<header class="@((ViewBag.LoginView == false) ? "hide-navbar" : "")" style="padding: 0; margin: 0; box-shadow:none;">
+    <div class="logosec hover-pointer ">
         <img src="~/img/usjr_logo.png"
              style="width: 100px;" alt="logo"
              onclick="window.location.href = '@Url.Action("Index", "Home")';">
