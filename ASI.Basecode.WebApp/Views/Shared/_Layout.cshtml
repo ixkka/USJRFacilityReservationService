@@ -1,8 +1,4 @@
-﻿
-
-
-
- @using static ASI.Basecode.Resources.Views.Screen
+﻿@using static ASI.Basecode.Resources.Views.Screen
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,21 +13,37 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
     @RenderSection("Styles", required: false)
 </head>
-<body style="@(ViewBag.LoginView == true ? "background-image: url('/img/grad-bg.png'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed;" : "")">
 
-    @Html.Partial("_Header")
+<body style="background-color:#F5FBF7">
 
-    <div class="container">
-        <main role="main">
-            @RenderBody()
-        </main>
-    </div>
+    @if (ViewBag.LoginView == true)
 
-@*      <footer class="border-top footer text-muted">
-         <div class="container">
-             @Copyright
-         </div>
-     </footer> *@
+    {
+        <div style="background-image: url('/img/grad-bg.png'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed;">
+            <main role="main" class="container">
+                @RenderBody()
+            </main>
+        </div>
+    }
+
+    else
+
+    {
+        @Html.Partial("_Header")
+
+        <div class="container-fluid">
+            <div class="row">
+
+                <div class="col-md-3" >
+                    @Html.Partial("Index") <!-- Sidebar -->
+                </div>
+
+                <div class="col-md-9" role="main" id="main-content">
+                    <!-- Main content will be dynamically loaded here -->
+                </div>
+            </div>
+        </div>
+    }
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -41,16 +53,29 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.js"></script>
     <script src="https://kit.fontawesome.com/7a7c645416.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
     <script>
-        // Configure Toastr options
-        toastr.options = {
-            positionClass: "toast-top-center", // Set the notification position to center
-            timeOut: 3000,
-            closeButton: true,
-            progressBar: true
-        };
+        $(document).ready(function () {
+            // When the Users menu item is clicked
+            $('li:contains("Users")').on('click', function (e) {
+                e.preventDefault();
+
+                // Perform an AJAX request to load the _Users partial view
+                $.ajax({
+                    url: '/Account/LoadUsers',  // Corrected path to the LoadUsers action
+                    type: 'GET',
+                    success: function (data) {
+                        $('#main-content').html(data);  // Replace the main content with the partial view
+                    },
+                    error: function () {
+                        alert('Failed to load the Users section.');
+                    }
+                });
+
+            });
+        });
     </script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-

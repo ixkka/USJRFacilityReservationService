@@ -146,5 +146,11 @@ namespace ASI.Basecode.WebApp.Controllers
             await this._signInManager.SignOutAsync();
             return RedirectToAction("Login", "Account");
         }
+
+        public IActionResult LoadUsers()
+        {
+            return PartialView("/Views/Body/_Users.cshtml");
+        }
+
     }
 }

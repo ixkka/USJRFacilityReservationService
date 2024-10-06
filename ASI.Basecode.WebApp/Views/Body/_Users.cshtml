@@ -1,0 +1,212 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+<div class="container-fluid d-flex justify-content-between align-items-center" style="padding-bottom: 10px;">
+    <div class="d-flex align-items-center">
+        <h5 class="mb-0">All users <span class="badge bg-success rounded ms-2">5</span></h5>
+    </div>
+
+    <div class="d-flex align-items-center" style="gap: 30px; margin-left: -10px;">
+        <div class="position-relative">
+            <input type="text" class="form-control" placeholder="Search" style="width: 300px; padding-left: 30px; border-radius: 5px;">
+            <img src="~/img/search.svg" alt="Search" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
+        </div>
+
+        <button class="btn btn-outline-secondary position-relative" style="border-radius: 5px; padding: 8px 25px; min-width: 120px;">
+            <img src="~/img/filter.svg" alt="Filters" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
+            Filters
+        </button>
+
+        <button class="btn btn-success position-relative" style="border-radius: 5px; padding: 8px 25px; min-width: 120px;">
+            <img src="~/img/add.svg" alt="Add User" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
+            Add user
+        </button>
+    </div>
+</div>
+
+<div class="pt-3"></div>
+
+
+<!-- Table Header Section -->
+<div class="container-fluid d-flex justify-content-between align-items-center" style="background-color:#D0E3CC; padding: 10px; border-radius:10px;">
+    <!-- Left-aligned (User) -->
+    <div class="d-flex align-items-center" style="flex-basis: 33%;">
+        <label for="users" style="color:#137301; margin: 0;">User</label>
+    </div>
+
+    <!-- Center-aligned (Email) -->
+    <div class="d-flex align-items-center justify-content-center" style="flex-basis: 33%; text-align: center;">
+        <p style="color:#137301; margin: 0;">Email</p>
+    </div>
+
+    <!-- Right-aligned (Role) shifted 150px to the left -->
+    <div class="d-flex align-items-center justify-content-end" style="flex-basis: 33%; text-align: right; padding-right: 150px;">
+        <p style="color:#137301; margin: 0; margin-right: 200px">Role</p>
+    </div>
+</div>
+
+
+<!-- Static User Row 1 -->
+<div class="container-fluid d-flex justify-content-between align-items-center py-2 border-bottom">
+    <!-- User Column -->
+    <div class="d-flex align-items-center" style="flex-basis: 33%;">
+        <input type="checkbox" id="user1" style="width: 15px; height: 15px; margin-right: 8px;" />
+        <img src="~/img/user.svg" alt="User Profile" class="img-fluid rounded-circle" style="width: 40px; height: 40px; margin-right: 8px;">
+        <span>Kurt Sanchez</span>
+    </div>
+
+    <!-- Email Column -->
+    <div class="d-flex align-items-center justify-content-center" style="flex-basis: 33%; text-align: center;">
+        <p style="margin: 0;">kurtsanchez.20@usjr.edu.ph</p>
+    </div>
+
+    <!-- Role Column shifted 150px to the left -->
+    <div class="d-flex align-items-center justify-content-between" style="flex-basis: 33%; padding-right: 150px;">
+        <img src="~/img/admin.svg" alt="" class="img-fluid rounded-circle" style="width: 80px; height: 80px; margin-right: 8px;">
+    </div>
+
+    <!-- Three Dots Column -->
+    <div class="d-flex align-items-center ml-3 position-relative" style="margin-left:50px">
+        <img src="~/img/three.svg" class="menu-toggle" style="cursor: pointer;" />
+
+        <div class="dropdown-menu" style="display: none; position: absolute; top: 50px; background-color: white; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); border-radius: 20px; z-index: 1000; width: 200px;">
+            <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;">
+                <img src="~/img/userprofile.svg" alt="profile placeholder" style="border-radius: 50%; margin-right: 10px;">
+                View profile
+            </a>
+            <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;">
+                <img src="~/img/pencil-fill.svg" alt="edit placeholder" style="border-radius: 50%; margin-right: 10px;">
+                Edit details
+            </a>
+            <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;">
+                <img src="~/img/restart_alt.svg" alt="reset placeholder" style="border-radius: 50%; margin-right: 10px;">
+                Reset password
+            </a>
+            <a href="#" class="dropdown-item text-danger" style="padding: 10px; display: flex; align-items: center;">
+                <img src="~/img/delete.svg" alt="delete placeholder" style="border-radius: 50%; margin-right: 10px;">
+                Delete user
+            </a>
+        </div>
+
+        <style>
+            .dropdown-item {
+                border-radius: 10px;
+                transition: background-color 0.3s ease;
+            }
+
+                /* Hover color change to #137301 */
+                .dropdown-item:hover {
+                    background-color: #137301;
+                    color: white; /* Optional: Make the text white for better contrast */
+                }
+
+            .text-danger:hover {
+                background-color: #fdd;
+            }
+        </style>
+
+    </div>
+</div>
+
+<!-- Static User Row 2 -->
+<div class="container-fluid d-flex justify-content-between align-items-center py-2 border-bottom">
+    <!-- User Column -->
+    <div class="d-flex align-items-center" style="flex-basis: 33%;">
+        <input type="checkbox" id="user2" style="width: 15px; height: 15px; margin-right: 8px;" />
+        <img src="~/img/user.svg" alt="User Profile" class="img-fluid rounded-circle" style="width: 40px; height: 40px; margin-right: 8px;">
+        <span>NJ Albeos</span>
+    </div>
+
+    <!-- Email Column -->
+    <div class="d-flex align-items-center justify-content-center" style="flex-basis: 33%; text-align: center;">
+        <p style="margin: 0;">nj.albeos.21@usjr.edu.ph</p>
+    </div>
+
+    <!-- Role Column shifted 150px to the left -->
+    <div class="d-flex align-items-center justify-content-between" style="flex-basis: 33%; padding-right: 150px;">
+        <img src="~/img/faculty.svg" alt="" class="img-fluid rounded-circle" style="width: 80px; height: 80px; margin-right: 8px;">
+    </div>
+
+    <div class="d-flex align-items-center ml-3 position-relative" style="margin-left:50px">
+        <img src="~/img/three.svg" class="menu-toggle" style="cursor: pointer;" />
+
+        <div class="dropdown-menu" style="display: none; position: absolute; top: 50px; background-color: white; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); border-radius: 20px; z-index: 1000; width: 200px;">
+            <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;">
+                <img src="~/img/userprofile.svg" alt="profile placeholder" style="border-radius: 50%; margin-right: 10px;">
+                View profile
+            </a>
+            <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;">
+                <img src="~/img/pencil-fill.svg" alt="edit placeholder" style="border-radius: 50%; margin-right: 10px;">
+                Edit details
+            </a>
+            <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;">
+                <img src="~/img/restart_alt.svg" alt="reset placeholder" style="border-radius: 50%; margin-right: 10px;">
+                Reset password
+            </a>
+            <a href="#" class="dropdown-item text-danger" style="padding: 10px; display: flex; align-items: center;">
+                <img src="~/img/delete.svg" alt="delete placeholder" style="border-radius: 50%; margin-right: 10px;">
+                Delete user
+            </a>
+        </div>
+
+        <style>
+            .dropdown-item {
+                border-radius: 10px;
+                transition: background-color 0.3s ease;
+            }
+
+                /* Hover color change to #137301 */
+                .dropdown-item:hover {
+                    background-color: #137301;
+                    color: white; /* Optional: Make the text white for better contrast */
+                }
+
+            .text-danger:hover {
+                background-color: #fdd;
+            }
+        </style>
+
+    </div>
+</div>
+
+
+
+<script>
+    document.querySelectorAll('.menu-toggle').forEach(function (menuToggle) {
+        menuToggle.addEventListener('click', function () {
+            const dropdown = this.nextElementSibling;
+
+            // Toggle the display property of the dropdown menu
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+
+            // Get the dropdown bounding box
+            const dropdownRect = dropdown.getBoundingClientRect();
+
+            // Check if the dropdown is overflowing the right edge of the viewport
+            if (dropdownRect.right > window.innerWidth) {
+                // Align the dropdown to the left side
+                dropdown.style.left = 'auto';
+                dropdown.style.right = '0';
+            } else {
+                // Align the dropdown to the right side as default
+                dropdown.style.left = '0';
+                dropdown.style.right = 'auto';
+            }
+        });
+    });
+
+    // Close dropdowns if clicked outside of them
+    document.addEventListener('click', function (event) {
+        document.querySelectorAll('.dropdown-menu').forEach(function (dropdown) {
+            const menuToggle = dropdown.previousElementSibling;
+
+            if (!menuToggle.contains(event.target) && !dropdown.contains(event.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+    });
+</script>

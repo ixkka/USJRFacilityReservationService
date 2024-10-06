@@ -10,17 +10,25 @@
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div> *@
 
-<aside id="sidebar">
+
+<div id="sidebar" class="shadow-none mt-4 ms-3" style="background-color:#F5FBF7">
+    
     <div id="roundeddiv"></div>
-    <p>Vergara, Hugh B.</p>
+    <p>Vergara, Josepha M.</p>
     <p>Administrator</p>
-    <nav class="navbar"> 
+    <nav class="navbar">
         <div class="navdiv">
             <p>MENU</p>
             <ul>
-                <li class="hover"> <img src="~/img/checkbook.svg"/> Reservations</li>
-                <li class="hover"> <img src="~/img/location.svg" /> Facilities</li>
-                <li class="hover"> <img src="~/img/userprofile.svg" /> Users</li>
+                <li class="hover">
+                    <img src="~/img/checkbook.svg" /> Reservations
+                </li>
+                <li class="hover">
+                    <img src="~/img/location.svg" /> Facilities
+                </li>
+                <li class="hover">
+                    <img src="~/img/userprofile.svg" /> Users
+                </li>
                 <li class="hover">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <a asp-action="SignOutUser" asp-controller="Account">Logout</a>
@@ -28,7 +36,5 @@
             </ul>
         </div>
     </nav>
-</aside>
-
-
+</div>
 
