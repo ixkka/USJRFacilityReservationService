@@ -47,10 +47,68 @@
                         <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
                     </div>
                     <div class="modal-body">
-                        <!-- Modal form or content -->
-                        <p>
-                            hugh bayut
-                        </p>
+                        <!-- Form to Add User -->
+                        <form id="addUserForm">
+                            <div class="row">
+                                <!-- Left Column -->
+                                <div class="col-md-6">
+                                    <!-- ID Number -->
+                                    <div class="mb-3">
+                                        <label for="idNumber" class="form-label">ID Number</label>
+                                        <input type="text" class="form-control" id="idNumber" name="idNumber" required>
+                                    </div>
+
+                                    <!-- First Name -->
+                                    <div class="mb-3">
+                                        <label for="firstName" class="form-label">First Name</label>
+                                        <input type="text" class="form-control" id="firstName" name="firstName" required>
+                                    </div>
+
+                                    <!-- Middle Name -->
+                                    <div class="mb-3">
+                                        <label for="middleName" class="form-label">Middle Name</label>
+                                        <input type="text" class="form-control" id="middleName" name="middleName">
+                                    </div>
+
+                                    <!-- Last Name -->
+                                    <div class="mb-3">
+                                        <label for="lastName" class="form-label">Last Name</label>
+                                        <input type="text" class="form-control" id="lastName" name="lastName" required>
+                                    </div>
+                                </div>
+
+                                <!-- Right Column -->
+                                <div class="col-md-6">
+                                    <!-- Email -->
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="email" name="email" required>
+                                    </div>
+
+                                    <!-- Department -->
+                                    <div class="mb-3">
+                                        <label for="department" class="form-label">Department</label>
+                                        <input type="text" class="form-control" id="department" name="department" required>
+                                    </div>
+
+                                    <!-- Role -->
+                                    <div class="mb-3">
+                                        <label for="role" class="form-label">Role</label>
+                                        <select class="form-control" id="role" name="role" required>
+                                            <option value="Admin">Admin</option>
+                                            <option value="User">User</option>
+                                            <option value="Faculty">Faculty</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Password -->
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="password" name="password" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -59,6 +117,7 @@
                 </div>
             </div>
         </div>
+
 
     </div>
 </div>
