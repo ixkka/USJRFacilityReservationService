@@ -39,6 +39,26 @@
             Add user
         </button>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@* 
+
+
+
+
         <!-- Add user Modal -->
         <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -118,8 +138,127 @@
             </div>
         </div>
 
+ *@
 
+        <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content" style="border-radius: 20px; border: 1px solid #ddd;">
+                    <div class="modal-header" style="border-bottom: none;">
+                        <!-- Close button styled as 'X' -->
+                        <button type="button" class="close" aria-label="Close" onclick="closeApp()" style="border: none; background: none;">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <!-- Placeholder for the image with a circular background -->
+                        <div style="width: 100px; height: 100px; background-color: #e0e0e0; border-radius: 50%; margin: 0 auto; display: flex; justify-content: center; align-items: center;">
+                            <img src="~/img/camera.svg" alt="Image placeholder" style="border-radius: 50%;">
+                        </div>
+
+
+                        <div class="pt-3"></div>
+
+                  
+                            <!-- Form to Add User -->
+                            <form id="addUserForm" class="mt-3">
+                            <div class="row">
+                                <!-- Left Column -->
+                                <div class="col-md-6">
+                                    <!-- ID Number -->
+                                    <div class="mb-3" style="margin-bottom: 10px;">
+                                        <input type="text" class="form-control" style="border-radius: 0.5rem;" id="idNumber" name="idNumber" placeholder="ID Number" required>
+                                    </div>
+
+                                    <!-- First Name -->
+                                    <div class="mb-3" style="margin-bottom: 10px;">
+                                        <input type="text" class="form-control" style="border-radius: 0.5rem;" id="firstName" name="firstName" placeholder="First Name" required>
+                                    </div>
+
+                                    <!-- Middle Name -->
+                                    <div class="mb-3" style="margin-bottom: 10px;">
+                                        <input type="text" class="form-control" style="border-radius: 0.5rem;" id="middleName" name="middleName" placeholder="Middle Name">
+                                    </div>
+
+                                    <!-- Last Name -->
+                                    <div class="mb-3" style="margin-bottom: 10px;">
+                                        <input type="text" class="form-control" style="border-radius: 0.5rem;" id="lastName" name="lastName" placeholder="Last Name" required>
+                                    </div>
+                                </div>
+
+                                <!-- Right Column -->
+                                <div class="col-md-6">
+                                    <!-- Email -->
+                                    <div class="mb-3" style="margin-bottom: 10px;">
+                                        <input type="email" class="form-control" style="border-radius: 0.5rem;" id="email" name="email" placeholder="Email Address" required>
+                                    </div>
+
+                                    <!-- Department -->
+                                    <div class="mb-3" style="margin-bottom: 10px;">
+                                        <input type="text" class="form-control" style="border-radius: 0.5rem;" id="department" name="department" placeholder="Department" required>
+                                    </div>
+
+                                    <!-- Role -->
+                                    <div class="mb-3" style="margin-bottom: 10px;">
+                                        <select class="form-control" style="border-radius: 0.5rem;" id="role" name="role" required>
+                                            <option value="" disabled selected>Role</option>
+                                            <option value="Admin">Admin</option>
+                                            <option value="User">User</option>
+                                            <option value="Faculty">Faculty</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Password -->
+                                    <div class="mb-3" style="margin-bottom: 10px;">
+                                        <input type="password" class="form-control" style="border-radius: 0.5rem;" id="password" name="password" placeholder="Password" required>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- Add button at the bottom center -->
+                            <div class="text-center">
+                                <button type="button" class="btn btn-success rounded-pill" style="width: 120px; background-color: #137333; border: none;">Add</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <script>
+    function closeApp() {
+        $('#addUserModal').modal('hide');  // Close the modal using jQuery
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </div>
 
 <div class="pt-3"></div>
@@ -172,7 +311,8 @@
                 <img src="~/img/userprofile.svg" alt="profile placeholder" style="border-radius: 50%; margin-right: 10px;">
                 View profile
             </a>
-            <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;">
+            <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;"
+               data-toggle="modal" data-target="#addUserModal">
                 <img src="~/img/pencil-fill.svg" alt="edit placeholder" style="border-radius: 50%; margin-right: 10px;">
                 Edit details
             </a>
@@ -185,6 +325,7 @@
                 Delete user
             </a>
         </div>
+
 
         <style>
             .dropdown-item {
@@ -302,6 +443,16 @@
             }
         });
     });
+</script>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    // Function to close the modal
+    function closeApp() {
+        $('#addUserModal').modal('hide');  // Close the modal using jQuery for Bootstrap 4
+    }
 </script>
 
 
