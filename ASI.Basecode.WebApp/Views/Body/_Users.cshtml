@@ -1,4 +1,5 @@
-﻿@*
+﻿
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
@@ -34,111 +35,12 @@
             Filters
         </button>
 
-        <button type="button" class="btn btn-success position-relative" style="border-radius: 5px; padding: 8px 25px; min-width: 120px;" data-toggle="modal" data-target="#addUserModal">
+        <button type="button" class="btn btn-success position-relative" style="border-radius: 5px; padding: 8px 25px; min-width: 120px;"
+                data-toggle="modal" data-target="#addUserModal" data-title="Add User">
             <img src="~/img/add.svg" alt="Add User" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
             Add user
         </button>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@* 
-
-
-
-
-        <!-- Add user Modal -->
-        <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
-                    </div>
-                    <div class="modal-body">
-                        <!-- Form to Add User -->
-                        <form id="addUserForm">
-                            <div class="row">
-                                <!-- Left Column -->
-                                <div class="col-md-6">
-                                    <!-- ID Number -->
-                                    <div class="mb-3">
-                                        <label for="idNumber" class="form-label">ID Number</label>
-                                        <input type="text" class="form-control" id="idNumber" name="idNumber" required>
-                                    </div>
-
-                                    <!-- First Name -->
-                                    <div class="mb-3">
-                                        <label for="firstName" class="form-label">First Name</label>
-                                        <input type="text" class="form-control" id="firstName" name="firstName" required>
-                                    </div>
-
-                                    <!-- Middle Name -->
-                                    <div class="mb-3">
-                                        <label for="middleName" class="form-label">Middle Name</label>
-                                        <input type="text" class="form-control" id="middleName" name="middleName">
-                                    </div>
-
-                                    <!-- Last Name -->
-                                    <div class="mb-3">
-                                        <label for="lastName" class="form-label">Last Name</label>
-                                        <input type="text" class="form-control" id="lastName" name="lastName" required>
-                                    </div>
-                                </div>
-
-                                <!-- Right Column -->
-                                <div class="col-md-6">
-                                    <!-- Email -->
-                                    <div class="mb-3">
-                                        <label for="email" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="email" name="email" required>
-                                    </div>
-
-                                    <!-- Department -->
-                                    <div class="mb-3">
-                                        <label for="department" class="form-label">Department</label>
-                                        <input type="text" class="form-control" id="department" name="department" required>
-                                    </div>
-
-                                    <!-- Role -->
-                                    <div class="mb-3">
-                                        <label for="role" class="form-label">Role</label>
-                                        <select class="form-control" id="role" name="role" required>
-                                            <option value="Admin">Admin</option>
-                                            <option value="User">User</option>
-                                            <option value="Faculty">Faculty</option>
-                                        </select>
-                                    </div>
-
-                                    <!-- Password -->
-                                    <div class="mb-3">
-                                        <label for="password" class="form-label">Password</label>
-                                        <input type="password" class="form-control" id="password" name="password" required>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
- *@
 
         <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -149,6 +51,10 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
+
+
+                    <div><h2 id="modalTitle">hello world</h2></div>
+
                     <div class="modal-body text-center">
                         <!-- Placeholder for the image with a circular background -->
                         <div style="width: 100px; height: 100px; background-color: #e0e0e0; border-radius: 50%; margin: 0 auto; display: flex; justify-content: center; align-items: center;">
@@ -158,9 +64,9 @@
 
                         <div class="pt-3"></div>
 
-                  
-                            <!-- Form to Add User -->
-                            <form id="addUserForm" class="mt-3">
+
+                        <!-- Form to Add User -->
+                        <form id="addUserForm" class="mt-3">
                             <div class="row">
                                 <!-- Left Column -->
                                 <div class="col-md-6">
@@ -227,11 +133,13 @@
     </div>
 
     <script>
-    function closeApp() {
-        $('#addUserModal').modal('hide');  // Close the modal using jQuery
-    }
-</script>
-
+        $('#addUserModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var title = button.data('title'); // Extract info from data-title attribute
+            var modal = $(this);
+            modal.find('#modalTitle').text(title); // Update the modal's title
+        });
+    </script>
 
 
 
@@ -307,24 +215,54 @@
         <img src="~/img/three.svg" class="menu-toggle" style="cursor: pointer;" />
 
         <div class="dropdown-menu" style="display: none; position: absolute; top: 50px; background-color: white; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); border-radius: 20px; z-index: 1000; width: 200px;">
-            <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;">
+            <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;" data-toggle="modal" data-target="#addUserModal" data-title="View Profile">
                 <img src="~/img/userprofile.svg" alt="profile placeholder" style="border-radius: 50%; margin-right: 10px;">
                 View profile
             </a>
-            <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;"
-               data-toggle="modal" data-target="#addUserModal">
+            <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;" data-toggle="modal" data-target="#addUserModal" data-title="Edit Details">
                 <img src="~/img/pencil-fill.svg" alt="edit placeholder" style="border-radius: 50%; margin-right: 10px;">
                 Edit details
             </a>
-            <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;">
+            <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;" data-toggle="modal" data-target="#addUserModal" data-title="Reset Password">
                 <img src="~/img/restart_alt.svg" alt="reset placeholder" style="border-radius: 50%; margin-right: 10px;">
                 Reset password
             </a>
-            <a href="#" class="dropdown-item text-danger" style="padding: 10px; display: flex; align-items: center;">
+            <!-- Delete user button that triggers the delete confirmation modal -->
+            <a href="#" class="dropdown-item text-danger" style="padding: 10px; display: flex; align-items: center;" data-toggle="modal" data-target="#deleteUserModal">
                 <img src="~/img/delete.svg" alt="delete placeholder" style="border-radius: 50%; margin-right: 10px;">
                 Delete user
             </a>
         </div>
+
+        <!-- Delete Confirmation Modal -->
+        <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" style="border-radius: 20px; padding: 20px;">
+                    <div class="modal-header text-center">
+                        <h5 class="modal-title" id="deleteModalTitle" style="width: 100%;">Confirm Deletion</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <p>Are you sure you want to delete the following users?</p>
+                        <ul style="list-style: none; padding-left: 0;">
+                            <li><strong>Gian Kristoff Gerodias</strong></li>
+                            <li><strong>Kurt Sanchez</strong></li>
+                        </ul>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <!-- Yes Button -->
+                        <button type="button" class="btn btn-danger" id="confirmDelete" style="border-radius: 20px; padding: 10px 20px; background-color: #FF6B6B;">Yes</button>
+                        <!-- Cancel Button -->
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 20px; padding: 10px 20px;">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
 
 
         <style>
@@ -345,20 +283,32 @@
         </style>
 
     </div>
-</div>
 
+
+    <script>
+        $(document).ready(function () {
+            // When "Delete user" is clicked, show the delete confirmation modal
+            $('#confirmDelete').click(function () {
+                // Here, you can add your AJAX request or JavaScript logic to delete the user
+                console.log('User deleted!');
+                $('#deleteUserModal').modal('hide'); // Close the modal after deletion
+            });
+        });
+
+    </script>
+</div>
 <!-- Static User Row 2 -->
 <div class="container-fluid d-flex justify-content-between align-items-center py-2 border-bottom">
     <!-- User Column -->
     <div class="d-flex align-items-center" style="flex-basis: 33%;">
-        <input type="checkbox" id="user2" style="width: 15px; height: 15px; margin-right: 8px;" />
+        <input type="checkbox" id="user1" style="width: 15px; height: 15px; margin-right: 8px;" />
         <img src="~/img/user.svg" alt="User Profile" class="img-fluid rounded-circle" style="width: 40px; height: 40px; margin-right: 8px;">
-        <span>NJ Albeos</span>
+        <span>Hugh Vergara</span>
     </div>
 
     <!-- Email Column -->
     <div class="d-flex align-items-center justify-content-center" style="flex-basis: 33%; text-align: center;">
-        <p style="margin: 0;">nj.albeos.21@usjr.edu.ph</p>
+        <p style="margin: 0;">hughdagwapo.20@usjr.edu.ph</p>
     </div>
 
     <!-- Role Column shifted 150px to the left -->
@@ -366,27 +316,60 @@
         <img src="~/img/faculty.svg" alt="" class="img-fluid rounded-circle" style="width: 80px; height: 80px; margin-right: 8px;">
     </div>
 
+    <!-- Three Dots Column -->
     <div class="d-flex align-items-center ml-3 position-relative" style="margin-left:50px">
         <img src="~/img/three.svg" class="menu-toggle" style="cursor: pointer;" />
 
         <div class="dropdown-menu" style="display: none; position: absolute; top: 50px; background-color: white; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); border-radius: 20px; z-index: 1000; width: 200px;">
-            <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;">
+            <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;" data-toggle="modal" data-target="#addUserModal" data-title="View Profile">
                 <img src="~/img/userprofile.svg" alt="profile placeholder" style="border-radius: 50%; margin-right: 10px;">
                 View profile
             </a>
-            <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;">
+            <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;" data-toggle="modal" data-target="#addUserModal" data-title="Edit Details">
                 <img src="~/img/pencil-fill.svg" alt="edit placeholder" style="border-radius: 50%; margin-right: 10px;">
                 Edit details
             </a>
-            <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;">
+            <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;" data-toggle="modal" data-target="#addUserModal" data-title="Reset Password">
                 <img src="~/img/restart_alt.svg" alt="reset placeholder" style="border-radius: 50%; margin-right: 10px;">
                 Reset password
             </a>
-            <a href="#" class="dropdown-item text-danger" style="padding: 10px; display: flex; align-items: center;">
+            <!-- Delete user button that triggers the delete confirmation modal -->
+            <a href="#" class="dropdown-item text-danger" style="padding: 10px; display: flex; align-items: center;" data-toggle="modal" data-target="#deleteUserModal">
                 <img src="~/img/delete.svg" alt="delete placeholder" style="border-radius: 50%; margin-right: 10px;">
                 Delete user
             </a>
         </div>
+
+        <!-- Delete Confirmation Modal -->
+        <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" style="border-radius: 20px; padding: 20px;">
+                    <div class="modal-header text-center">
+                        <h5 class="modal-title" id="deleteModalTitle" style="width: 100%;">Confirm Deletion</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <p>Are you sure you want to delete the following users?</p>
+                        <ul style="list-style: none; padding-left: 0;">
+                            <li><strong>Gian Kristoff Gerodias</strong></li>
+                            <li><strong>Kurt Sanchez</strong></li>
+                        </ul>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <!-- Yes Button -->
+                        <button type="button" class="btn btn-danger" id="confirmDelete" style="border-radius: 20px; padding: 10px 20px; background-color: #FF6B6B;">Yes</button>
+                        <!-- Cancel Button -->
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 20px; padding: 10px 20px;">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
 
         <style>
             .dropdown-item {
@@ -406,7 +389,22 @@
         </style>
 
     </div>
+
+
+    <script>
+        $(document).ready(function () {
+            // When "Delete user" is clicked, show the delete confirmation modal
+            $('#confirmDelete').click(function () {
+                // Here, you can add your AJAX request or JavaScript logic to delete the user
+                console.log('User deleted!');
+                $('#deleteUserModal').modal('hide'); // Close the modal after deletion
+            });
+        });
+
+    </script>
 </div>
+
+
 
 
 <script>
@@ -455,29 +453,3 @@
     }
 </script>
 
-
-@* <!--demo modal-->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-    Launch demo modal
-</button>
-
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
- *@
