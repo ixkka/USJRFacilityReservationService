@@ -155,21 +155,43 @@ namespace ASI.Basecode.WebApp.Controllers
             return PartialView("/Views/Body/_Facilities.cshtml");
         }
 
-        public IActionResult LoadAddFacilities()
+        /* public IActionResult LoadAddFacilities()
+         {
+             try
+             {
+                 ViewBag.CurrentView = "Facilities";
+                 ViewBag.ShowAddFacilities = true;
+                 return PartialView("/Views/Body/_AddFacilities.cshtml");
+             }
+             catch (Exception ex)
+             {
+                 // Log the exception (you can use a logging framework like Serilog or NLog)
+                 Console.WriteLine($"Error in LoadAddFacilities: {ex.Message}");
+                 return StatusCode(500, "Internal server error"); // You can customize the error response
+             }
+         }*/
+
+        [HttpGet]
+        public IActionResult LoadAddFacilities(bool isEdit = false)
         {
             try
             {
-                ViewBag.CurrentView = "Facilities";
+                // Set ViewBag based on whether it's an Add or Edit operation
+                ViewBag.CurrentView = isEdit ? "EditFacility" : "AddFacility";
                 ViewBag.ShowAddFacilities = true;
+
+                // If editing, you can retrieve facility data from the database
+                // Example: if (isEdit) { var facility = GetFacility(id); return PartialView("_AddFacilities", facility); }
+
                 return PartialView("/Views/Body/_AddFacilities.cshtml");
             }
             catch (Exception ex)
             {
-                // Log the exception (you can use a logging framework like Serilog or NLog)
                 Console.WriteLine($"Error in LoadAddFacilities: {ex.Message}");
-                return StatusCode(500, "Internal server error"); // You can customize the error response
+                return StatusCode(500, "Internal server error");
             }
         }
+
 
     }
 }
