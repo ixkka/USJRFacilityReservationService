@@ -110,43 +110,8 @@
                 <div class="d-flex flex-row mt-auto" style="width: 100%; align-items: center; padding: 0px 10px 0px 20px;">
                     <p style="font-weight: bold; font-size: 20px; color: black;">Php 5,000/day</p>
                     <div style="width:25px; margin-left: auto; margin-bottom:10px">
-                        <img src="~/img/threeDots_horizontal.png" id="menu-toggle" style="cursor:pointer;" />
-                        <!--TRIAL FOR DROPDOWN-->
-                        <div class="dropdown-menu" style="display: none; position: absolute; top: 50px; background-color: white; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); border-radius: 20px; z-index: 1000; width: 200px;">
-                            <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;">
-                                <img src="~/img/userprofile.svg" alt="profile placeholder" style="border-radius: 50%; margin-right: 10px;">
-                                View profile
-                            </a>
-                            <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;">
-                                <img src="~/img/pencil-fill.svg" alt="edit placeholder" style="border-radius: 50%; margin-right: 10px;">
-                                Edit details
-                            </a>
-                            <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;">
-                                <img src="~/img/restart_alt.svg" alt="reset placeholder" style="border-radius: 50%; margin-right: 10px;">
-                                Reset password
-                            </a>
-                            <a href="#" class="dropdown-item text-danger" style="padding: 10px; display: flex; align-items: center;">
-                                <img src="~/img/delete.svg" alt="delete placeholder" style="border-radius: 50%; margin-right: 10px;">
-                                Delete user
-                            </a>
-                        </div>
-                        <style>
-                            .dropdown-item {
-                                border-radius: 10px;
-                                transition: background-color 0.3s ease;
-                            }
-
-                                /* Hover color change to #137301 */
-                                .dropdown-item:hover {
-                                    background-color: #137301;
-                                    color: white; /* Optional: Make the text white for better contrast */
-                                }
-
-                            .text-danger:hover {
-                                background-color: #fdd;
-                            }
-                        </style>
-                        <!--TRIAL ENDS HERE-->
+                        <img src="~/img/threeDots_horizontal.png"/>
+                        
                     </div>
                 </div>
             </div>
@@ -175,41 +140,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('#menu-toggle').forEach(function (menuToggle) {
-            menuToggle.addEventListener('click', function () {
-                const dropdown = this.nextElementSibling;
-
-                // Toggle the display property of the dropdown menu
-                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-
-                // Get the dropdown bounding box
-                const dropdownRect = dropdown.getBoundingClientRect();
-
-                // Check if the dropdown is overflowing the right edge of the viewport
-                if (dropdownRect.right > window.innerWidth) {
-                    // Align the dropdown to the left side
-                    dropdown.style.left = 'auto';
-                    dropdown.style.right = '0';
-                } else {
-                    // Align the dropdown to the right side as default
-                    dropdown.style.left = '0';
-                    dropdown.style.right = 'auto';
-                }
-            });
-        });
-
-        // Close dropdowns if clicked outside of them
-        document.addEventListener('click', function (event) {
-            document.querySelectorAll('.dropdown-menu').forEach(function (dropdown) {
-                const menuToggle = dropdown.previousElementSibling;
-
-                if (!menuToggle.contains(event.target) && !dropdown.contains(event.target)) {
-                    dropdown.style.display = 'none';
-                }
-            });
-        });
-    });
-</script>
