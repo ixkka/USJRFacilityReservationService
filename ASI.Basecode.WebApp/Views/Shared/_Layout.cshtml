@@ -16,8 +16,8 @@
 
 <body style="background-color:#F5FBF7">
 
-    @if (ViewBag.LoginView == true)
 
+    @if (ViewBag.LoginView == true)
     {
         <div style="background-image: url('/img/grad-bg.png'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed;">
             <main role="main" class="container">
@@ -25,21 +25,31 @@
             </main>
         </div>
     }
-
     else
-
     {
         @Html.Partial("_Header")
 
         <div class="container-fluid">
             <div class="row">
-
-                <div class="col-md-3" >
+                <div class="col-md-3">
                     @Html.Partial("Index") <!-- Sidebar -->
                 </div>
 
                 <div class="col-md-9" role="main" id="main-content">
-                    <!-- Main content will be dynamically loaded here -->
+                    @if (ViewBag.CurrentView == "Facilities" && ViewBag.ShowAddFacilities == true)
+                    {
+                        @Html.Partial("_AddFacilities") <!-- Render the Add Facilities partial view -->
+                    }
+                    else if (ViewBag.CurrentView == "Facilities")
+                    {
+                        @Html.Partial("/Views/Body/_Facilities.cshtml")
+                        ; // Render the Facilities view when Add Facility is not clicked
+                    }
+                    else
+                    {
+                        <!-- Default content for other views -->
+                        <p>Select an option from the menu.</p>
+                    }
                 </div>
             </div>
         </div>
@@ -94,6 +104,83 @@
             });
         });
     </script>
+
+
+    <script>
+        $(document).ready(function () {
+            // When the Add Facility button is clicked
+            $('.add-facility-btn').on('click', function (e) {
+                e.preventDefault();
+
+                // Perform an AJAX request to load the _AddFacilities partial view
+                $.ajax({
+                    url: '/Account/LoadAddFacilities',  // Adjust the URL to match the AddFacilities action
+                    type: 'GET',
+                    success: function (data) {
+                        $('#main-content').html(data);  // Replace the main content with the partial view
+                    },
+                    error: function () {
+                        alert('Failed to load the Add Facilities content.');
+                    }
+                });
+            });
+        });
+    </script>
+
+
+    <script>
+        $(document).ready(function () {
+            // When the Facilities menu item is clicked
+            $('li:contains("Facilities")').on('click', function (e) {
+                e.preventDefault();
+
+                // Perform an AJAX request to load the _Facilities partial view
+                $.ajax({
+                    url: '/Account/LoadFacilities',
+                    type: 'GET',
+                    success: function (data) {
+                        console.log("Successfully loaded Facilities content."); // Log success
+                        $('#main-content').html(data); // Replace the main content with the Facilities partial view
+
+                        // Re-attach the Add Facility button click event after loading new content
+                        attachAddFacilityClickEvent(); // Call function to attach event
+                    },
+                    error: function () {
+                        console.error("Failed to load the Facilities content."); // Log failure
+                        alert('Failed to load the Facilities section.');
+                    }
+                });
+            });
+
+            // Function to attach click event to Add Facility button
+            function attachAddFacilityClickEvent() {
+                $('.add-facility-btn').off('click').on('click', function (e) {
+                    e.preventDefault(); // Prevent the default action of the button
+                    console.log("Add Facility button clicked."); // Log button click event
+
+                    // Perform an AJAX request to load the _AddFacilities partial view
+                    $.ajax({
+                        url: '/Account/LoadAddFacilities', // URL to match the LoadAddFacilities action
+                        type: 'GET',
+                        success: function (data) {
+                            console.log("Successfully loaded Add Facilities content."); // Log success
+                            $('#main-content').html(data); // Replace the main content with the Add Facilities partial view
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.error("Failed to load the Add Facilities content."); // Log failure
+                            console.error("Error details:", textStatus, errorThrown); // Log detailed error information
+                            alert('Failed to load the Add Facilities content.'); // Alert on error
+                        }
+                    });
+                });
+            }
+
+            // Attach event on document ready
+            attachAddFacilityClickEvent(); // Call on initial load
+        });
+    </script>
+
+
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

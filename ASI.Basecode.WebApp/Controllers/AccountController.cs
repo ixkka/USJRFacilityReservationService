@@ -136,10 +136,7 @@ namespace ASI.Basecode.WebApp.Controllers
             return View();
         }
 
-        /// <summary>
-        /// Sign Out current account and return login view.
-        /// </summary>
-        /// <returns>Created response view</returns>
+       
         [AllowAnonymous]
         public async Task<IActionResult> SignOutUser()
         {
@@ -154,9 +151,25 @@ namespace ASI.Basecode.WebApp.Controllers
 
         public IActionResult LoadFacilities()
         {
+            ViewBag.CurrentView = "Facilities"; // Set the current view flag
             return PartialView("/Views/Body/_Facilities.cshtml");
         }
 
+        public IActionResult LoadAddFacilities()
+        {
+            try
+            {
+                ViewBag.CurrentView = "Facilities";
+                ViewBag.ShowAddFacilities = true;
+                return PartialView("/Views/Body/_AddFacilities.cshtml");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (you can use a logging framework like Serilog or NLog)
+                Console.WriteLine($"Error in LoadAddFacilities: {ex.Message}");
+                return StatusCode(500, "Internal server error"); // You can customize the error response
+            }
+        }
 
     }
 }

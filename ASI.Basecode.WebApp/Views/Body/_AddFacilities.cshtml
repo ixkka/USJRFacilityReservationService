@@ -1,0 +1,150 @@
+﻿<div class="container mt-4">
+    <div class="row">
+        <!-- Left Column for Image, About, and Amenities -->
+        <div class="col-md-4">
+            <div class="mb-4">
+                <!-- Image Upload Placeholder -->
+                <<div class="image-placeholder border rounded p-4 d-flex justify-content-center align-items-center" style="height: 250px; background-color: #f8f9fa; border-radius: 10px;">
+                    <span class="text-muted">
+                        @* <img src="~/img/un.svg" alt="Camera" style="width: 24px; height: 24px; margin-right: 10px;" /> *@
+                        Upload Image
+                    </span>
+                </div>
+            </div>
+
+            <!-- About Textarea -->
+            <div class="mb-4">
+                <label for="about" class="form-label">About</label>
+                <textarea class="form-control" id="about" rows="5" style="border-radius: 10px;"></textarea>
+            </div>
+
+            <!-- Amenities Section -->
+            <div class="mb-4">
+                <label for="amenities" class="form-label">Amenities</label>
+                <div class="d-flex flex-wrap">
+                    <span class="p-2 text-center bg-secondary text-white me-2 mb-2" style="border-radius: 10px; margin: 10px;">Wi-Fi</span>
+                    <span class="p-2 text-center bg-secondary text-white me-2 mb-2" style="border-radius: 10px; margin: 10px;">Air conditioner</span>
+                    <span class="p-2 text-center bg-secondary text-white me-2 mb-2" style="border-radius: 10px; margin: 10px;">Projector</span>
+                    <span class="p-2 text-center bg-secondary text-white mb-2" style="border-radius: 10px; margin: 10px;">Speakers</span>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label for="addAmenity" class="form-label">Add Amenity</label>
+                <div class="input-group">
+                    <!-- Input field with border radius -->
+                    <input type="text" class="form-control" id="addAmenity" placeholder="Enter new amenity" style="border-radius: 10px;">
+                    <!-- Plus button with SVG icon -->
+                    <button class="btn" style="background-color: #d4e8d4; border-radius: 10px; margin-left:5px">
+                        <img src="~/img/add-black.svg" alt="Add" style="width: 24px; height: 24px;">
+                    </button>
+                </div>
+            </div>
+
+
+        </div>
+
+        <!-- Right Column for Form Fields -->
+        <div class="col-md-8">
+            <form>
+                <!-- Facility Name -->
+                <div class="mb-4">
+                    <label for="facilityName" class="form-label">Facility Name</label>
+                    <input type="text" class="form-control" id="facilityName" style="border-radius: 10px;">
+                </div>
+
+                <!-- Location -->
+                <div class="mb-4">
+                    <label for="location" class="form-label">Location</label>
+                    <input type="text" class="form-control" id="location" style="border-radius: 10px;">
+                </div>
+
+                <!-- Capacity and Vertical Booking Days -->
+                <div class="mb-4">
+                    <label for="capacity" class="form-label">Capacity (people)</label>
+                    <input type="number" class="form-control" id="capacity" style="width: 50%; border-radius: 10px;">
+                </div>
+
+                <div class="mb-4">
+                    <label for="bookingDays" class="form-label ">Booking Days</label>
+                    <div class="d-grid gap-2">
+                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;">M</button>
+                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;">T</button>
+                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;">W</button>
+                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;">Th</button>
+                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;">F</button>
+                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;">Sa</button>
+                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;">Su</button>
+                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;">Holidays</button>
+                    </div>
+                </div>
+
+                <!-- Booking Hours -->
+                <div class="mb-4">
+                    <label for="bookingHours" class="form-label">Booking Hours</label>
+                    <div class="input-group" style="width: 50%;">
+                        <input type="time" class="form-control" id="bookingHoursStart" style="border-radius: 10px; margin-right: 20px;">
+                        <span class="input-group-text" style="border-radius: 10px; margin-right: 20px;">to</span>
+                        <input type="time" class="form-control" id="bookingHoursEnd" style="border-radius: 10px;">
+                    </div>
+                </div>
+
+
+                <!-- Booking Duration -->
+                <div class="mb-4">
+                    <label for="bookingDuration" class="form-label">Booking Duration</label>
+                    <div class="d-grid gap-2" style="width: 50%;">
+                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;">Per Hour</button>
+                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;">Half Day</button>
+                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;">Full Day</button>
+                    </div>
+                </div>
+
+                <!-- Confirmation Requirement -->
+                <div class="mb-4">
+                    <label for="confirmationRequirement" class="form-label">Confirmation Requirement</label>
+                    <div class="d-grid gap-2" style="width: 50%;">
+                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;">Yes</button>
+                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;">No</button>
+                    </div>
+                </div>
+
+                <!-- Price Section -->
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label for="price" class="form-label">Price</label>
+
+                        <!-- Per Hour -->
+                        <div class="input-group mb-3" style="align-items: center; margin: 10px;">
+                            <span class="input-group-text" style="border-radius: 10px; margin-right: 10px;">Per Hour</span>
+                            <span class="p-2 text-center bg-secondary text-white mb-2" style="border-radius: 10px; margin: 10px;">Free</span>
+                            <input type="number" class="form-control" style="border-radius: 10px; margin-right: 20px;">
+                        </div>
+
+                        <!-- Half Day -->
+                        <div class="input-group mb-3" style="align-items: center; margin: 10px;">
+                            <span class="input-group-text" style="border-radius: 10px; margin-right: 10px;">Half Day</span>
+                            <span class="p-2 text-center bg-secondary text-white mb-2" style="border-radius: 10px; margin: 10px;">Free</span>
+                            <input type="number" class="form-control" style="border-radius: 10px; margin-right: 20px;">
+                        </div>
+
+                        <!-- Full Day -->
+                        <div class="input-group mb-3" style="align-items: center; margin: 10px;">
+                            <span class="input-group-text" style="border-radius: 10px; margin-right: 10px;">Full Day</span>
+                            <span class="p-2 text-center bg-secondary text-white mb-2" style="border-radius: 10px; margin: 10px;">Free</span>
+                            <input type="number" class="form-control" style="border-radius: 10px; margin-right: 20px;">
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-success me-1" style="border-radius: 10px; width: 48%;">Add</button>
+                    <button type="button" class="btn btn-secondary ms-1" style="border-radius: 10px; width: 48%;">Cancel</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
