@@ -152,5 +152,11 @@ namespace ASI.Basecode.WebApp.Controllers
             return PartialView("/Views/Body/_Users.cshtml");
         }
 
+        public IActionResult LoadFacilities()
+        {
+            return PartialView("/Views/Body/_Facilities.cshtml");
+        }
+
+
     }
 }
