@@ -157,6 +157,10 @@ namespace ASI.Basecode.WebApp.Controllers
             return PartialView("/Views/Body/_Facilities.cshtml");
         }
 
+        public IActionResult ViewFacility()
+        {
+            return PartialView("/Views/Body/_SpecificFacility.cshtml");
+        }
 
     }
 }

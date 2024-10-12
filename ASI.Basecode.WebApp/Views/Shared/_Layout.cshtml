@@ -82,7 +82,8 @@
 
                 // Perform an AJAX request to load the _Facilities partial view
                 $.ajax({
-                    url: '/Account/LoadFacilities',  // Adjust the URL to match the Facilities action
+                    url: '/Account/ViewFacility',
+                    /* url: '/Account/LoadFacilities', */  // Adjust the URL to match the Facilities action
                     type: 'GET',
                     success: function (data) {
                         $('#main-content').html(data);  // Replace the main content with the partial view
