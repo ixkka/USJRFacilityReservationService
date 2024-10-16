@@ -1,4 +1,4 @@
-﻿using ASI.Basecode.Data.Models;
+using ASI.Basecode.Data.Models;
 using ASI.Basecode.Services.Interfaces;
 using ASI.Basecode.Services.Manager;
 using ASI.Basecode.Services.ServiceModels;
@@ -155,6 +155,10 @@ namespace ASI.Basecode.WebApp.Controllers
             return PartialView("/Views/Body/_Facilities.cshtml");
         }
 
+        public IActionResult ViewFacility()
+        {
+            return PartialView("/Views/Body/_SpecificFacility.cshtml");
+        }
         /* public IActionResult LoadAddFacilities()
          {
              try

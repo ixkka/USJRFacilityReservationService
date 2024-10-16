@@ -1,0 +1,124 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<!--HEADER PART-->
+<div class="container-fluid d-flex justify-content-between align-items-center" style="padding-bottom: 10px;">
+    <div class="d-flex align-items-center" style="gap: 30px; margin-left: -10px;">
+        <div class="d-flex align-items-center">
+            <img src="~/img/arrow_back.svg" />
+        </div>
+        <div class="d-flex align-items-center">
+            <h5 class="mb-0" style="font-size: 25px; font-weight:500;">Center for Performing Arts</h5>
+        </div>
+    </div>
+
+    <div class="d-flex align-items-center" style="gap: 20px; margin-left: -10px;">
+
+        <button class="position-relative" style="border-radius: 10px; padding: 8px 25px; min-width: 120px; background-color: white; border: solid 2px #137301; color: #137301;">
+            <img src="~/img/edit.svg" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
+            Edit
+        </button>
+
+        <button type="button" class="position-relative" style="border-radius: 10px; padding: 8px 25px; min-width: 120px; background-color: white; border: solid 2px #CE3232; color: #CE3232;">
+            <img src="~/img/delete_facility.svg" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
+            Delete
+        </button>
+    </div>
+</div>
+
+<div class="container d-flex flex-row justify-content-between">
+    <!--LEFT SIDE OF BODY-->
+    <div style="height: 100vh; width: 60%; margin-right: 10px">
+        <!--BIGGEST PICTURE-->
+        <div style="width: 100%; height: 40%; border-radius: 20px;">
+            <img style="width: 100%; height: 100%; border-radius: 20px" src="~/img/facilities_icon.png" />
+        </div>
+
+        <!--SUB PICTURES-->
+        <div class="d-flex flex-row justify-content-between" style="margin-top: 10px;">
+            <div style="width: 23%; height: 10%; border-radius: 10px;">
+                <img style="width: 100%; height: 100%; border-radius: 10px" src="~/img/facilities_icon.png" />
+            </div>
+            <div style="width: 23%; height: 10%; border-radius: 10px;">
+                <img style="width: 100%; height: 100%; border-radius: 10px" src="~/img/facilities_icon.png" />
+            </div>
+            <div style="width: 23%; height: 10%; border-radius: 10px;">
+                <img style="width: 100%; height: 100%; border-radius: 10px" src="~/img/facilities_icon.png" />
+            </div>
+            <div style="width: 23%; height: 10%; border-radius: 10px;">
+                <img style="width: 100%; height: 100%; border-radius: 10px" src="~/img/facilities_icon.png" />
+            </div>
+        </div>
+
+        <!--ABOUT SECTION-->
+        <div style="margin-top: 20px;">
+            <h2>About</h2>
+            <p style="color: #8B8B8B;">Lorem ipsum dolor sit amet. Et fugit nostrum est velit placeat sed tempore odio 33 atque laboriosam non praesentium excepturi sit explicabo illum. Est laoriosam repellendus ut nobis vero At quis enim nam nihil vero. Ea autem numquam qui nostrum praesentium aut consequatur quibusdam ea sunt voluptate. Ut distinctio suscipit aut quasi odit ut illum veniam qui nobis similique.</p>
+        </div>
+
+        <!--AMENITIES SECTION-->
+        <div style="margin-top: 30px;">
+            <h2>Amenities</h2>
+            <div class="d-flex flex-row" style="gap: 10px; width: 100%">
+                <div style="background-color: #ECECEC; padding: 5px 15px; border-radius: 15px">
+                    Wifi
+                </div>
+                <div style="background-color: #ECECEC; padding: 5px 15px; border-radius: 15px">
+                    Air conditioner
+                </div>
+                <div style="background-color: #ECECEC; padding: 5px 15px; border-radius: 15px">
+                    Projector
+                </div>
+                <div style="background-color: #ECECEC; padding: 5px 15px; border-radius: 15px">
+                    Speakers
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+
+    <!--RIGHT SIDE OF BODY-->
+    <div class="d-flex flex-column justify-content-between" style="height: 100vh; width: 40%;">
+        <!--FIRST CONTAINER (BOOKING DETAILS)-->
+        <div style="border: solid 2px #8B8B8B; border-radius: 10px; padding: 15px 10px; margin-bottom: 20px;">
+            <h7 style="color: #8B8B8B;">Location</h7>
+            <p style="font-weight: bold;">4th floor, IDK Building, Main Campus</p>
+            <h7 style="color: #8B8B8B;">Capacity</h7>
+            <p style="font-weight: bold;">200 people</p>
+            <h7 style="color: #8B8B8B;">Booking Days</h7>
+            <p style="font-weight: bold;">Monday to Saturday (except holidays)</p>
+            <h7 style="color: #8B8B8B;">Booking Hours</h7>
+            <p style="font-weight: bold;">9:00 AM to 4:00 PM</p>
+            <h7 style="color: #8B8B8B;">Booking Duration</h7>
+            <div class="d-flex flex-row" style="gap: 10px; margin-bottom: 20px;">
+                <div style="background-color: #ECECEC; padding: 5px 15px; border-radius: 15px">
+                    Half Day
+                </div>
+                <div style="background-color: #ECECEC; padding: 5px 15px; border-radius: 15px">
+                    Full day
+                </div>
+            </div>
+            <p style="font-weight: bold;">Please be aware that a confirmation from xxx office is needed to finalize this booking.</p>
+        </div>
+
+        <!--SECOND CONTAINER (HALF DAY PRICE)-->
+        <div class="d-flex flex-row justify-content-between" style="border: solid 2px #8B8B8B; border-radius: 10px; padding: 15px 15px; margin-bottom: 20px;">
+            <p style="color: #8B8B8B; margin: 0">Price (half day)</p>
+            <p style="font-weight: bold; margin: 0">Php 2,500</p>
+        </div>
+
+        <!--THIRD CONTAINER (FULL DAY PRICE)-->
+        <div class="d-flex flex-row justify-content-between" style="border: solid 2px #8B8B8B; border-radius: 10px; padding: 15px 15px; margin-bottom: 20px;">
+            <p style="color: #8B8B8B; margin: 0">Price (full day)</p>
+            <p style="font-weight: bold; margin: 0">Php 5,000</p>
+        </div>
+
+        <button type="button" class="d-flex flex-row align-items-center justify-content-center" style="border-radius: 10px; padding: 20px 20px; width: 100%; background-color: #137301;">
+            <img src="~/img/calendar.svg">
+            <p style="margin: 0px; color: white; margin-left: 5px;">Book Reservation</p>
+        </button>
+    </div>
+</div>
