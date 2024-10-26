@@ -176,7 +176,27 @@
         });
     </script>
 
+    @* <script>
+        $(document).ready(function () {
+            // When the Register button is clicked
+            $('.register-btn').on('click', function (e) {
+                e.preventDefault();
 
+                // Perform an AJAX request to load the Register partial view or page
+                $.ajax({
+                    url: '/Account/Register',  // Adjust the URL to match the Register action
+                    type: 'GET',
+                    success: function (data) {
+                        $('#main-content').html(data);  // Replace the main content with the partial view
+                    },
+                    error: function () {
+                        alert('Failed to load the Register content.');
+                    }
+                });
+            });
+        });
+    </script>
+ *@
     <script>
         $(document).ready(function () {
             // When the Facilities menu item is clicked
