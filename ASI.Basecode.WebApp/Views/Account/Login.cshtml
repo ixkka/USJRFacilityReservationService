@@ -23,7 +23,7 @@
                     <label class="form-label" for="form2Example11"></label>
                     <div class="position-relative">
                         <input type="text" id="form2Example11" class="form-control" asp-for="UserId" placeholder="ID Number" style="padding-left: 40px;" />
-                        <img src="~/img/id_icon.png" alt="ID Icon" class="position-absolute placeholder-icon" id="idIcon" />
+                        <img src="~/img/id_icon.png" alt="ID Icon" class="position-absolute placeholder-icon" id="idIcon" style="left: 10px; top: 50%; transform: translateY(-50%); z-index: 1; pointer-events: none;" />
                     </div>
                     <span asp-validation-for="UserId" class="text-danger"></span>
                 </div>
@@ -40,10 +40,10 @@
                     <span asp-validation-for="Password" class="text-danger"></span>
 
                     <div class="d-flex justify-content-end mt-1">
-                        <a class="text-muted small" href="#!">Forgot password?</a>
+                        <a class="text-muted small" href="#!" style="padding: 8px 16px;">Forgot password?</a>
                     </div>
-                    <div class="btn btn-success position-relative">
-                        <a asp-controller="Account" asp-action="Register" class="text-muted small">Register</a>
+                    <div class="btn btn-primary btn-block mb-2" type="submit" style="background-color: #137301; border-color: #137301;">
+                        <a asp-controller="Account" asp-action="Register" class="text-white small">Register</a>
                     </div>
                 </div>
 
@@ -64,30 +64,32 @@
                     }
                 </style>
 
-                <script>
-                    document.getElementById("form2Example11").addEventListener("focus", function () {
-                        document.getElementById("idIcon").style.display = "none";
-                        this.setAttribute("placeholder", ""); // Remove placeholder text
-                    });
+                 <script>
+                    // Remove placeholder text
+                     document.getElementById("form2Example11").addEventListener("focus", function () {
+                        document.getElementById("idIcon").style.opacity = "0.5";
+                         this.setAttribute("placeholder", ""); 
+                     });
 
-                    document.getElementById("form2Example11").addEventListener("blur", function () {
-                        if (this.value === "") {
-                            document.getElementById("idIcon").style.display = "block";
-                            this.setAttribute("placeholder", "ID Number"); // Add placeholder text back
-                        }
-                    });
+                     document.getElementById("form2Example11").addEventListener("blur", function () {
+                         if (this.value === "") {
+                            document.getElementById("idIcon").style.opacity = "1";
+                             this.setAttribute("placeholder", "ID Number"); // Add placeholder text back
+                         }
+                     });
 
-                    document.getElementById("form2Example22").addEventListener("focus", function () {
-                        document.getElementById("passwordIcon").style.display = "none";
-                        this.setAttribute("placeholder", ""); // Remove placeholder text
-                    });
+                    // Remove placeholder text
+                     document.getElementById("form2Example22").addEventListener("focus", function () {
+                        document.getElementById("passwordIcon").style.opacity = "0.5";
+                         this.setAttribute("placeholder", ""); 
+                     });
 
-                    document.getElementById("form2Example22").addEventListener("blur", function () {
-                        if (this.value === "") {
-                            document.getElementById("passwordIcon").style.display = "block";
-                            this.setAttribute("placeholder", "Password"); // Add placeholder text back
-                        }
-                    });
+                     document.getElementById("form2Example22").addEventListener("blur", function () {
+                         if (this.value === "") {
+                            document.getElementById("passwordIcon").style.opacity = "1";
+                             this.setAttribute("placeholder", "Password"); // Add placeholder text back
+                         }
+                     });
 
                     // Toggle password visibility
                     const togglePassword = document.getElementById('togglePassword');
