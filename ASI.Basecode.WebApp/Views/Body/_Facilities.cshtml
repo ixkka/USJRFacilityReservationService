@@ -54,7 +54,7 @@
             Filters
         </button>
 
-        <button type="button" class="btn btn-success position-relative" style="border-radius: 5px; padding: 8px 25px; min-width: 120px;" data-toggle="modal" data-target="#addUserModal">
+        <button type="button" class="btn btn-success position-relative" style="border-radius: 5px; padding: 8px 25px; min-width: 120px;">
             <img src="~/img/add.svg" alt="Add Facility" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
             Add Facility
         </button>
@@ -222,16 +222,14 @@
 
            // Handle the edit facility click
            $('.edit-facility').on('click', function (e) {
-               e.preventDefault(); // Prevent default behavior of the link
+               e.preventDefault(); 
 
-               var url = $(this).data('url'); // Extract the URL from the data-url attribute
-
-               // Perform an AJAX request to load the Add Facilities partial view (for editing)
+               var url = $(this).data('url'); 
                $.ajax({
                    url: url,
                    type: 'GET',
                    success: function (data) {
-                       $('#main-content').html(data); // Replace the main content with the Add Facilities partial view
+                       $('#main-content').html(data); 
                    },
                    error: function () {
                        alert('Failed to load the Edit Facility content.');
