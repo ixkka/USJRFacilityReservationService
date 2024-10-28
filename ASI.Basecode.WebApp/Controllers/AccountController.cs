@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using static ASI.Basecode.Resources.Constants.Enums;
 
@@ -142,6 +143,7 @@ namespace ASI.Basecode.WebApp.Controllers
         public IActionResult LoadUsers()
         {
             var users = _userService.GetAllUsers();
+            ViewBag.UserCount = users.Count();
             return PartialView("/Views/Body/_Users.cshtml", users);
         }
 
@@ -208,6 +210,14 @@ namespace ASI.Basecode.WebApp.Controllers
             return View(users);
         }
 
+        //[HttpGet]
+        //public IActionResult Index()
+        //{
+        //    var users = _userService.GetAllUsers().ToList(); // Fetch users from the database
+        //    var userCount = users.Count; // Get the count of users
+        //    ViewBag.UserCount = userCount; // Pass the count to the view
+        //    return View(users); // Return the view with users
+        //}
 
 
     }
