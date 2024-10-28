@@ -125,18 +125,18 @@ namespace ASI.Basecode.WebApp.Controllers
                 _userService.AddUser(model);
                 return RedirectToAction("Login", "Account");
             }
-            catch(InvalidDataException ex)
+            catch (InvalidDataException ex)
             {
                 TempData["ErrorMessage"] = ex.Message;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 TempData["ErrorMessage"] = Resources.Messages.Errors.ServerError;
             }
             return View();
         }
 
-       
+
         [AllowAnonymous]
         public async Task<IActionResult> SignOutUser()
         {
@@ -146,7 +146,8 @@ namespace ASI.Basecode.WebApp.Controllers
 
         public IActionResult LoadUsers()
         {
-            return PartialView("/Views/Body/_Users.cshtml");
+            var users = _userService.GetAllUsers();
+            return PartialView("/Views/Body/_Users.cshtml", users);
         }
 
         public IActionResult LoadFacilities()
@@ -197,5 +198,19 @@ namespace ASI.Basecode.WebApp.Controllers
         }
 
 
+
+        ///////////////////////////////////////////////////// TRIAL
+        //public IActionResult GetUsers()
+        //{
+        //    var users = _userService.GetAllUsers();
+        //    return View(users);
+        //}
+        [HttpGet]
+        public IActionResult GetUsers()
+        {
+            var users = _userService.GetAllUsers(); // Fetch the list of users
+            /*ViewBag.Users = users; */// Store it in ViewBag to make it accessible in the view/layout
+            return View(users);
+        }
     }
 }
