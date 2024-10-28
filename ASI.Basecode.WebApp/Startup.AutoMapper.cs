@@ -25,7 +25,9 @@ namespace ASI.Basecode.WebApp
         {
             public AutoMapperProfileConfiguration()
             {
-                CreateMap<UserViewModel, User>();
+                /*CreateMap<UserViewModel, User>();*/
+                CreateMap<UserViewModel, User>().ReverseMap();
+                /*CreateMap<User, UserViewModel>();*/
             }
         }
     }

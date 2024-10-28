@@ -1,5 +1,4 @@
 ﻿@using static ASI.Basecode.Resources.Views.Screen
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -180,39 +179,6 @@
                     }
                 });
             });
-
-
-            // In layout.cshtml, modify your Facilities click handler to include setting up the cont1 click handler
-            // $('li:contains("Facilities")').on('click', function (e) {
-            //     e.preventDefault();
-
-            //     $.ajax({
-            //         url: '/Account/LoadFacilities',
-            //         type: 'GET',
-            //         success: function (data) {
-            //             $('#main-content').html(data);  Replace the main content with the partial view
-
-            //             Add the click handler after the facilities content is loaded
-            //             $('#cont1').on('click', function (e) {
-            //                 e.preventDefault();
-
-            //                 $.ajax({
-            //                     url: '/Account/ViewFacility',
-            //                     type: 'GET',
-            //                     success: function (data) {
-            //                         $('#main-content').html(data);
-            //                     },
-            //                     error: function () {
-            //                         alert('Failed to load the Facility details.');
-            //                     }
-            //                 });
-            //             });
-            //         },
-            //         error: function () {
-            //             alert('Failed to load the Facilities section.');
-            //         }
-            //     });
-            // });
         });
     </script>
 
