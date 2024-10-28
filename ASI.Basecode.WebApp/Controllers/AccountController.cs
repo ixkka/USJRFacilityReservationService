@@ -79,34 +79,29 @@ namespace ASI.Basecode.WebApp.Controllers
         /// <returns> Created response view </returns>
         [HttpPost]
         [AllowAnonymous]
+
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl)
         {
             this._session.SetString("HasSession", "Exist");
 
             User user = null;
 
-            /* User user = new() { Id = 0, UserId = "0", Name = "Name", Password = "Password" };
-
-             await this._signInManager.SignInAsync(user);
-             this._session.SetString("UserName", model.UserId);
-
-             return RedirectToAction("Index", "Home");*/
-
+            // Authenticate the user
             var loginResult = _userService.AuthenticateUser(model.UserId, model.Password, ref user);
             if (loginResult == LoginResult.Success)
             {
-                // 認証OK
+                // Successful authentication
                 await this._signInManager.SignInAsync(user);
-                this._session.SetString("UserName", user.Name);
-                return RedirectToAction("Index", "Home");
+                this._session.SetString("UserName", user.Name); // Store user's name in session
+
+                return RedirectToAction("Index", "Home"); // Redirect to home
             }
             else
             {
-                // 認証NG
+                // Authentication failed
                 TempData["ErrorMessage"] = "Incorrect UserId or Password";
                 return View();
             }
-            return View();
         }
 
         [HttpGet]
@@ -212,5 +207,8 @@ namespace ASI.Basecode.WebApp.Controllers
             /*ViewBag.Users = users; */// Store it in ViewBag to make it accessible in the view/layout
             return View(users);
         }
+
+
+
     }
 }
