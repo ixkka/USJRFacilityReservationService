@@ -63,21 +63,6 @@
 
 
                         <div class="pt-3"></div>
-
-                        <h2>User List</h2>
-                        <ul>
-                            @if (Model != null)
-                            {
-                                @foreach (var user in Model)
-                                {
-                                    <li>@user.Name</li> <!-- Adjust property names based on your user model -->
-                                }
-                            }
-                            else
-                            {
-                                <li>No users found.</li>
-                            }
-                        </ul>
                         <!-- Form to Add User -->
                         <form id="addUserForm" class="mt-3">
                             <div class="row">
@@ -211,10 +196,10 @@
                 <img src="~/img/pencil-fill.svg" alt="edit placeholder" style="border-radius: 50%; margin-right: 10px;">
                 Edit details
             </a>
-            <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;" data-toggle="modal" data-target="#addUserModal" data-title="Reset Password">
-                <img src="~/img/restart_alt.svg" alt="reset placeholder" style="border-radius: 50%; margin-right: 10px;">
-                Reset password
-            </a>
+             @* <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;" data-toggle="modal" data-target="#addUserModal" data-title="Reset Password">
+                 <img src="~/img/restart_alt.svg" alt="reset placeholder" style="border-radius: 50%; margin-right: 10px;">
+                 Reset password
+             </a> *@
             <!-- Delete user button that triggers the delete confirmation modal -->
             <a href="#" class="dropdown-item text-danger" style="padding: 10px; display: flex; align-items: center;" data-toggle="modal" data-target="#deleteUserModal">
                 <img src="~/img/delete.svg" alt="delete placeholder" style="border-radius: 50%; margin-right: 10px;">
