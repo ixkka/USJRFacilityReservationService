@@ -12,21 +12,25 @@ namespace ASI.Basecode.Data
     public static class ModelBuilderExtensions
     {
         public static void Seed(ModelBuilder modelBuilder) {
-            SeedUsers(modelBuilder);
+            
             SeedUserType(modelBuilder);
+            SeedUsers(modelBuilder);
 
         }
         public static void SeedUsers(ModelBuilder modelBuilder) {
             modelBuilder.Entity<User>().HasData(
                 new User { 
                     Id = 1, 
-                    UserId = "NewAdmin", 
+                    UserId = "NewAdminSeed", 
                     Name = "NewAdmin", 
                     Password = "USJR456", 
                     CreatedBy = System.Environment.UserName, 
                     UpdatedBy = System.Environment.UserName, 
                     CreatedTime = DateTime.Now, 
-                    UpdatedTime = DateTime.Now }
+                    UpdatedTime = DateTime.Now,
+                    Department = "SCS",
+                    UserTypeId = 2
+                }
             );
         }
 
@@ -35,15 +39,15 @@ namespace ASI.Basecode.Data
             modelBuilder.Entity<UserType>().HasData(
                 new UserType
                 {
-                    Id = 1,
+                    UserTypeId = 1,
                     UserTypeName = "Admin"
                 }, new UserType
                 {
-                    Id = 2,
+                    UserTypeId = 2,
                     UserTypeName = "Student"
                 }, new UserType
                 {
-                    Id = 3,
+                    UserTypeId = 3,
                     UserTypeName = "SuperAdmin"
                 }
 

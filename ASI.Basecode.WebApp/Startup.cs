@@ -88,6 +88,8 @@ namespace ASI.Basecode.WebApp
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection"),
                     sqlServerOptions => sqlServerOptions.CommandTimeout(120));
+
+                    options.EnableSensitiveDataLogging();
             });
 
             services.AddControllersWithViews();
