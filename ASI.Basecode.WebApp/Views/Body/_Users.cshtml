@@ -59,18 +59,21 @@
                                     <div class="mb-3">
                                         <input type="text" class="form-control" style="border-radius: 0.5rem;" id="idNumber" name="idNumber" placeholder="ID Number" required>
                                     </div>
-                                    <div class="mb-3">
-                                        <input type="text" class="form-control" style="border-radius: 0.5rem;" id="firstName" name="firstName" placeholder="First Name" required>
-                                    </div>
-                                    <div class="mb-3">
+                                    @* <div class="mb-3">
+                                        <input type="text" class="form-control" style="border-radius: 0.5rem;" id="firstName" name="firstName" placeholder="Name" required>
+                                    </div> *@
+                                    @* <div class="mb-3">
                                         <input type="text" class="form-control" style="border-radius: 0.5rem;" id="middleName" name="middleName" placeholder="Middle Name">
                                     </div>
                                     <div class="mb-3">
                                         <input type="text" class="form-control" style="border-radius: 0.5rem;" id="lastName" name="lastName" placeholder="Last Name" required>
-                                    </div>
+                                    </div> *@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
+                                        <input type="text" class="form-control" style="border-radius: 0.5rem;" id="firstName" name="firstName" placeholder="Name" required>
+                                    </div>
+                                    @* <div class="mb-3">
                                         <input type="email" class="form-control" style="border-radius: 0.5rem;" id="email" name="email" placeholder="Email Address" required>
                                     </div>
                                     <div class="mb-3">
@@ -86,11 +89,11 @@
                                     </div>
                                     <div class="mb-3">
                                         <input type="password" class="form-control" style="border-radius: 0.5rem;" id="password" name="password" placeholder="Password" required>
-                                    </div>
+                                    </div> *@
                                 </div>
                             </div>
                             <div class="text-center">
-                                <button type="button" class="btn btn-success rounded-pill" style="width: 120px; background-color: #137333; border: none;">Add</button>
+                                <button type="button" class="btn btn-success rounded-pill" style="width: 120px; background-color: #137333; border: none;">Edit & Save</button>
                             </div>
                         </form>
                     </div>
@@ -157,14 +160,14 @@
         <img src="~/img/three.svg" class="menu-toggle" style="cursor: pointer;" />
 
         <div class="dropdown-menu" style="display: none; position: absolute; top: 50px; background-color: white; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); border-radius: 20px; z-index: 1000; width: 200px;">
-            <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;" data-toggle="modal" data-target="#addUserModal" data-title="View Profile">
-                <img src="~/img/userprofile.svg" alt="profile placeholder" style="border-radius: 50%; margin-right: 10px;">
-                View profile
-            </a>
-            <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;" data-toggle="modal" data-target="#addUserModal" data-title="Edit Details">
-                <img src="~/img/pencil-fill.svg" alt="edit placeholder" style="border-radius: 50%; margin-right: 10px;">
-                Edit details
-            </a>
+                <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;" data-toggle="modal" data-target="#addUserModal" onclick="openProfileModal('@user.UserId', '@user.Name')" data-title="View Profile">
+                    <img src="~/img/userprofile.svg" alt="profile placeholder" style="border-radius: 50%; margin-right: 10px;">
+                    View profile
+                </a>
+@*              <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;" data-toggle="modal" data-target="#addUserModal" data-title="Edit Details">
+                 <img src="~/img/pencil-fill.svg" alt="edit placeholder" style="border-radius: 50%; margin-right: 10px;">
+                 Edit details
+             </a> *@
              @* <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;" data-toggle="modal" data-target="#addUserModal" data-title="Reset Password">
                  <img src="~/img/restart_alt.svg" alt="reset placeholder" style="border-radius: 50%; margin-right: 10px;">
                  Reset password
@@ -225,6 +228,20 @@
         </style>
 
     </div>
+
+        <script>
+            function openProfileModal(userId, userName) {
+                // Set the values of the ID and Name fields in the modal
+                document.getElementById('idNumber').value = userId;
+                document.getElementById('firstName').value = userName;
+
+                // Optional: Change the title if needed
+                document.getElementById('addUserModalLabel').innerText = "View Profile";
+
+                // Show the modal
+                $('#addUserModal').modal('show');
+            }
+        </script>
 
 
     <script>
