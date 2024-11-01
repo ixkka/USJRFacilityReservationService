@@ -13,8 +13,39 @@
 
 <div id="sidebar" class="shadow-none mt-4 ms-3" style="background-color:#F5FBF7">
     <div id="roundeddiv"></div>
-    <p>@Context.Session.GetString("UserName")</p> <!-- Display the dynamic username here -->
-    <p>Administrator</p> <!-- You can modify this to be dynamic as well, if needed -->
+    <p>@Context.Session.GetString("UserName")</p> 
+    <p>@Context.Session.GetString("Department")</p> 
+
+    <p>
+        Role:
+        @{
+            int? role = Context.Session.GetInt32("Role");
+            if (role.HasValue)
+            {
+                if (role == 1)
+                {
+                    <span>Admin</span>
+                }
+                else if (role == 2)
+                {
+                    <span>Student</span>
+                }
+                else if (role == 3)
+                {
+                    <span>Super Admin</span>
+                }
+                else
+                {
+                    <span>Unknown</span> 
+                }
+            }
+            else
+            {
+                <span>Not Assigned</span> 
+            }
+        }
+    </p>
+
     <nav class="navbar">
         <div class="navdiv">
             <p>MENU</p>
