@@ -27,5 +27,7 @@ namespace ASI.Basecode.Services.ServiceModels
         public DateTime CreatedTime { get; set; }
         public string UpdatedBy { get; set; }
         public DateTime UpdatedTime { get; set; }
+        public int UserTypeId { get; set; }
+        public string Department { get; set; }
     }
 }

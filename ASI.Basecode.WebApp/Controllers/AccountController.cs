@@ -2,6 +2,7 @@ using ASI.Basecode.Data.Models;
 using ASI.Basecode.Services.Interfaces;
 using ASI.Basecode.Services.Manager;
 using ASI.Basecode.Services.ServiceModels;
+using ASI.Basecode.Services.Services;
 using ASI.Basecode.WebApp.Authentication;
 using ASI.Basecode.WebApp.Models;
 using ASI.Basecode.WebApp.Mvc;
@@ -94,6 +95,8 @@ namespace ASI.Basecode.WebApp.Controllers
                 // Successful authentication
                 await this._signInManager.SignInAsync(user);
                 this._session.SetString("UserName", user.Name); // Store user's name in session
+                this._session.SetString("Department", user.Department);
+                this._session.SetInt32("Role", user.UserTypeId);
 
                 return RedirectToAction("Index", "Home"); // Redirect to home
             }
@@ -210,7 +213,7 @@ namespace ASI.Basecode.WebApp.Controllers
             return View(users);
         }
 
-        
+
 
 
         //[HttpGet]
@@ -223,5 +226,18 @@ namespace ASI.Basecode.WebApp.Controllers
         //}
 
 
+
+        [HttpPost]
+        public IActionResult DeleteUser(int id)
+        {
+            bool result = _userService.DeleteUserById(id);  // Pass `id` to service layer
+
+            return Json(new { success = result });  // Return JSON indicating success
+        }
+
+
     }
+
+
+
 }

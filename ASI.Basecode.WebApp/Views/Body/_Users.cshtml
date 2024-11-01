@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<ASI.Basecode.Services.ServiceModels.UserViewModel>
+@using ASI.Basecode.Services.ServiceModels
+
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -17,6 +19,11 @@
         $('#addUserModal').modal('show');
     });
 </script> *@
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
 
 <div class="container-fluid d-flex justify-content-between align-items-center" style="padding-bottom: 10px;">
@@ -46,60 +53,29 @@
             <div class="modal-dialog">
                 <div class="modal-content" style="border-radius: 20px; border: 1px solid #ddd;">
                     <div class="modal-header" style="border-bottom: none;">
+                        <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body text-center">
                         <div style="width: 100px; height: 100px; background-color: #e0e0e0; border-radius: 50%; margin: 0 auto; display: flex; justify-content: center; align-items: center;">
-                            <img src="~/img/camera.svg" alt="Image placeholder" style="border-radius: 50%;">
+                            <img src="~/img/camera.svg" alt="Camera Icon" style="border-radius: 50%; width: 80%; height: 80%; object-fit: cover;">
                         </div>
 
                         <div class="pt-3"></div>
-                        <form id="addUserForm" class="mt-3">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <input type="text" class="form-control" style="border-radius: 0.5rem;" id="idNumber" name="idNumber" placeholder="ID Number" required>
-                                    </div>
-                                    @* <div class="mb-3">
-                                        <input type="text" class="form-control" style="border-radius: 0.5rem;" id="firstName" name="firstName" placeholder="Name" required>
-                                    </div> *@
-                                    @* <div class="mb-3">
-                                        <input type="text" class="form-control" style="border-radius: 0.5rem;" id="middleName" name="middleName" placeholder="Middle Name">
-                                    </div>
-                                    <div class="mb-3">
-                                        <input type="text" class="form-control" style="border-radius: 0.5rem;" id="lastName" name="lastName" placeholder="Last Name" required>
-                                    </div> *@
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <input type="text" class="form-control" style="border-radius: 0.5rem;" id="firstName" name="firstName" placeholder="Name" required>
-                                    </div>
-                                    @* <div class="mb-3">
-                                        <input type="email" class="form-control" style="border-radius: 0.5rem;" id="email" name="email" placeholder="Email Address" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <input type="text" class="form-control" style="border-radius: 0.5rem;" id="department" name="department" placeholder="Department" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <select class="form-control" style="border-radius: 0.5rem;" id="role" name="role" required>
-                                            <option value="" disabled selected>Role</option>
-                                            <option value="Admin">Admin</option>
-                                            <option value="User">User</option>
-                                            <option value="Faculty">Faculty</option>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <input type="password" class="form-control" style="border-radius: 0.5rem;" id="password" name="password" placeholder="Password" required>
-                                    </div> *@
-                                </div>
-                            </div>
-                            <div class="text-center">
-                                <button type="button" class="btn btn-success rounded-pill" style="width: 120px; background-color: #137333; border: none;">Edit & Save</button>
-                            </div>
-                        </form>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-success rounded-pill" style="width: 120px; background-color: #137333; border: none;" onclick="openRegistration()">Add Account</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <script>
+            function openRegistration() {
+                window.open('/Account/Register', '_blank'); // Adjust the URL as necessary
+            }
+        </script>
+
 
     </div>
 
@@ -119,65 +95,106 @@
 <!-- Table Header Section -->
 <div class="container-fluid d-flex justify-content-between align-items-center" style="background-color:#D0E3CC; padding: 10px; border-radius:10px;">
     <!-- Left-aligned (User) -->
-    <div class="d-flex align-items-center" style="flex-basis: 33%;">
+    <div class="d-flex align-items-center" style="flex-basis: 20%;">
         <label for="users" style="color:#137301; margin: 0;">User</label>
     </div>
 
-    <!-- Center-aligned (Email) -->
-    <div class="d-flex align-items-center justify-content-center" style="flex-basis: 33%; text-align: center;">
-        <p style="color:#137301; margin: 0;">Email</p>
+    <!-- Center-aligned (ID) -->
+    <div class="d-flex align-items-center justify-content-center" style="flex-basis: 20%; text-align: center;">
+        <p style="color:#137301; margin: 0;">ID</p>
     </div>
 
-    <!-- Right-aligned (Role) shifted 150px to the left -->
-    <div class="d-flex align-items-center justify-content-end" style="flex-basis: 33%; text-align: right; padding-right: 150px;">
-        <p style="color:#137301; margin: 0; margin-right: 200px">Role</p>
+    <!-- Department Column -->
+    <div class="d-flex align-items-center justify-content-center" style="flex-basis: 20%; text-align: center;">
+        <p style="color:#137301; margin: 0;">Department</p>
+    </div>
+
+    <!-- User Type Column -->
+    <div class="d-flex align-items-center justify-content-center" style="flex-basis: 20%; text-align: center;">
+        <p style="color:#137301; margin: 0;">User Type</p>
+    </div>
+
+    <!-- Action Column -->
+    <div class="d-flex align-items-center justify-content-end" style="flex-basis: 20%; text-align: right;">
+        <p style="color:#137301; margin: 0;">Actions</p>
     </div>
 </div>
+
 
 @foreach (var user in Model)
 {
 <!-- Static User Row 1 -->
 <div class="container-fluid d-flex justify-content-between align-items-center py-2 border-bottom">
     <!-- User Column -->
-    <div class="d-flex align-items-center" style="flex-basis: 33%;">
-        <input type="checkbox" id="user1" style="width: 15px; height: 15px; margin-right: 8px;" />
-        <img src="~/img/user.svg" alt="User Profile" class="img-fluid rounded-circle" style="width: 40px; height: 40px; margin-right: 8px;">
-        <span>@user.Name</span>
-    </div>
+        <div class="d-flex align-items-center" style="flex-basis: 40%; justify-content: flex-start; margin-left: -5px;">
+            <input type="checkbox" id="user1" style="width: 15px; height: 15px; margin-right: 8px;" />
+            <img src="~/img/user.svg" alt="User Profile" class="img-fluid rounded-circle" style="width: 40px; height: 40px; margin-right: 8px;">
+            <span>@user.Name</span>
+        </div>
 
-    <!-- Email Column -->
-    <div class="d-flex align-items-center justify-content-center" style="flex-basis: 33%; text-align: center;">
-        <p style="margin: 0;">@user.UserId</p>
-    </div>
+        <!-- ID Column -->
+        <div class="d-flex align-items-center" style="flex-basis: 20%; justify-content: flex-start; margin-left: -5px;">
+            <p style="margin: 0;">@user.UserId</p>
+        </div>
 
-    <!-- Role Column shifted 150px to the left -->
-    <div class="d-flex align-items-center justify-content-between" style="flex-basis: 33%; padding-right: 150px;">
-        <img src="~/img/admin.svg" alt="" class="img-fluid rounded-circle" style="width: 80px; height: 80px; margin-right: 8px;">
-    </div>
+        <!-- Department Column -->
+        <div class="d-flex align-items-center" style="flex-basis: 20%; justify-content: flex-start; margin-left: -5px;">
+            <p style="margin: 0;">@user.Department</p>
+        </div>
+
+        <!-- User Type Column -->
+        <div class="d-flex align-items-center" style="flex-basis: 20%; justify-content: flex-start; margin-left: -5px;">
+            <p style="margin: 0;">
+                @if (user.UserTypeId == 1)
+                {
+                    <span>Admin</span>
+                    ;
+                }
+                else if (user.UserTypeId == 2)
+                {
+                    <span>Student</span>
+                    ;
+                }
+                else if (user.UserTypeId == 3)
+                {
+                    <span>Super Admin</span>
+                    ;
+                }
+                else
+                {
+                    <span>Unknown</span>
+                    ;
+                }
+            </p>
+        </div>
+
+
+
+
 
     <!-- Three Dots Column -->
     <div class="d-flex align-items-center ml-3 position-relative" style="margin-left:50px">
         <img src="~/img/three.svg" class="menu-toggle" style="cursor: pointer;" />
 
         <div class="dropdown-menu" style="display: none; position: absolute; top: 50px; background-color: white; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); border-radius: 20px; z-index: 1000; width: 200px;">
-                <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;" data-toggle="modal" data-target="#addUserModal" onclick="openProfileModal('@user.UserId', '@user.Name')" data-title="View Profile">
+                <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;"
+                   data-toggle="modal" data-target="#editDetailsModal">
                     <img src="~/img/userprofile.svg" alt="profile placeholder" style="border-radius: 50%; margin-right: 10px;">
-                    View profile
+                    Edit Details
                 </a>
-@*              <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;" data-toggle="modal" data-target="#addUserModal" data-title="Edit Details">
-                 <img src="~/img/pencil-fill.svg" alt="edit placeholder" style="border-radius: 50%; margin-right: 10px;">
-                 Edit details
-             </a> *@
-             @* <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;" data-toggle="modal" data-target="#addUserModal" data-title="Reset Password">
-                 <img src="~/img/restart_alt.svg" alt="reset placeholder" style="border-radius: 50%; margin-right: 10px;">
-                 Reset password
-             </a> *@
-            <!-- Delete user button that triggers the delete confirmation modal -->
-            <a href="#" class="dropdown-item text-danger" style="padding: 10px; display: flex; align-items: center;" data-toggle="modal" data-target="#deleteUserModal">
-                <img src="~/img/delete.svg" alt="delete placeholder" style="border-radius: 50%; margin-right: 10px;">
-                Delete user
-            </a>
+
+
+
+                <a href="#" class="dropdown-item text-danger" style="padding: 10px; display: flex; align-items: center;"
+                   data-toggle="modal" data-target="#deleteUserModal"
+                   data-user-id="@user.UserId">
+                    <img src="~/img/delete.svg" alt="delete placeholder" style="border-radius: 50%; margin-right: 10px;">
+                    Delete user
+                </a>
+
         </div>
+
+        
 
         <!-- Delete Confirmation Modal -->
         <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
@@ -189,13 +206,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body text-center">
-                        <p>Are you sure you want to delete the following users?</p>
-                        <ul style="list-style: none; padding-left: 0;">
-                            <li><strong>Gian Kristoff Gerodias</strong></li>
-                            <li><strong>Kurt Sanchez</strong></li>
-                        </ul>
-                    </div>
+                    
                     <div class="modal-footer justify-content-center">
                         <!-- Yes Button -->
                         <button type="button" class="btn btn-danger" id="confirmDelete" style="border-radius: 20px; padding: 10px 20px; background-color: #FF6B6B;">Yes</button>
@@ -205,6 +216,47 @@
                 </div>
             </div>
         </div>
+
+            <!-- Edit Details Modal -->
+            <div class="modal fade" id="editDetailsModal" tabindex="-1" role="dialog" aria-labelledby="editDetailsModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content" style="border-radius: 20px; padding: 20px;">
+                        <div class="modal-header text-center">
+                            <h5 class="modal-title" id="editDetailsModalLabel" style="width: 100%;">Edit User Details</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- User ID (Read-Only) -->
+                            <div class="form-group">
+                                <label for="editUserId">User ID</label>
+                                <input type="text" class="form-control" id="editUserId" placeholder="User ID" readonly>
+                            </div>
+                            <!-- Name -->
+                            <div class="form-group">
+                                <label for="editUserName">Name</label>
+                                <input type="text" class="form-control" id="editUserName" placeholder="Enter user name">
+                            </div>
+                            <!-- Password -->
+                            <div class="form-group">
+                                <label for="editUserPassword">Password</label>
+                                <input type="password" class="form-control" id="editUserPassword" placeholder="Enter new password">
+                            </div>
+                            <!-- Confirm Password -->
+                            <div class="form-group">
+                                <label for="confirmUserPassword">Confirm Password</label>
+                                <input type="password" class="form-control" id="confirmUserPassword" placeholder="Confirm new password">
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button type="button" class="btn btn-primary" id="saveEditDetails" style="border-radius: 20px; padding: 10px 20px;">Save Changes</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 20px; padding: 10px 20px;">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
 
 
@@ -255,6 +307,42 @@
         });
 
     </script>
+
+        <script>
+            $(document).on('click', '.dropdown-item.text-danger', function () {
+                selectedUserId = $(this).data('user-id');
+            });
+
+            $(document).on('click', '#confirmDelete', function () {
+                if (selectedUserId) {
+                    $.ajax({
+                        url: '/Account/DeleteUser',
+                        type: 'POST',
+                        data: { id: selectedUserId },
+                        success: function (response) {
+                            if (response.success) {
+                                alert("User deleted successfully!");
+
+                                if ($('#deleteUserModal').length) {
+                                    $('#deleteUserModal').modal('hide');
+                                }
+
+                                location.reload();
+                            } else {
+                                alert("Failed to delete user.");
+                            }
+                        },
+                        error: function () {
+                            alert("Error occurred while trying to delete the user.");
+                        }
+                    });
+                }
+            });
+
+
+        </script>
+
+   
 </div>
 }
 
