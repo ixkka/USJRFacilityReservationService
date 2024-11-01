@@ -17,7 +17,6 @@
     <p>@Context.Session.GetString("Department")</p> 
 
     <p>
-        Role:
         @{
             int? role = Context.Session.GetInt32("Role");
             if (role.HasValue)
