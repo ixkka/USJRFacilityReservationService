@@ -15,7 +15,7 @@
                     <div class="card-body p-md-5 mx-md-4">
 
                         <div class="text-center">
-                            <img src="https://www.alliance.com.ph/images/asi-logo-invert.svg"
+                            <img src="https://usjr.edu.ph/wp-content/uploads/2016/05/USJR1.png"
                                  style="width: 185px;" alt="logo">
                         </div>
 
@@ -44,8 +44,14 @@
                                        asp-for="ConfirmPassword" placeholder="Confirm Password" />
                                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                             </div>
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="department">Department</label>
+                                <input type="text" id="department" class="form-control"
+                                       asp-for="Department" placeholder="School Department" />
+                                <span asp-validation-for="Department" class="text-danger"></span>
+                            </div>
                             <div class="text-center pt-1 mb-5 pb-1 d-flex flex-column align-items-center">
-                                <button class="btn btn-primary btn-block login-btn gradient-custom-2 mb-3" type="submit">
+                                <button class="btn btn-primary btn-block mb-2" type="submit" style="background-color: #137301; border-color: #137301;">
                                     Register
                                 </button>
                                 <a asp-controller="Account" asp-action="Login">
