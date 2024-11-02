@@ -15,6 +15,7 @@ namespace ASI.Basecode.Data
             
             SeedUserType(modelBuilder);
             SeedUsers(modelBuilder);
+            SeedFacility(modelBuilder);
 
         }
         public static void SeedUsers(ModelBuilder modelBuilder) {
@@ -49,6 +50,28 @@ namespace ASI.Basecode.Data
                 {
                     UserTypeId = 3,
                     UserTypeName = "SuperAdmin"
+                }
+
+                );
+        }
+
+        public static void SeedFacility(ModelBuilder modelBuilder)
+        {
+
+            modelBuilder.Entity<Facility>().HasData(
+                new Facility
+                {
+                    FacilityId = 1,
+                    FacilityName = "Main Conference Room",
+                    Thumbnail = "main_conference_thumb.jpg",
+                    Capacity = 100,
+                    Description = "A large conference room equipped with modern facilities.",
+                    Location = "Building A, 1st Floor",
+                    CreatedBy = "AdminUser",
+                    CreatedDt = DateTime.Now,
+                    UpdatedBy = "AdminUser",
+                    UpdatedDt = DateTime.Now,
+                    Amenity = "Projector"
                 }
 
                 );

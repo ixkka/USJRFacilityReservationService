@@ -19,6 +19,7 @@ namespace ASI.Basecode.Data
 
         public virtual DbSet<User> Users {get; set;}
         public virtual DbSet<UserType> UserType { get; set; }
+        public virtual DbSet<Facility> Facility { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
            // Set default values for Department and UserTypeId
@@ -36,6 +37,85 @@ namespace ASI.Basecode.Data
                 .WithMany(ut => ut.Users)
                 .HasForeignKey(u => u.UserTypeId);
 
+            modelBuilder.Entity<DayOfTheWeek>(entity =>
+            {
+                entity.HasKey(e => e.DayOfWeekId)
+                    .HasName("PK__DayOfThe__01AA8DDF270B0DA0");
+
+                entity.ToTable("DayOfTheWeek");
+
+                entity.Property(e => e.DayOfWeekId).HasColumnName("DayOfWeekID");
+
+                entity.Property(e => e.DayName)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<ImageGallery>(entity =>
+            {
+                entity.HasKey(e => e.ImageId)
+                    .HasName("PK__ImageGal__94940404");
+
+                entity.ToTable("ImageGallery");
+
+                entity.Property(e => e.ImageId).HasColumnName("ImageID");
+
+                entity.Property(e => e.ImageName).IsUnicode(false);
+
+                entity.Property(e => e.Path).IsUnicode(false);
+
+                entity.Property(e => e.FacilityId).HasColumnName("FacilityID");
+
+                entity.HasOne(d => d.Facility)
+                    .WithMany(p => p.ImageGalleries)
+                    .HasForeignKey(d => d.FacilityId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK__ImageGall__FacilityI__4CA06362");
+            });
+
+            modelBuilder.Entity<Facility>(entity =>
+            {
+                entity.ToTable("Facility");
+
+                entity.HasIndex(e => e.FacilityName, "FAC_00_000000")
+                    .IsUnique();
+
+                entity.Property(e => e.FacilityId).HasColumnName("FacilityID");
+
+                entity.Property(e => e.CreatedBy)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CreatedDt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("CreatedDT");
+
+                entity.Property(e => e.Description).IsUnicode(false);
+
+                entity.Property(e => e.Amenity).IsUnicode(false);
+
+                entity.Property(e => e.Location)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FacilityName)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Thumbnail)
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UpdatedBy)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UpdatedDt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("UpdatedDT");
+            });
 
             ModelBuilderExtensions.Seed(modelBuilder);
             base.OnModelCreating(modelBuilder);

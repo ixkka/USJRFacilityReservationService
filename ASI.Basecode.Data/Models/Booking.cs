@@ -15,7 +15,7 @@ namespace ASI.Basecode.Data.Models
 
         public int BookingId { get; set; }
         public int? UserId { get; set; }
-        public int? RoomId { get; set; }
+        public int? FacilityId { get; set; }
         public string BookingStatus { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
@@ -26,7 +26,7 @@ namespace ASI.Basecode.Data.Models
         public string UpdatedBy { get; set; }
         public DateTime? UpdatedDt { get; set; }
 
-        public virtual Room Room { get; set; }
+        public virtual Facility Facility { get; set; }
         public virtual User User { get; set; }
         public virtual ICollection<Recurrence> Recurrences { get; set; }
     }

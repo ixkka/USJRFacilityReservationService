@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace ASI.Basecode.Data.Models
 {
-    public partial class Room
+    public partial class Facility
     {
-        public Room()
+        public Facility()
         {
             Bookings = new HashSet<Booking>();
             ImageGalleries = new HashSet<ImageGallery>();
         }
 
-        public int RoomId { get; set; }
-        public string RoomName { get; set; }
+        public int FacilityId { get; set; }
+        public string FacilityName { get; set; }
         public string Thumbnail { get; set; }
         public int? Capacity { get; set; }
         public string Description { get; set; }
@@ -24,7 +24,7 @@ namespace ASI.Basecode.Data.Models
         public DateTime? CreatedDt { get; set; }
         public string UpdatedBy { get; set; }
         public DateTime? UpdatedDt { get; set; }
-        public string Equipments { get; set; }
+        public string Amenity { get; set; }
 
         public virtual ICollection<Booking> Bookings { get; set; }
         public virtual ICollection<ImageGallery> ImageGalleries { get; set; }
