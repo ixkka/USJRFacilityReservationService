@@ -94,14 +94,17 @@
                                 <img src="~/img/location.svg" alt="profile placeholder" style="border-radius: 50%; margin-right: 10px;">
                                 View Facility
                             </a>
-                            <a href="#" class="dropdown-item edit-facility" style="padding: 10px; display: flex; align-items: center;" data-url="/Account/LoadAddFacilities?isEdit=true">
-                                <img src="~/img/pencil-fill.svg" alt="Edit Facility" style="border-radius: 50%; margin-right: 10px;">
-                                Edit Facility
-                            </a>
-                            <a href="#" class="dropdown-item text-danger" style="padding: 10px; display: flex; align-items: center;" data-toggle="modal" data-target="#deleteFacilityModal">
-                                <img src="~/img/delete.svg" alt="delete placeholder" style="border-radius: 50%; margin-right: 10px;">
-                                Delete Facility
-                            </a>
+                            @if (userRole == 1 || userRole == 3)
+                            {
+                                <a href="#" class="dropdown-item edit-facility" style="padding: 10px; display: flex; align-items: center;" data-url="/Account/LoadAddFacilities?isEdit=true">
+                                    <img src="~/img/pencil-fill.svg" alt="Edit Facility" style="border-radius: 50%; margin-right: 10px;">
+                                    Edit Facility
+                                </a>
+                                <a href="#" class="dropdown-item text-danger" style="padding: 10px; display: flex; align-items: center;" data-toggle="modal" data-target="#deleteFacilityModal">
+                                    <img src="~/img/delete.svg" alt="delete placeholder" style="border-radius: 50%; margin-right: 10px;">
+                                    Delete Facility
+                                </a>
+                            }
                         </div>
                     </div>
                 </div>
