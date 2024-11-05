@@ -19,7 +19,7 @@ namespace ASI.Basecode.Services.Interfaces
         User GetUserById(string userId); // Change to accept string
         void UpdateUser(User user);
 
-
+        void AddUserAdmin(UserViewModel model);
 
     }
 

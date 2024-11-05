@@ -58,25 +58,113 @@
                         <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body text-center">
-                        <div style="width: 100px; height: 100px; background-color: #e0e0e0; border-radius: 50%; margin: 0 auto; display: flex; justify-content: center; align-items: center;">
-                            <img src="~/img/camera.svg" alt="Camera Icon" style="border-radius: 50%; width: 80%; height: 80%; object-fit: cover;">
+                    <div class="modal-body">
+                        <div class="text-center mb-4">
+                            <img src="https://usjr.edu.ph/wp-content/uploads/2016/05/USJR1.png"
+                                 style="width: 100px;" alt="Logo">
                         </div>
+                        <form id="addUserForm">
+                            <!-- User ID -->
+                            <div class="form-outline mb-3">
+                                <label class="form-label" for="userId">User ID</label>
+                                <input type="text" id="userId" class="form-control" placeholder="Enter User ID">
+                            </div>
 
-                        <div class="pt-3"></div>
-                        <div class="text-center">
-                            <button type="button" class="btn btn-success rounded-pill" style="width: 120px; background-color: #137333; border: none;" onclick="openRegistration()">Add Account</button>
-                        </div>
+                            <!-- Name -->
+                            <div class="form-outline mb-3">
+                                <label class="form-label" for="name">Name</label>
+                                <input type="text" id="name" class="form-control" placeholder="Enter Name">
+                            </div>
+
+                            <!-- Password -->
+                            <div class="form-outline mb-3">
+                                <label class="form-label" for="password">Password</label>
+                                <input type="password" id="password" class="form-control" placeholder="Enter Password">
+                            </div>
+
+                            <!-- Confirm Password -->
+                            <div class="form-outline mb-3">
+                                <label class="form-label" for="confirmpassword">Confirm Password</label>
+                                <input type="password" id="confirmpassword" class="form-control" placeholder="Confirm Password">
+                            </div>
+
+                            <!-- Department (Dropdown) -->
+                            <div class="form-outline mb-3">
+                                <label class="form-label" for="department">Department</label>
+                                <select id="department" class="form-control">
+                                    <option value="" disabled selected>Select Department</option>
+                                    <option value="SAO">SAO</option>
+                                    <option value="SOE">SOE</option>
+                                    <option value="SBM">SBM</option>
+                                    <option value="SOEng">SOEng</option>
+                                    <option value="SCS">SCS</option>
+                                    <option value="SAMS">SAMS</option>
+                                </select>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="text-center pt-1 d-flex flex-column align-items-center">
+                                <button type="button" class="btn btn-success rounded-pill" style="width: 120px; background-color: #137333; border: none;" onclick="submitForm()">Register</button>
+                                <a href="#" data-bs-dismiss="modal" class="mt-2">Cancel</a>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
 
         <script>
-            function openRegistration() {
-                window.open('/Account/Register', '_blank'); // Adjust the URL as necessary
+            function submitForm() {
+                const userId = document.getElementById('userId').value;
+                const name = document.getElementById('name').value;
+                const password = document.getElementById('password').value;
+                const confirmpassword = document.getElementById('confirmpassword').value;
+                const department = document.getElementById('department').value;
+
+                // Validate that password and confirm password match
+                if (password !== confirmpassword) {
+                    alert("Passwords do not match.");
+                    return;
+                }
+
+                // Gather form data into an object
+                const userData = {
+                    UserId: userId,
+                    Name: name,
+                    Password: password,
+                    ConfirmPassword: confirmpassword,
+                    Department: department
+                };
+
+                // Log the form data to console for debugging
+                console.log("Form Data:", userData);
+
+                // Make AJAX call to the controller to add the user
+                fetch('/Account/CreateUser', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(userData)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("Server Response:", data);
+                        if (data.success) {
+                            alert(data.message);
+                            $('#addUserModal').modal('hide'); // Close the modal
+                            // Optionally, refresh or update user list in UI
+                        } else {
+                            alert(data.message); // Show error message
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
             }
         </script>
+
+
+
+
 
 
     </div>
@@ -331,18 +419,28 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="editUserId">User ID</label>
-                    <input type="text" class="form-control" id="editUserId">
+                    <input type="text" class="form-control" id="editUserId" readonly>
                 </div>
+
+                <!-- Department (Dropdown) -->
                 <div class="form-group">
                     <label for="editDepartment">Department</label>
-                    <input type="text" class="form-control" id="editDepartment">
+                    <select id="editDepartment" class="form-control">
+                        <option value="" disabled>Select Department</option>
+                        <option value="SAO">SAO</option>
+                        <option value="SOE">SOE</option>
+                        <option value="SBM">SBM</option>
+                        <option value="SOEng">SOEng</option>
+                        <option value="SCS">SCS</option>
+                        <option value="SAMS">SAMS</option>
+                    </select>
                 </div>
+
                 <div class="form-group">
-                    <div class="form-group">
-                        <label for="editRoleName">Role</label>
-                        <input type="text" class="form-control" id="editRoleName" >
-                        <input type="hidden" id="editUserTypeId">
-                    </div>
+                    <label for="editRoleName">Role</label>
+                    <input type="text" class="form-control" id="editRoleName" readonly>
+                    <input type="hidden" id="editUserTypeId">
+                </div>
 
                 <div class="form-group">
                     <label for="editUserName">Name</label>
@@ -364,73 +462,68 @@
         </div>
     </div>
 
-
-
     <script>
-            $('#saveEditDetails').click(function () {
-                // Retrieve `userId` as a string (no parsing)
-                const userId = $('#editUserId').val().trim();
-                const userName = $('#editUserName').val().trim();
-                const department = $('#editDepartment').val().trim();
-                const userTypeId = parseInt($('#editUserTypeId').val(), 10); // Parse userTypeId as an integer
+        $('#saveEditDetails').click(function () {
+            // Retrieve values
+            const userId = $('#editUserId').val().trim();
+            const userName = $('#editUserName').val().trim();
+            const department = $('#editDepartment').val(); // Retrieve selected department
+            const userTypeId = parseInt($('#editUserTypeId').val(), 10);
 
-                // Log values to confirm they are correct
-                console.log("User ID (string):", userId);
-                console.log("Parsed userTypeId:", userTypeId);
+            // Log values for debugging
+            console.log("User ID:", userId);
+            console.log("UserType ID:", userTypeId);
+            console.log("Department:", department);
 
-                // Check if userTypeId is a valid number
-                if (isNaN(userTypeId)) {
-                    console.error("Invalid userTypeId.");
-                    return;
-                }
+            // Check if userTypeId is a valid number
+            if (isNaN(userTypeId)) {
+                console.error("Invalid userTypeId.");
+                return;
+            }
 
-                // Prepare data object with the fields to update
-                let updatedData = {
-                    userId: userId, // Send 'userId' as a string to the server
-                    userName: userName,
-                    department: department,
-                    userTypeId: userTypeId // Send numeric userTypeId to the server
-                };
+            // Prepare data object with fields to update
+            let updatedData = {
+                userId: userId,
+                userName: userName,
+                department: department, // Use selected department value
+                userTypeId: userTypeId
+            };
 
-                // Only include password if it's provided and matches
-                const password = $('#editUserPassword').val().trim();
-                const confirmPassword = $('#confirmUserPassword').val().trim();
-                if (password && password === confirmPassword) {
-                    updatedData.password = password;
-                } else if (password && password !== confirmPassword) {
-                    alert("Passwords do not match.");
-                    return;
-                }
+            // Only include password if provided and matches
+            const password = $('#editUserPassword').val().trim();
+            const confirmPassword = $('#confirmUserPassword').val().trim();
+            if (password && password === confirmPassword) {
+                updatedData.password = password;
+            } else if (password && password !== confirmPassword) {
+                alert("Passwords do not match.");
+                return;
+            }
 
-                console.log("Data being sent to server:", updatedData); // Debugging log
+            console.log("Data being sent to server:", updatedData);
 
-                // AJAX request
-                $.ajax({
-                    url: '/Account/UpdateUser',
-                    type: 'POST',
-                    data: updatedData,
-                    success: function (response) {
-                        console.log("Server response:", response);
-                        if (response.success) {
-                            alert(response.message);
-                            $('#editDetailsModal').modal('hide');
-                            location.reload();
-                        } else {
-                            alert(response.message);
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.log("Error Status:", status);
-                        console.log("Error:", error);
+            // AJAX request
+            $.ajax({
+                url: '/Account/UpdateUser',
+                type: 'POST',
+                data: updatedData,
+                success: function (response) {
+                    console.log("Server response:", response);
+                    if (response.success) {
+                        alert(response.message);
+                        $('#editDetailsModal').modal('hide');
+                        location.reload();
+                    } else {
+                        alert(response.message);
                     }
-                });
+                },
+                error: function (xhr, status, error) {
+                    console.log("Error Status:", status);
+                    console.log("Error:", error);
+                }
             });
+        });
 
-    </script>
-
-</div>
-
-<script>
+        // Populate the form with user data when the modal is opened
         $(document).on('click', '.edit-user-details', function () {
             const userId = $(this).data('userid');
             const userName = $(this).data('name');
@@ -439,7 +532,7 @@
 
             $('#editUserId').val(userId);
             $('#editUserName').val(userName);
-            $('#editDepartment').val(department);
+            $('#editDepartment').val(department); // Set the department dropdown
 
             let roleName;
             if (userTypeId == 1) roleName = 'Admin';
@@ -448,11 +541,11 @@
             else roleName = 'Unknown';
 
             $('#editRoleName').val(roleName); // Display role name
-            $('#editUserTypeId').val(userTypeId); // Store the numeric userTypeId in hidden field
+            $('#editUserTypeId').val(userTypeId); // Store numeric userTypeId in hidden field
         });
+    </script>
+</div>
 
-
-</script>
 
 
 

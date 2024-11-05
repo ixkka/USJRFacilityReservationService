@@ -303,6 +303,46 @@ namespace ASI.Basecode.WebApp.Controllers
 
 
 
+        [HttpPost]
+        [AllowAnonymous]
+        public IActionResult CreateUser([FromBody] UserViewModel model)
+        {
+            Console.WriteLine("Received data:");
+            Console.WriteLine("UserId: " + model.UserId);
+            Console.WriteLine("Name: " + model.Name);
+            Console.WriteLine("Password: " + model.Password);
+            Console.WriteLine("ConfirmPassword: " + model.ConfirmPassword); // Log ConfirmPassword
+            Console.WriteLine("Department: " + model.Department);
+
+            if (!ModelState.IsValid)
+            {
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    Console.WriteLine("Validation error: " + error.ErrorMessage);
+                }
+
+                return Json(new { success = false, message = "Invalid form data." });
+            }
+
+            try
+            {
+                _userService.AddUserAdmin(model);
+                return Json(new { success = true, message = "User added successfully!" });
+            }
+            catch (InvalidDataException ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                return Json(new { success = false, message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                return Json(new { success = false, message = "An error occurred while adding the user." });
+            }
+        }
+
+
+
 
 
 

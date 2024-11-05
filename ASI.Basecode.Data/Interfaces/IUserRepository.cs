@@ -17,5 +17,7 @@ namespace ASI.Basecode.Data.Interfaces
 
         User GetUserById(string userId); // Accept string as parameter
         void UpdateUser(User user);
+
+        void Add(User user);
     }
 }
