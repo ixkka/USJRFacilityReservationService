@@ -407,6 +407,8 @@
 </div>
 }
 
+
+
 <div class="modal fade" id="editDetailsModal" tabindex="-1" role="dialog" aria-labelledby="editDetailsModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="border-radius: 20px; padding: 20px;">
@@ -436,9 +438,15 @@
                     </select>
                 </div>
 
+                <!-- Role (Dropdown) -->
                 <div class="form-group">
                     <label for="editRoleName">Role</label>
-                    <input type="text" class="form-control" id="editRoleName" readonly>
+                    <select id="editRoleName" class="form-control">
+                        <option value="" disabled>Select Role</option>
+                        <option value="1">Admin</option>
+                        <option value="2">Student</option>
+                        <option value="3">Super Admin</option>
+                    </select>
                     <input type="hidden" id="editUserTypeId">
                 </div>
 
@@ -464,32 +472,27 @@
 
     <script>
         $('#saveEditDetails').click(function () {
-            // Retrieve values
             const userId = $('#editUserId').val().trim();
             const userName = $('#editUserName').val().trim();
-            const department = $('#editDepartment').val(); // Retrieve selected department
-            const userTypeId = parseInt($('#editUserTypeId').val(), 10);
+            const department = $('#editDepartment').val();
+            const userTypeId = parseInt($('#editRoleName').val(), 10); // Get selected role ID
 
-            // Log values for debugging
             console.log("User ID:", userId);
             console.log("UserType ID:", userTypeId);
             console.log("Department:", department);
 
-            // Check if userTypeId is a valid number
             if (isNaN(userTypeId)) {
                 console.error("Invalid userTypeId.");
                 return;
             }
 
-            // Prepare data object with fields to update
             let updatedData = {
                 userId: userId,
                 userName: userName,
-                department: department, // Use selected department value
+                department: department,
                 userTypeId: userTypeId
             };
 
-            // Only include password if provided and matches
             const password = $('#editUserPassword').val().trim();
             const confirmPassword = $('#confirmUserPassword').val().trim();
             if (password && password === confirmPassword) {
@@ -501,7 +504,6 @@
 
             console.log("Data being sent to server:", updatedData);
 
-            // AJAX request
             $.ajax({
                 url: '/Account/UpdateUser',
                 type: 'POST',
@@ -523,7 +525,6 @@
             });
         });
 
-        // Populate the form with user data when the modal is opened
         $(document).on('click', '.edit-user-details', function () {
             const userId = $(this).data('userid');
             const userName = $(this).data('name');
@@ -532,21 +533,13 @@
 
             $('#editUserId').val(userId);
             $('#editUserName').val(userName);
-            $('#editDepartment').val(department); // Set the department dropdown
+            $('#editDepartment').val(department);
 
-            let roleName;
-            if (userTypeId == 1) roleName = 'Admin';
-            else if (userTypeId == 2) roleName = 'Student';
-            else if (userTypeId == 3) roleName = 'Super Admin';
-            else roleName = 'Unknown';
-
-            $('#editRoleName').val(roleName); // Display role name
-            $('#editUserTypeId').val(userTypeId); // Store numeric userTypeId in hidden field
+            $('#editRoleName').val(userTypeId); // Set role dropdown to current role
+            $('#editUserTypeId').val(userTypeId);
         });
     </script>
 </div>
-
-
 
 
 
