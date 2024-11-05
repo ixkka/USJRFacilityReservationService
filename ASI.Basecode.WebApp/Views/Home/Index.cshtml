@@ -13,8 +13,8 @@
 
 <div id="sidebar" class="shadow-none mt-4 ms-3" style="background-color:#F5FBF7">
     <div id="roundeddiv"></div>
-    <p>@Context.Session.GetString("UserName")</p> 
-    <p>@Context.Session.GetString("Department")</p> 
+    <p>@Context.Session.GetString("UserName")</p>
+    <p>@Context.Session.GetString("Department")</p>
 
     <p>
         @{
@@ -35,12 +35,12 @@
                 }
                 else
                 {
-                    <span>Unknown</span> 
+                    <span>Unknown</span>
                 }
             }
             else
             {
-                <span>Not Assigned</span> 
+                <span>Not Assigned</span>
             }
         }
     </p>
@@ -52,12 +52,19 @@
                 <li class="hover">
                     <img src="~/img/checkbook.svg" /> Reservations
                 </li>
-                <li class="hover">
-                    <img src="~/img/location.svg" /> Facilities
-                </li>
-                <li class="hover">
-                    <img src="~/img/userprofile.svg" /> Users
-                </li>
+
+                @* Only Admin and Super Admin can see this *@
+               
+                    <li class="hover">
+                        <img src="~/img/location.svg" /> Facilities
+                    </li>
+                @if (role == 1 || role == 3)
+                {
+                    <li class="hover">
+                        <img src="~/img/userprofile.svg" /> Users
+                    </li>
+                }
+
                 <li class="hover">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <a asp-action="SignOutUser" asp-controller="Account">Logout</a>

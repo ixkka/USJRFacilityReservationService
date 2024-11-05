@@ -83,6 +83,43 @@ namespace ASI.Basecode.WebApp.Controllers
         /// <param name="model">The model.</param>
         /// <param name="returnUrl">The return URL.</param>
         /// <returns> Created response view </returns>
+        /// 
+
+
+
+
+
+        /*
+                [HttpPost]
+                [AllowAnonymous]
+
+                public async Task<IActionResult> Login(LoginViewModel model, string returnUrl)
+                {
+                    this._session.SetString("HasSession", "Exist");
+
+                    User user = null;
+
+                    // Authenticate the user
+                    var loginResult = _userService.AuthenticateUser(model.UserId, model.Password, ref user);
+                    if (loginResult == LoginResult.Success)
+                    {
+                        // Successful authentication
+                        await this._signInManager.SignInAsync(user);
+                        this._session.SetString("UserName", user.Name); // Store user's name in session
+                        this._session.SetString("Department", user.Department);
+                        this._session.SetInt32("Role", user.UserTypeId);
+
+                        return RedirectToAction("Index", "Home"); // Redirect to home
+                    }
+                    else
+                    {
+                        // Authentication failed
+                        TempData["ErrorMessage"] = "Incorrect UserId or Password";
+                        return View();
+                    }
+                }*/
+
+
         [HttpPost]
         [AllowAnonymous]
 
@@ -102,6 +139,9 @@ namespace ASI.Basecode.WebApp.Controllers
                 this._session.SetString("Department", user.Department);
                 this._session.SetInt32("Role", user.UserTypeId);
 
+                // Pass the role to the view
+                ViewData["UserRole"] = user.UserTypeId;
+
                 return RedirectToAction("Index", "Home"); // Redirect to home
             }
             else
@@ -111,6 +151,14 @@ namespace ASI.Basecode.WebApp.Controllers
                 return View();
             }
         }
+
+
+
+
+
+
+
+
 
         [HttpGet]
         [AllowAnonymous]

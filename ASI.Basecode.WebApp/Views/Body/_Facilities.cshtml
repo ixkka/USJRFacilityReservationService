@@ -3,6 +3,14 @@
 *@
 @{
 }
+
+
+@{
+    int userRole = Context.Session.GetInt32("Role") ?? 0;
+}
+
+
+
 <style>
     .custom-container {
         padding: 20px;
@@ -54,11 +62,13 @@
             Filters
         </button>
 
+
+        @if(userRole == 1 || userRole== 3){
        <button type="button" class="btn btn-success position-relative add-facility-btn" data-url="/Account/LoadAddFacilities?isEdit=false" style="border-radius: 5px; padding: 8px 25px; min-width: 120px;">
             <img src="~/img/add.svg" alt="Add Facility" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
             Add Facility
         </button>
-
+        }
 
 
     </div>
@@ -241,3 +251,5 @@
            });
        });
    </script> 
+
+

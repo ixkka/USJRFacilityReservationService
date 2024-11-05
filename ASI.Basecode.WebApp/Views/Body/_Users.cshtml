@@ -409,6 +409,13 @@
 
 
 
+
+
+
+@{
+    int userRole = Context.Session.GetInt32("Role") ?? 0;
+}
+
 <div class="modal fade" id="editDetailsModal" tabindex="-1" role="dialog" aria-labelledby="editDetailsModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="border-radius: 20px; padding: 20px;">
@@ -438,17 +445,19 @@
                     </select>
                 </div>
 
-                <!-- Role (Dropdown) -->
-                <div class="form-group">
-                    <label for="editRoleName">Role</label>
-                    <select id="editRoleName" class="form-control">
-                        <option value="" disabled>Select Role</option>
-                        <option value="1">Admin</option>
-                        <option value="2">Student</option>
-                        <option value="3">Super Admin</option>
-                    </select>
-                    <input type="hidden" id="editUserTypeId">
-                </div>
+                @if (userRole == 3)
+                {
+                    <div class="form-group">
+                        <label for="editRoleName">Role</label>
+                        <select id="editRoleName" class="form-control">
+                            <option value="" disabled>Select Role</option>
+                            <option value="1">Admin</option>
+                            <option value="2">Student</option>
+                            <option value="3">Super Admin</option>
+                        </select>
+                        <input type="hidden" id="editUserTypeId">
+                    </div>
+                }
 
                 <div class="form-group">
                     <label for="editUserName">Name</label>
@@ -469,17 +478,51 @@
             </div>
         </div>
     </div>
+</div>
 
-    <script>
+<script>
+    $(document).ready(function () {
+        // Retrieve user role from Razor and convert to JavaScript variable
+        const currentUserRole = @userRole;
+
+        // Log the user role for verification
+        console.log("Current User Role:", currentUserRole);
+
+        // Set field accessibility based on role when the modal opens
+        $('#editDetailsModal').on('show.bs.modal', function () {
+            if (currentUserRole === 3) {
+                // Super Admin: All fields are editable
+                $('#editDepartment').prop('disabled', false);
+                $('#editRoleName').prop('disabled', false);
+                $('#editUserName').prop('readonly', false);
+                $('#editUserPassword').prop('readonly', false);
+                $('#confirmUserPassword').prop('readonly', false);
+                console.log("Super Admin: All fields are editable.");
+            } else if (currentUserRole === 1) {
+                // Admin: Only the Role dropdown is readonly
+                $('#editDepartment').prop('disabled', false);
+                $('#editRoleName').prop('disabled', true); // Admin cannot change role
+                $('#editUserName').prop('readonly', false);
+                $('#editUserPassword').prop('readonly', false);
+                $('#confirmUserPassword').prop('readonly', false);
+                console.log("Admin: Role dropdown is readonly.");
+            } else {
+                // Other roles: All fields are readonly
+                $('#editDepartment').prop('disabled', true);
+                $('#editRoleName').prop('disabled', true);
+                $('#editUserName').prop('readonly', true);
+                $('#editUserPassword').prop('readonly', true);
+                $('#confirmUserPassword').prop('readonly', true);
+                console.log("Other roles: All fields are readonly.");
+            }
+        });
+
+        // Save changes button functionality
         $('#saveEditDetails').click(function () {
             const userId = $('#editUserId').val().trim();
             const userName = $('#editUserName').val().trim();
             const department = $('#editDepartment').val();
             const userTypeId = parseInt($('#editRoleName').val(), 10); // Get selected role ID
-
-            console.log("User ID:", userId);
-            console.log("UserType ID:", userTypeId);
-            console.log("Department:", department);
 
             if (isNaN(userTypeId)) {
                 console.error("Invalid userTypeId.");
@@ -509,7 +552,6 @@
                 type: 'POST',
                 data: updatedData,
                 success: function (response) {
-                    console.log("Server response:", response);
                     if (response.success) {
                         alert(response.message);
                         $('#editDetailsModal').modal('hide');
@@ -525,6 +567,7 @@
             });
         });
 
+        // Populate the form with user data when the modal is opened
         $(document).on('click', '.edit-user-details', function () {
             const userId = $(this).data('userid');
             const userName = $(this).data('name');
@@ -534,60 +577,11 @@
             $('#editUserId').val(userId);
             $('#editUserName').val(userName);
             $('#editDepartment').val(department);
-
-            $('#editRoleName').val(userTypeId); // Set role dropdown to current role
-            $('#editUserTypeId').val(userTypeId);
+            $('#editRoleName').val(userTypeId); // Set role dropdown to user's role
+            $('#editUserTypeId').val(userTypeId); // Hidden field for userTypeId
         });
-    </script>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    });
+</script>
 
 
 
