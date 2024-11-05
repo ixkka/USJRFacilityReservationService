@@ -29,5 +29,6 @@ namespace ASI.Basecode.Services.ServiceModels
         public DateTime UpdatedTime { get; set; }
         public int UserTypeId { get; set; }
         public string Department { get; set; }
+        public int Id {  get; set; }
     }
 }

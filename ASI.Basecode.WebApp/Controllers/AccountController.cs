@@ -2,6 +2,7 @@ using ASI.Basecode.Data.Models;
 using ASI.Basecode.Services.Interfaces;
 using ASI.Basecode.Services.Manager;
 using ASI.Basecode.Services.ServiceModels;
+/*using ASI.Basecode.Services.ServiceModels.ASI.Basecode.Services.ServiceModels;*/
 using ASI.Basecode.Services.Services;
 using ASI.Basecode.WebApp.Authentication;
 using ASI.Basecode.WebApp.Models;
@@ -15,6 +16,9 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+
+using System.Text;
 using System.Threading.Tasks;
 using static ASI.Basecode.Resources.Constants.Enums;
 
@@ -230,10 +234,76 @@ namespace ASI.Basecode.WebApp.Controllers
         [HttpPost]
         public IActionResult DeleteUser(int id)
         {
-            bool result = _userService.DeleteUserById(id);  // Pass `id` to service layer
+            // Call the service to delete the user
+            bool result = _userService.DeleteUserById(id);
 
-            return Json(new { success = result });  // Return JSON indicating success
+            // Only return success if the deletion was actually successful
+            if (result)
+            {
+                return Json(new { success = true, message = "User deleted successfully!" });
+            }
+            else
+            {
+                return Json(new { success = false, message = "Failed to delete user. User might not exist or there was an error." });
+            }
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        [HttpPost]
+        [Route("Account/UpdateUser")]
+        public IActionResult UpdateUser(string userId, string userName, string department, int userTypeId, string? password)
+        {
+            // Fetch user by userId as a string
+            var user = _userService.GetUserById(userId);
+            if (user == null) return Json(new { success = false, message = "User not found." });
+
+            // Update name if provided
+            if (!string.IsNullOrEmpty(userName))
+                user.Name = userName;
+
+            // Update department if provided
+            if (!string.IsNullOrEmpty(department))
+                user.Department = department;
+
+            // Update UserTypeId only if it's a valid role
+            if (userTypeId == 1 || userTypeId == 2 || userTypeId == 3)
+            {
+                user.UserTypeId = userTypeId;
+            }
+            else
+            {
+                return Json(new { success = false, message = "Invalid role ID." });
+            }
+
+            // Update password if provided
+            if (!string.IsNullOrEmpty(password))
+                user.Password = PasswordManager.EncryptPassword(password); // Use PasswordManager for encryption
+
+            // Update the user in the database
+            _userService.UpdateUser(user);
+
+            return Json(new { success = true, message = "User updated successfully." });
+        }
+
+
+
+
+
+
 
 
     }

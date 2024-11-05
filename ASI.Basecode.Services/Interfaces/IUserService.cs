@@ -9,9 +9,18 @@ namespace ASI.Basecode.Services.Interfaces
     {
         LoginResult AuthenticateUser(string userid, string password, ref User user);
         void AddUser(UserViewModel model);
-
         List<UserViewModel> GetAllUsers();
+     
+        bool DeleteUserById(int id); // Declared as bool in the interface
 
-        bool DeleteUserById(int userId);
+        /*  UserViewModel GetUserById(int id);*/
+
+
+        User GetUserById(string userId); // Change to accept string
+        void UpdateUser(User user);
+
+
+
     }
+
 }

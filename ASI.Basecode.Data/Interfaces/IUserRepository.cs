@@ -13,6 +13,9 @@ namespace ASI.Basecode.Data.Interfaces
         bool UserExists(string userId);
         void AddUser(User user);
 
-        void DeleteUser(User user);
+        bool DeleteUserById(int id);
+
+        User GetUserById(string userId); // Accept string as parameter
+        void UpdateUser(User user);
     }
 }

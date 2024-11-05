@@ -63,6 +63,7 @@ namespace ASI.Basecode.Services.Services
 }
 */
 
+using ASI.Basecode.Data;
 using ASI.Basecode.Data.Interfaces;
 using ASI.Basecode.Data.Models;
 using ASI.Basecode.Services.Interfaces;
@@ -92,8 +93,7 @@ namespace ASI.Basecode.Services.Services
         {
             user = new User();
             var passwordKey = PasswordManager.EncryptPassword(password);
-            user = _repository.GetUsers().Where(x => x.UserId == userId &&
-                                                     x.Password == passwordKey).FirstOrDefault();
+            user = _repository.GetUsers().FirstOrDefault(x => x.UserId == userId && x.Password == passwordKey);
 
             return user != null ? LoginResult.Success : LoginResult.Failed;
         }
@@ -107,14 +107,14 @@ namespace ASI.Basecode.Services.Services
                 user.Password = PasswordManager.EncryptPassword(model.Password);
                 user.CreatedTime = DateTime.Now;
                 user.UpdatedTime = DateTime.Now;
-                user.CreatedBy = System.Environment.UserName;
-                user.UpdatedBy = System.Environment.UserName;
+                user.CreatedBy = Environment.UserName;
+                user.UpdatedBy = Environment.UserName;
 
                 _repository.AddUser(user);
             }
             else
             {
-                throw new InvalidDataException(Resources.Messages.Errors.UserExists);
+                throw new InvalidDataException("User already exists.");
             }
         }
 
@@ -124,20 +124,28 @@ namespace ASI.Basecode.Services.Services
             return _mapper.Map<List<UserViewModel>>(users);
         }
 
-        // New method to delete a user by ID
         public bool DeleteUserById(int id)
         {
-            // Find the user by the primary key `Id`
-            var user = _repository.GetUsers().FirstOrDefault(u => u.Id == id);
-
-            if (user != null)
+            try
             {
-                _repository.DeleteUser(user);  // Delete user entity using repository
-                return true;
+                return _repository.DeleteUserById(id);
             }
-
-            return false;  // User with the specified ID not found
+            catch (Exception ex)
+            {
+                // Log the exception if necessary
+                return false;
+            }
         }
 
+        // Implement GetUserById
+        public User GetUserById(string userId)
+        {
+            return _repository.GetUserById(userId); // Adjust repository method accordingly
+        }
+
+        public void UpdateUser(User user)
+        {
+            _repository.UpdateUser(user);
+        }
     }
 }
