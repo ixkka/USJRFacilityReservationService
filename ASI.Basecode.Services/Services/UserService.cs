@@ -97,8 +97,9 @@ namespace ASI.Basecode.Services.Services
                 Password = PasswordManager.EncryptPassword(model.Password), // Encrypt password
                 Department = model.Department,
                 CreatedTime = DateTime.Now,
-                CreatedBy = "Admin" // Admin-specific addition
+                CreatedBy = "Admin", // Admin-specific addition
                                     // Add other fields if needed
+                UserTypeId = model.UserTypeId
             };
 
             // Save the user to the database
