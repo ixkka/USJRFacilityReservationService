@@ -361,6 +361,7 @@ namespace ASI.Basecode.WebApp.Controllers
             Console.WriteLine("Password: " + model.Password);
             Console.WriteLine("ConfirmPassword: " + model.ConfirmPassword); // Log ConfirmPassword
             Console.WriteLine("Department: " + model.Department);
+            Console.WriteLine("Role: " + model.UserTypeId);
 
             if (!ModelState.IsValid)
             {
