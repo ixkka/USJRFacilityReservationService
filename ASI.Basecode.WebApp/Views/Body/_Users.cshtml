@@ -102,6 +102,16 @@
                                 </select>
                             </div>
 
+                            <div class="form-outline mb-3">
+                                <label class="col-form-label" for="Roles">Roles</label>
+                                <select id="UserTypeId" class="form-control">
+                                    <option value="">Select Role</option>
+                                    <option value="1">Admin</option>
+                                    <option value="2">Student</option>
+                                    <option value="3">Super Admin</option>
+                                </select>
+                            </div>
+
                             <!-- Submit Button -->
                             <div class="text-center pt-1 d-flex flex-column align-items-center">
                                 <button type="button" class="btn btn-success rounded-pill" style="width: 120px; background-color: #137333; border: none;" onclick="submitForm()">Register</button>
@@ -120,6 +130,7 @@
                 const password = document.getElementById('password').value;
                 const confirmpassword = document.getElementById('confirmpassword').value;
                 const department = document.getElementById('department').value;
+                const UserTypeId = document.getElementById("UserTypeId").value;
 
                 // Validate that password and confirm password match
                 if (password !== confirmpassword) {
@@ -133,7 +144,8 @@
                     Name: name,
                     Password: password,
                     ConfirmPassword: confirmpassword,
-                    Department: department
+                    Department: department,
+                    UserTypeId : UserTypeId
                 };
 
                 // Log the form data to console for debugging
