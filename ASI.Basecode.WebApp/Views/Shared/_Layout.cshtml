@@ -16,53 +16,12 @@
 <body style="background-color:#F5FBF7">
 
 
-    @* @if (ViewBag.LoginView == true)
-    {
-        <div style="background-image: url('/img/grad-bg.png'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed;">
-            <main role="main" class="container">
-                @RenderBody()
-            </main>
-        </div>
-    }
-    else
-    {
-        @Html.Partial("_Header")
-
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-3">
-                    @Html.Partial("Index") <!-- Sidebar -->
-                </div>
-
-                <div class="col-md-9" role="main" id="main-content">
-                    @if (ViewBag.CurrentView == "Facilities" && ViewBag.ShowAddFacilities == true)
-                    {
-                        @Html.Partial("_AddFacilities") <!-- Render the Add Facilities partial view -->
-                    }
-                    else if (ViewBag.CurrentView == "Facilities")
-                    {
-                        @Html.Partial("/Views/Body/_Facilities.cshtml")
-                        // Render the Facilities view when Add Facility is not clicked
-                    }
-                    else if (ViewBag.CurrentView == "EditFacility")
-                    {
-                        @Html.Partial("_AddFacilities") <!-- Use the same partial view to edit -->
-                    }
-                    else
-                    {
-                        <!-- Default content for other views -->
-                        <p>Greetings fellow peasants, TONIGHT WE STEAL THE MOON.</p>
-                    }
-                </div>
-            </div>
-        </div>
-    } *@
 
     @if (ViewBag.LoginView == true)
     {
         <div style="background-image: url('/img/grad-bg.png'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed;">
             <main role="main" class="container">
-                @RenderBody()
+                @RenderBody() <!-- This will render the Login content -->
             </main>
         </div>
     }
@@ -73,10 +32,12 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-3">
-                    @Html.Partial("Index") <!-- Sidebar -->
+                    @Html.Partial("~/Views/Home/Index.cshtml") <!-- Render the renamed sidebar partial -->
                 </div>
 
                 <div class="col-md-9" role="main" id="main-content">
+                    @RenderBody() <!-- Render main content here from child views -->
+                    <!-- Optionally, load specific content based on ViewBag.CurrentView if needed -->
                     @if (ViewBag.CurrentView == "AddFacility" || ViewBag.CurrentView == "EditFacility")
                     {
                         @Html.Partial("_AddFacilities") <!-- Render the Add/Edit Facilities partial view -->
@@ -94,7 +55,6 @@
             </div>
         </div>
     }
-
 
 
 

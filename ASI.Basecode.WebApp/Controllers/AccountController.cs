@@ -212,21 +212,7 @@ namespace ASI.Basecode.WebApp.Controllers
         {
             return PartialView("/Views/Body/_SpecificFacility.cshtml");
         }
-        /* public IActionResult LoadAddFacilities()
-         {
-             try
-             {
-                 ViewBag.CurrentView = "Facilities";
-                 ViewBag.ShowAddFacilities = true;
-                 return PartialView("/Views/Body/_AddFacilities.cshtml");
-             }
-             catch (Exception ex)
-             {
-                 // Log the exception (you can use a logging framework like Serilog or NLog)
-                 Console.WriteLine($"Error in LoadAddFacilities: {ex.Message}");
-                 return StatusCode(500, "Internal server error"); // You can customize the error response
-             }
-         }*/
+       
 
         [HttpGet]
         public IActionResult LoadAddFacilities(bool isEdit = false)
@@ -349,19 +335,18 @@ namespace ASI.Basecode.WebApp.Controllers
 
 
 
-
-
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult CreateUser([FromBody] UserViewModel model)
+        public IActionResult CreateUser(UserViewModel model)
         {
             Console.WriteLine("Received data:");
             Console.WriteLine("UserId: " + model.UserId);
             Console.WriteLine("Name: " + model.Name);
             Console.WriteLine("Password: " + model.Password);
-            Console.WriteLine("ConfirmPassword: " + model.ConfirmPassword); // Log ConfirmPassword
+            Console.WriteLine("ConfirmPassword: " + model.ConfirmPassword);
             Console.WriteLine("Department: " + model.Department);
 
+            // Validate model state
             if (!ModelState.IsValid)
             {
                 foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
@@ -369,23 +354,31 @@ namespace ASI.Basecode.WebApp.Controllers
                     Console.WriteLine("Validation error: " + error.ErrorMessage);
                 }
 
-                return Json(new { success = false, message = "Invalid form data." });
+                ViewBag.ErrorMessage = "Please correct the highlighted errors.";
+                var users = _userService.GetAllUsers(); // Ensure users list is passed to the view
+                return View("~/Views/Body/_Users.cshtml", users);
             }
 
             try
             {
                 _userService.AddUserAdmin(model);
-                return Json(new { success = true, message = "User added successfully!" });
+                ViewBag.SuccessMessage = "User added successfully!";
+                var users = _userService.GetAllUsers(); // Pass users list after success
+                return View("~/Views/Body/_Users.cshtml", users);
             }
             catch (InvalidDataException ex)
             {
                 Console.WriteLine("Error: " + ex.Message);
-                return Json(new { success = false, message = ex.Message });
+                ViewBag.ErrorMessage = ex.Message;
+                var users = _userService.GetAllUsers(); // Pass users list after exception
+                return View("~/Views/Body/_Users.cshtml", users);
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Error: " + ex.Message);
-                return Json(new { success = false, message = "An error occurred while adding the user." });
+                ViewBag.ErrorMessage = "An error occurred while adding the user. Please try again later.";
+                var users = _userService.GetAllUsers(); // Pass users list after exception
+                return View("~/Views/Body/_Users.cshtml", users);
             }
         }
 
@@ -393,6 +386,10 @@ namespace ASI.Basecode.WebApp.Controllers
 
 
 
+        public IActionResult Return()
+        {
+            return PartialView("/Views/Body/Users.cshtml");
+        }
 
     }
 

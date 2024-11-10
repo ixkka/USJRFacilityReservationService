@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ASI.Basecode.Services.ServiceModels.UserViewModel>
+@model IEnumerable<ASI.Basecode.Services.ServiceModels.UserViewModel>
 @using ASI.Basecode.Services.ServiceModels
 
 @*
@@ -7,19 +7,7 @@
 @{
 }
 
-<!-- Modal Script -->
-@* <script type="text/javascript">
-    $(function () {
-        // Show the modal when the page loads
-        $('#addUserModal').modal({
-            show: true
-        });
 
-        // On button click, show the modal
-        $('#addUserModal').modal('show');
-    });
-</script> *@
-<!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!-- Bootstrap JS -->
@@ -50,7 +38,7 @@
             Add user
         </button>
 
-
+        <!-- Modal -->
         <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content" style="border-radius: 20px; border: 1px solid #ddd;">
@@ -60,38 +48,33 @@
                     </div>
                     <div class="modal-body">
                         <div class="text-center mb-4">
-                            <img src="https://usjr.edu.ph/wp-content/uploads/2016/05/USJR1.png"
-                                 style="width: 100px;" alt="Logo">
+                            <img src="https://usjr.edu.ph/wp-content/uploads/2016/05/USJR1.png" style="width: 100px;" alt="Logo">
                         </div>
-                        <form id="addUserForm">
-                            <!-- User ID -->
+                        <!-- Form for direct submission -->
+                        <form id="addUserForm" action="/Account/CreateUser" method="POST">
                             <div class="form-outline mb-3">
                                 <label class="form-label" for="userId">User ID</label>
-                                <input type="text" id="userId" class="form-control" placeholder="Enter User ID">
+                                <input type="text" id="userId" name="UserId" class="form-control" placeholder="Enter User ID">
                             </div>
 
-                            <!-- Name -->
                             <div class="form-outline mb-3">
                                 <label class="form-label" for="name">Name</label>
-                                <input type="text" id="name" class="form-control" placeholder="Enter Name">
+                                <input type="text" id="name" name="Name" class="form-control" placeholder="Enter Name">
                             </div>
 
-                            <!-- Password -->
                             <div class="form-outline mb-3">
                                 <label class="form-label" for="password">Password</label>
-                                <input type="password" id="password" class="form-control" placeholder="Enter Password">
+                                <input type="password" id="password" name="Password" class="form-control" placeholder="Enter Password">
                             </div>
 
-                            <!-- Confirm Password -->
                             <div class="form-outline mb-3">
                                 <label class="form-label" for="confirmpassword">Confirm Password</label>
-                                <input type="password" id="confirmpassword" class="form-control" placeholder="Confirm Password">
+                                <input type="password" id="confirmpassword" name="ConfirmPassword" class="form-control" placeholder="Confirm Password">
                             </div>
 
-                            <!-- Department (Dropdown) -->
                             <div class="form-outline mb-3">
                                 <label class="form-label" for="department">Department</label>
-                                <select id="department" class="form-control">
+                                <select id="department" name="Department" class="form-control">
                                     <option value="" disabled selected>Select Department</option>
                                     <option value="SAO">SAO</option>
                                     <option value="SOE">SOE</option>
@@ -102,9 +85,20 @@
                                 </select>
                             </div>
 
-                            <!-- Submit Button -->
+                            <div class="form-outline mb-3">
+                                <label class="col-form-label" for="Roles">Roles</label>
+                                <select id="UserTypeId" name="UserTypeId" class="form-control">
+                                    <option value="">Select Role</option>
+                                    <option value="1">Admin</option>
+                                    <option value="2">Student</option>
+                                    <option value="3">Super Admin</option>
+                                </select>
+                            </div>
+
                             <div class="text-center pt-1 d-flex flex-column align-items-center">
-                                <button type="button" class="btn btn-success rounded-pill" style="width: 120px; background-color: #137333; border: none;" onclick="submitForm()">Register</button>
+                                <button type="submit" class="btn btn-success rounded-pill" style="width: 120px; background-color: #137333; border: none;">
+                                    Register
+                                </button>
                                 <a href="#" data-bs-dismiss="modal" class="mt-2">Cancel</a>
                             </div>
                         </form>
@@ -112,72 +106,19 @@
                 </div>
             </div>
         </div>
-
-        <script>
-            function submitForm() {
-                const userId = document.getElementById('userId').value;
-                const name = document.getElementById('name').value;
-                const password = document.getElementById('password').value;
-                const confirmpassword = document.getElementById('confirmpassword').value;
-                const department = document.getElementById('department').value;
-
-                // Validate that password and confirm password match
-                if (password !== confirmpassword) {
-                    alert("Passwords do not match.");
-                    return;
-                }
-
-                // Gather form data into an object
-                const userData = {
-                    UserId: userId,
-                    Name: name,
-                    Password: password,
-                    ConfirmPassword: confirmpassword,
-                    Department: department
-                };
-
-                // Log the form data to console for debugging
-                console.log("Form Data:", userData);
-
-                // Make AJAX call to the controller to add the user
-                fetch('/Account/CreateUser', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(userData)
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log("Server Response:", data);
-                        if (data.success) {
-                            alert(data.message);
-                            $('#addUserModal').modal('hide'); // Close the modal
-                            // Optionally, refresh or update user list in UI
-                        } else {
-                            alert(data.message); // Show error message
-                        }
-                    })
-                    .catch(error => console.error('Error:', error));
-            }
-        </script>
-
-
-
-
-
-
     </div>
-
-    <script>
-        $('#addUserModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); // Button that triggered the modal
-            var title = button.data('title'); // Extract info from data-title attribute
-            var modal = $(this);
-            modal.find('#modalTitle').text(title); // Update the modal's title
-        });
-    </script>
 </div>
+
+
+
+
+
+
+
+
+
+
+
 
 <div class="pt-3"></div>
 
@@ -209,6 +150,9 @@
         <p style="color:#137301; margin: 0;">Actions</p>
     </div>
 </div>
+
+
+
 
 
 @foreach (var user in Model)
@@ -303,7 +247,7 @@
                         <!-- Yes Button -->
                         <button type="button" class="btn btn-danger" id="confirmDelete" style="border-radius: 20px; padding: 10px 20px; background-color: #FF6B6B;">Yes</button>
                         <!-- Cancel Button -->
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 20px; padding: 10px 20px;">Cancel</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 20px; padding: 10px 20px;" >Cancel</button>
                     </div>
                 </div>
             </div>
@@ -356,21 +300,24 @@
         $(document).ready(function () {
             // When "Delete user" is clicked, show the delete confirmation modal
             $('#confirmDelete').click(function () {
-                // Here, you can add your AJAX request or JavaScript logic to delete the user
+               
                 console.log('User deleted!');
-                $('#deleteUserModal').modal('hide'); // Close the modal after deletion
+                $('#deleteUserModal').modal('hide'); 
             });
         });
+
+            
+                            
 
     </script>
 
         <script>
-            // Global variable to store the selected user ID (database primary key)
+           
             var selectedUserId;
 
-            // Event listener to capture the database Id when delete button is clicked
+            // Event listener to capture the database ID when the delete button is clicked
             $(document).on('click', '.dropdown-item.text-danger', function () {
-                selectedUserId = $(this).data('id'); // Capture the database Id from the data attribute
+                selectedUserId = $(this).data('id'); // Capture the database ID from the data attribute
                 console.log("Selected User ID (Database Primary Key):", selectedUserId); // Debug: Check if the correct ID is set
             });
 
@@ -383,9 +330,15 @@
                         data: { id: selectedUserId }, // Send selectedUserId (actual database ID) in the request
                         success: function (response) {
                             if (response.success) {
-                                alert(response.message);
+                                alert(response.message); // Optional alert to confirm deletion
                                 $('#deleteUserModal').modal('hide'); // Hide the modal after deletion
-                                location.reload(); // Reload the page to update the user list
+
+                                // Ensure the modal backdrop is removed
+                                $('body').removeClass('modal-open');
+                                $('.modal-backdrop').remove();
+
+                                // Reload the entire page to show updated data
+                                location.reload();
                             } else {
                                 alert(response.message);
                             }
@@ -400,12 +353,20 @@
             });
         </script>
 
-   
-
-
-
 </div>
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
