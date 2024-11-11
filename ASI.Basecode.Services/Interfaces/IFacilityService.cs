@@ -12,6 +12,7 @@ namespace ASI.Basecode.Services.Interfaces
     {
         IEnumerable<FacilityViewModel> RetrieveAll(string roomName = null);
         void AddFacility(FacilityViewModel model);
+        void AddFacility2(FacilityViewModel model);
         void UpdateFacility(FacilityViewModel model);
         void UpdateGallery(RoomGalleryViewModel model);
         void DeleteFacility(FacilityViewModel roomId);

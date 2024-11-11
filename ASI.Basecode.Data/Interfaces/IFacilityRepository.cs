@@ -14,6 +14,7 @@ namespace ASI.Basecode.Data.Interfaces
         IQueryable<ImageGallery> GetFacilityGalleries();
         bool FacilityExists(int facilityId);
         void AddFacility(Facility facility);
+        void AddFacility2(Facility facility);
         void UpdateFacility(Facility facility);
         void UpdateGallery(ImageGallery imageGallery);
         void DeleteFacility(Facility room);
