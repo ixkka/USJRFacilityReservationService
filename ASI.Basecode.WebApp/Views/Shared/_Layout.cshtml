@@ -17,25 +17,47 @@
 <body style="background-color:#F5FBF7">
 
 
-  
-
-    @if (ViewBag.LoginView == true)
+    @* @if (ViewBag.LoginView == true)
     {
-        <div style="background-image: url('/img/grad-bg.png'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed;">
-            <main role="main" class="container">
-                @RenderBody()
-            </main>
-        </div>
+    <div style="background-image: url('/img/grad-bg.png'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed;">
+    <main role="main" class="container">
+    @RenderBody()
+    </main>
+    </div>
     }
     else
     {
-        @Html.Partial("_Header")
+    @Html.Partial("_Header")
 
-       <div class="container-fluid">
+    <div class="container-fluid">
     <div class="row">
-        <div class="col-md-3">
-            @Html.Partial("~/Views/Home/Index.cshtml") <!-- Sidebar -->
-        </div>
+    <div class="col-md-3">
+    @Html.Partial("Index") <!-- Sidebar -->
+    </div>
+
+    <div class="col-md-9" role="main" id="main-content">
+    @if (ViewBag.CurrentView == "Facilities" && ViewBag.ShowAddFacilities == true)
+    {
+    @Html.Partial("_AddFacilities") <!-- Render the Add Facilities partial view -->
+    }
+    else if (ViewBag.CurrentView == "Facilities")
+    {
+    @Html.Partial("/Views/Body/_Facilities.cshtml")
+    // Render the Facilities view when Add Facility is not clicked
+    }
+    else if (ViewBag.CurrentView == "EditFacility")
+    {
+    @Html.Partial("_AddFacilities") <!-- Use the same partial view to edit -->
+    }
+    else
+    {
+    <!-- Default content for other views -->
+    <p>Greetings fellow peasants, TONIGHT WE STEAL THE MOON.</p>
+    }
+    </div>
+    </div>
+    </div>
+    } *@
 
     @if (ViewBag.LoginView == true)
     {
@@ -57,7 +79,8 @@
                     <partial name="Index" />
                 </div>
 
-                    @if (ViewBag.CurrentView == "Users")
+                <div class="col-md-9" role="main" id="main-content">
+                    @if (ViewBag.CurrentView == "AddFacility" || ViewBag.CurrentView == "EditFacility")
                     {
                         @* @Html.Partial("_AddFacilities") <!-- Render the Add/Edit Facilities partial view --> *@
                         <partial name="_AddFacilities" />
@@ -69,14 +92,12 @@
                     }
                     else
                     {
-                        <!-- Default content for the initial view -->
-                        <p>Welcome! Please select a menu item.</p>
+                        <!-- Default content for other views -->
+                        <p>Greetings fellow peasants, TONIGHT WE STEAL THE MOON.</p>
                     }
-
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-
     }
 
 
@@ -95,7 +116,7 @@
     <script src="https://kit.fontawesome.com/7a7c645416.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
- 
+
 
     <script>
         $(document).ready(function () {
@@ -189,26 +210,26 @@
     </script>
 
     @* <script>
-        $(document).ready(function () {
-            // When the Register button is clicked
-            $('.register-btn').on('click', function (e) {
-                e.preventDefault();
+    $(document).ready(function () {
+    // When the Register button is clicked
+    $('.register-btn').on('click', function (e) {
+    e.preventDefault();
 
-                // Perform an AJAX request to load the Register partial view or page
-                $.ajax({
-                    url: '/Account/Register',  // Adjust the URL to match the Register action
-                    type: 'GET',
-                    success: function (data) {
-                        $('#main-content').html(data);  // Replace the main content with the partial view
-                    },
-                    error: function () {
-                        alert('Failed to load the Register content.');
-                    }
-                });
-            });
-        });
+    // Perform an AJAX request to load the Register partial view or page
+    $.ajax({
+    url: '/Account/Register',  // Adjust the URL to match the Register action
+    type: 'GET',
+    success: function (data) {
+    $('#main-content').html(data);  // Replace the main content with the partial view
+    },
+    error: function () {
+    alert('Failed to load the Register content.');
+    }
+    });
+    });
+    });
     </script>
- *@
+    *@
     <script>
         $(document).ready(function () {
             // When the Facilities menu item is clicked
@@ -262,7 +283,7 @@
     </script>
 
     <script>
-                $(document).on('click', '.edit-facility', function (e) {
+        $(document).on('click', '.edit-facility', function (e) {
             e.preventDefault();
 
             var url = $(this).data('url'); // Get the URL from data-url attribute
@@ -301,10 +322,14 @@
             });
         });
 
-</script>
+    </script>
 
 
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+
+
+@*  update karaan *@
