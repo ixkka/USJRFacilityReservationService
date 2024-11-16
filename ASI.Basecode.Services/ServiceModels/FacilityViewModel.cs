@@ -1,4 +1,4 @@
-﻿using ASI.Basecode.Data.Models;
+using ASI.Basecode.Data.Models;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -25,7 +25,7 @@ namespace ASI.Basecode.Services.ServiceModels
         public int Capacity { get; set; }
         [Display(Name = "Amenities")]
         public string Amenity { get; set; }
-        public IFormFileCollection FacilityGalleryImg { get; set; }
+        //public IFormFileCollection FacilityGalleryImg { get; set; }
 
         [Display(Name = "Thumbnail Photo")]
         public IFormFile FacilityThumbnailImg { get; set; }
@@ -33,6 +33,11 @@ namespace ASI.Basecode.Services.ServiceModels
         public List<RoomGalleryViewModel> _RoomGallery { get; set; }
         public IEnumerable<FacilityViewModel> facilityList { get; set; }
         public BookingViewModel BookingViewModel { get; set; }
-        public int BookingDuration { get; set; }
+        //public int BookingDuration { get; set; }
+        public string BookingDays { get; set; }
+        public string BookingHoursStart { get; set; }
+        public string BookingHoursEnd { get; set; }
+        public string BookingDuration { get; set; }
+        public int BookingPrice { get; set; }
     }
 }

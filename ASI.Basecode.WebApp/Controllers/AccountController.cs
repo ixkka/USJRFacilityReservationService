@@ -198,6 +198,7 @@ namespace ASI.Basecode.WebApp.Controllers
         public IActionResult LoadUsers()
         {
             var users = _userService.GetAllUsers();
+            ViewBag.UserRole = HttpContext.Session.GetInt32("Role") ?? 0;
             ViewBag.UserCount = users.Count();
             return PartialView("/Views/Body/_Users.cshtml", users);
         }
@@ -212,21 +213,7 @@ namespace ASI.Basecode.WebApp.Controllers
         {
             return PartialView("/Views/Body/_SpecificFacility.cshtml");
         }
-        /* public IActionResult LoadAddFacilities()
-         {
-             try
-             {
-                 ViewBag.CurrentView = "Facilities";
-                 ViewBag.ShowAddFacilities = true;
-                 return PartialView("/Views/Body/_AddFacilities.cshtml");
-             }
-             catch (Exception ex)
-             {
-                 // Log the exception (you can use a logging framework like Serilog or NLog)
-                 Console.WriteLine($"Error in LoadAddFacilities: {ex.Message}");
-                 return StatusCode(500, "Internal server error"); // You can customize the error response
-             }
-         }*/
+       
 
         [HttpGet]
         public IActionResult LoadAddFacilities(bool isEdit = false)
@@ -288,15 +275,17 @@ namespace ASI.Basecode.WebApp.Controllers
             // Only return success if the deletion was actually successful
             if (result)
             {
-                return Json(new { success = true, message = "User deleted successfully!" });
+                TempData["SuccessMessage"] = "User deleted successfully!";
             }
             else
             {
-                return Json(new { success = false, message = "Failed to delete user. User might not exist or there was an error." });
+                TempData["ErrorMessage"] = "Failed to delete user. User might not exist or there was an error.";
             }
+
+            // Redirect back to the main users list view to reflect the updated data
+
+            return Redirect(Request.Headers["Referer"].ToString());
         }
-
-
 
 
 
@@ -334,7 +323,7 @@ namespace ASI.Basecode.WebApp.Controllers
             }
             else
             {
-                return Json(new { success = false, message = "Invalid role ID." });
+                return Redirect(Request.Headers["Referer"].ToString());
             }
 
             // Update password if provided
@@ -344,25 +333,24 @@ namespace ASI.Basecode.WebApp.Controllers
             // Update the user in the database
             _userService.UpdateUser(user);
 
-            return Json(new { success = true, message = "User updated successfully." });
+            return Redirect(Request.Headers["Referer"].ToString());
         }
-
-
 
 
 
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult CreateUser([FromBody] UserViewModel model)
+        public IActionResult CreateUser(UserViewModel model)
         {
             Console.WriteLine("Received data:");
             Console.WriteLine("UserId: " + model.UserId);
             Console.WriteLine("Name: " + model.Name);
             Console.WriteLine("Password: " + model.Password);
-            Console.WriteLine("ConfirmPassword: " + model.ConfirmPassword); // Log ConfirmPassword
+            Console.WriteLine("ConfirmPassword: " + model.ConfirmPassword);
             Console.WriteLine("Department: " + model.Department);
             Console.WriteLine("Role: " + model.UserTypeId);
 
+            // Validate model state
             if (!ModelState.IsValid)
             {
                 foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
@@ -370,23 +358,31 @@ namespace ASI.Basecode.WebApp.Controllers
                     Console.WriteLine("Validation error: " + error.ErrorMessage);
                 }
 
-                return Json(new { success = false, message = "Invalid form data." });
+                ViewBag.ErrorMessage = "Please correct the highlighted errors.";
+                var users = _userService.GetAllUsers(); // Ensure users list is passed to the view
+                return Redirect(Request.Headers["Referer"].ToString());
             }
 
             try
             {
                 _userService.AddUserAdmin(model);
-                return Json(new { success = true, message = "User added successfully!" });
+                ViewBag.SuccessMessage = "User added successfully!";
+                var users = _userService.GetAllUsers(); // Pass users list after success
+                return Redirect(Request.Headers["Referer"].ToString());
             }
             catch (InvalidDataException ex)
             {
                 Console.WriteLine("Error: " + ex.Message);
-                return Json(new { success = false, message = ex.Message });
+                ViewBag.ErrorMessage = ex.Message;
+                var users = _userService.GetAllUsers(); // Pass users list after exception
+                return Redirect(Request.Headers["Referer"].ToString());
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Error: " + ex.Message);
-                return Json(new { success = false, message = "An error occurred while adding the user." });
+                ViewBag.ErrorMessage = "An error occurred while adding the user. Please try again later.";
+                var users = _userService.GetAllUsers(); // Pass users list after exception
+                return Redirect(Request.Headers["Referer"].ToString());
             }
         }
 
@@ -394,6 +390,10 @@ namespace ASI.Basecode.WebApp.Controllers
 
 
 
+        public IActionResult Return()
+        {
+            return PartialView("/Views/Body/Users.cshtml");
+        }
 
     }
 

@@ -2,10 +2,12 @@
 using ASI.Basecode.Data.Models;
 using ASI.Basecode.Data.Repositories;
 using ASI.Basecode.Services.Interfaces;
+using ASI.Basecode.Services.Manager;
 using ASI.Basecode.Services.ServiceModels;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -68,6 +70,27 @@ namespace ASI.Basecode.Services.Services
             }
 
             _facilityRepository.AddFacility(newModel);
+        }
+        public void AddFacility2(FacilityViewModel model)
+        {
+            var facility = new Facility();
+            _mapper.Map(model, facility);
+            facility.FacilityId = model.FacilityId;
+            facility.FacilityName = model.FacilityName;
+            facility.Description = model.Description;
+            facility.Location = model.Location;
+            facility.Capacity = model.Capacity;
+            facility.Amenity = model.Amenity;
+            facility.Thumbnail = model.Thumbnail;
+            facility.BookingDays = model.BookingDays;
+            facility.BookingDuration = model.BookingDuration;
+            facility.BookingHoursStart = model.BookingHoursStart;
+            facility.BookingHoursEnd = model.BookingHoursEnd;
+            facility.BookingPrice = model.BookingPrice;
+            facility.CreatedBy = Environment.UserName;
+            facility.UpdatedBy = Environment.UserName;
+
+            _facilityRepository.AddFacility2(facility);
         }
 
         public void UpdateFacility(FacilityViewModel model)

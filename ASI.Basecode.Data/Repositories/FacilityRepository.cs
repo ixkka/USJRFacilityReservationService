@@ -33,6 +33,11 @@ namespace ASI.Basecode.Data.Repositories
             this.GetDbSet<Facility>().Add(facility);
             UnitOfWork.SaveChanges();
         }
+        public void AddFacility2(Facility facility)
+        {
+            this.GetDbSet<Facility>().Add(facility);
+            UnitOfWork.SaveChanges();
+        }
         public void UpdateFacility(Facility facility)
         {
             this.GetDbSet<Facility>().Update(facility);

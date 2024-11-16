@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +25,11 @@ namespace ASI.Basecode.Data.Models
         public string UpdatedBy { get; set; }
         public DateTime? UpdatedDt { get; set; }
         public string Amenity { get; set; }
+        public string BookingDays { get; set; }
+        public string BookingHoursStart { get; set; }
+        public string BookingHoursEnd { get; set; }
+        public string BookingDuration { get; set; }
+        public int BookingPrice { get; set; }
 
         public virtual ICollection<Booking> Bookings { get; set; }
         public virtual ICollection<ImageGallery> ImageGalleries { get; set; }
