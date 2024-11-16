@@ -1,4 +1,5 @@
 ﻿@using static ASI.Basecode.Resources.Views.Screen
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,22 +69,26 @@
     }
     else
     {
-        @Html.Partial("_Header")
+        @* @Html.Partial("_Header") *@
+        <partial name="_Header" />
 
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-3">
-                    @Html.Partial("Index") <!-- Sidebar -->
+                    @* @Html.Partial("Index") <!-- Sidebar --> *@
+                    <partial name="Index" />
                 </div>
 
                 <div class="col-md-9" role="main" id="main-content">
                     @if (ViewBag.CurrentView == "AddFacility" || ViewBag.CurrentView == "EditFacility")
                     {
-                        @Html.Partial("_AddFacilities") <!-- Render the Add/Edit Facilities partial view -->
+                        @* @Html.Partial("_AddFacilities") <!-- Render the Add/Edit Facilities partial view --> *@
+                        <partial name="_AddFacilities" />
                     }
                     else if (ViewBag.CurrentView == "Facilities")
                     {
-                        @Html.Partial("/Views/Body/_Facilities.cshtml") <!-- Render the Facilities view -->
+                        @* @Html.Partial("/Views/Body/_Facilities.cshtml") <!-- Render the Facilities view --> *@
+                        <partial name="_Facilities" />
                     }
                     else
                     {
