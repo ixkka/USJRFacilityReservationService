@@ -16,12 +16,13 @@
 <body style="background-color:#F5FBF7">
 
 
+  
 
     @if (ViewBag.LoginView == true)
     {
         <div style="background-image: url('/img/grad-bg.png'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed;">
             <main role="main" class="container">
-                @RenderBody() <!-- This will render the Login content -->
+                @RenderBody()
             </main>
         </div>
     }
@@ -29,32 +30,48 @@
     {
         @Html.Partial("_Header")
 
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-3">
-                    @Html.Partial("~/Views/Home/Index.cshtml") <!-- Render the renamed sidebar partial -->
-                </div>
+       <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+            @Html.Partial("~/Views/Home/Index.cshtml") <!-- Sidebar -->
+        </div>
 
-                <div class="col-md-9" role="main" id="main-content">
-                    @RenderBody() <!-- Render main content here from child views -->
-                    <!-- Optionally, load specific content based on ViewBag.CurrentView if needed -->
-                    @if (ViewBag.CurrentView == "AddFacility" || ViewBag.CurrentView == "EditFacility")
+        <div class="col-md-9" role="main" id="main-content">
+            @* @if (ViewBag.CurrentView == "Users")
+            {
+                @Html.Partial("~/Views/Body/_Users.cshtml")
+            }
+            else if (ViewBag.CurrentView == "Facilities")
+            {
+                @Html.Partial("~/Views/Body/_Facilities.cshtml")
+            }
+            else
+            {
+                <!-- Default content for other views -->
+                <p>Welcome! Please select a menu item.</p>
+            } *@
+
+
+                    @if (ViewBag.CurrentView == "Users")
                     {
-                        @Html.Partial("_AddFacilities") <!-- Render the Add/Edit Facilities partial view -->
+                        @Html.Partial("~/Views/Body/_Users.cshtml")
                     }
                     else if (ViewBag.CurrentView == "Facilities")
                     {
-                        @Html.Partial("/Views/Body/_Facilities.cshtml") <!-- Render the Facilities view -->
+                        @Html.Partial("~/Views/Body/_Facilities.cshtml")
                     }
                     else
                     {
-                        <!-- Default content for other views -->
-                        <p>Greetings fellow peasants, TONIGHT WE STEAL THE MOON.</p>
+                        <!-- Default content for the initial view -->
+                        <p>Welcome! Please select a menu item.</p>
                     }
-                </div>
-            </div>
+
         </div>
+    </div>
+</div>
+
     }
+
 
 
 
