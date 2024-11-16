@@ -37,8 +37,15 @@ namespace ASI.Basecode.WebApp.Controllers
             {
                 if (facility.FacilityThumbnailImg != null)
                 {
-                    // Create uploads directory if it doesn't exist
+                    // Create uploads directory
                     string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
+
+                    // Ensure the uploads directory exists and create one if it does not
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+
                     string fileName = Guid.NewGuid().ToString() + "_" + facility.FacilityThumbnailImg.FileName;
 
                     facility.Thumbnail = fileName;
@@ -61,13 +68,7 @@ namespace ASI.Basecode.WebApp.Controllers
                     }
                 }
             }
-            //return View("_Facilities");
-            //return Redirect(Url.Action("_Facilities", "Body"));
             return RedirectToAction("Index", "Home");
-            //return RedirectToAction("Facilities", "Body");
-            //return RedirectToRoute("/Views/Body/_Facilities.cshtml");
-            //return View("~/Views/Body/_Facilities.cshtml");
-            //return PartialView("~/Views/Body/_Facilities.cshtml");
         }
 
 
