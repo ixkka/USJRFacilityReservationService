@@ -1,4 +1,5 @@
-﻿@using static ASI.Basecode.Resources.Views.Screen
+@using static ASI.Basecode.Resources.Views.Screen
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,29 +37,35 @@
             @Html.Partial("~/Views/Home/Index.cshtml") <!-- Sidebar -->
         </div>
 
-        <div class="col-md-9" role="main" id="main-content">
-            @* @if (ViewBag.CurrentView == "Users")
-            {
-                @Html.Partial("~/Views/Body/_Users.cshtml")
-            }
-            else if (ViewBag.CurrentView == "Facilities")
-            {
-                @Html.Partial("~/Views/Body/_Facilities.cshtml")
-            }
-            else
-            {
-                <!-- Default content for other views -->
-                <p>Welcome! Please select a menu item.</p>
-            } *@
+    @if (ViewBag.LoginView == true)
+    {
+        <div style="background-image: url('/img/grad-bg.png'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed;">
+            <main role="main" class="container">
+                @RenderBody()
+            </main>
+        </div>
+    }
+    else
+    {
+        @* @Html.Partial("_Header") *@
+        <partial name="_Header" />
 
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3">
+                    @* @Html.Partial("Index") <!-- Sidebar --> *@
+                    <partial name="Index" />
+                </div>
 
                     @if (ViewBag.CurrentView == "Users")
                     {
-                        @Html.Partial("~/Views/Body/_Users.cshtml")
+                        @* @Html.Partial("_AddFacilities") <!-- Render the Add/Edit Facilities partial view --> *@
+                        <partial name="_AddFacilities" />
                     }
                     else if (ViewBag.CurrentView == "Facilities")
                     {
-                        @Html.Partial("~/Views/Body/_Facilities.cshtml")
+                        @* @Html.Partial("/Views/Body/_Facilities.cshtml") <!-- Render the Facilities view --> *@
+                        <partial name="_Facilities" />
                     }
                     else
                     {

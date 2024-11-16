@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Drawing.Printing;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ASI.Basecode.WebApp.Controllers
@@ -36,8 +37,15 @@ namespace ASI.Basecode.WebApp.Controllers
             {
                 if (facility.FacilityThumbnailImg != null)
                 {
-                    // Create uploads directory if it doesn't exist
+                    // Create uploads directory
                     string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
+
+                    // Ensure the uploads directory exists and create one if it does not
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+
                     string fileName = Guid.NewGuid().ToString() + "_" + facility.FacilityThumbnailImg.FileName;
 
                     facility.Thumbnail = fileName;
@@ -48,26 +56,19 @@ namespace ASI.Basecode.WebApp.Controllers
                     {
                         await facility.FacilityThumbnailImg.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
                         //return Json(new { success = true, message = "Image uploaded successfully" });
+                        _facilityService.AddFacility2(facility);
+                        return RedirectToAction("Index", "Home");
+                        //return Ok("Success");
                     }
                     catch (Exception ex)
                     {
                         ModelState.AddModelError("ImageUpload", "Image upload failed: " + ex.Message);
-                        return Json(new { success = false, message = "Image upload failed: " + ex.Message });
+                        //return Json(new { success = false, message = "Image upload failed: " + ex.Message });
+                        TempData["ErrorMessage"] = Resources.Messages.Errors.ServerError;
                     }
                 }
-
-                try
-                {
-                    _facilityService.AddFacility2(facility);
-                    return Json(new { success = true, message = "Stored successfully" });
-                }
-                catch (Exception ex)
-                {
-                    TempData["ErrorMessage"] = Resources.Messages.Errors.ServerError;
-                }
             }
-            //return View();
-            return View("~/Views/Home/Index.cshtml");
+            return RedirectToAction("Index", "Home");
         }
 
 
@@ -75,5 +76,6 @@ namespace ASI.Basecode.WebApp.Controllers
         {
             return View();
         }
+
     }
 }

@@ -72,15 +72,16 @@
                 <div class="mb-4">
                     <label for="bookingDays" class="form-label ">Booking Days</label>
                     <div class="d-grid gap-2">
-                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;">M</button>
-                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;">T</button>
-                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;">W</button>
-                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;">Th</button>
-                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;">F</button>
-                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;">Sa</button>
-                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;">Su</button>
-                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;">Holidays</button>
+                        <button type="button" class="btn btn-outline-secondary day-btn" data-day="M">M</button>
+                        <button type="button" class="btn btn-outline-secondary day-btn" data-day="T">T</button>
+                        <button type="button" class="btn btn-outline-secondary day-btn" data-day="W">W</button>
+                        <button type="button" class="btn btn-outline-secondary day-btn" data-day="Th">Th</button>
+                        <button type="button" class="btn btn-outline-secondary day-btn" data-day="F">F</button>
+                        <button type="button" class="btn btn-outline-secondary day-btn" data-day="Sa">Sa</button>
+                        <button type="button" class="btn btn-outline-secondary day-btn" data-day="Su">Su</button>
+                        <button type="button" class="btn btn-outline-secondary day-btn" data-day="Holidays">Holidays</button>
                     </div>
+                    <input asp-for="BookingDays" type="hidden" id="bookingDaysInput" />
                 </div>
 
                 <!-- Booking Hours -->
@@ -89,7 +90,7 @@
                     <div class="input-group" style="width: 50%;">
                         <input asp-for="BookingHoursStart" type="time" class="form-control" id="bookingHoursStart" style="border-radius: 10px; margin-right: 20px;">
                         <span class="input-group-text" style="border-radius: 10px; margin-right: 20px;">to</span>
-                        <input asp-for="BookingHoursStart" type="time" class="form-control" id="bookingHoursEnd" style="border-radius: 10px;">
+                        <input asp-for="BookingHoursEnd" type="time" class="form-control" id="bookingHoursEnd" style="border-radius: 10px;">
                     </div>
                 </div>
 
@@ -98,10 +99,11 @@
                 <div class="mb-4">
                     <label for="bookingDuration" class="form-label">Booking Duration</label>
                     <div class="d-grid gap-2" style="width: 50%;">
-                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;">Per Hour</button>
-                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;">Half Day</button>
-                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;">Full Day</button>
+                        <button type="button" class="btn btn-outline-secondary duration-btn" data-duration="PerHour" style="border-radius: 10px;">Per Hour</button>
+                        <button type="button" class="btn btn-outline-secondary duration-btn" data-duration="HalfDay" style="border-radius: 10px;">Half Day</button>
+                        <button type="button" class="btn btn-outline-secondary duration-btn" data-duration="FullDay" style="border-radius: 10px;">Full Day</button>
                     </div>
+                    <input asp-for="BookingDuration" type="hidden" id="bookingDurationInput" />
                 </div>
 
                 <!-- Confirmation Requirement -->
@@ -173,3 +175,35 @@
         }
     });
 </script>
+
+<script>
+    document.querySelectorAll('.day-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            this.classList.toggle('active'); // Toggle the active state
+
+            // Collect selected days
+            const selectedDays = Array.from(document.querySelectorAll('.day-btn.active'))
+                .map(btn => btn.dataset.day); // Extract day value from data-day attribute
+
+            // Update the hidden input value
+            document.getElementById('bookingDaysInput').value = selectedDays.join(', ');
+        });
+    });
+</script>
+
+
+<script>
+    document.querySelectorAll('.duration-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            // Remove 'active' class from all buttons
+            document.querySelectorAll('.duration-btn').forEach(btn => btn.classList.remove('active'));
+
+            // Add 'active' class to the clicked button
+            this.classList.add('active');
+
+            // Update the hidden input value to the data-duration of the clicked button
+            document.getElementById('bookingDurationInput').value = this.getAttribute('data-duration');
+        });
+    });
+</script>
+
