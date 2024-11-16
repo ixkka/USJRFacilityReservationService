@@ -7,16 +7,19 @@
 @{
 }
 
-@{
-    ViewBag.Title = "Users";
-    Layout = "_Layout"; // Include the main layout
-}
-<div class="container mt-4">
+<!-- Modal Script -->
+@* <script type="text/javascript">
+    $(function () {
+        // Show the modal when the page loads
+        $('#addUserModal').modal({
+            show: true
+        });
 
-
-
-
-
+        // On button click, show the modal
+        $('#addUserModal').modal('show');
+    });
+</script> *@
+<!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!-- Bootstrap JS -->
@@ -47,7 +50,7 @@
             Add user
         </button>
 
-        <!-- Modal -->
+
         <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content" style="border-radius: 20px; border: 1px solid #ddd;">
@@ -57,33 +60,38 @@
                     </div>
                     <div class="modal-body">
                         <div class="text-center mb-4">
-                            <img src="https://usjr.edu.ph/wp-content/uploads/2016/05/USJR1.png" style="width: 100px;" alt="Logo">
+                            <img src="https://usjr.edu.ph/wp-content/uploads/2016/05/USJR1.png"
+                                 style="width: 100px;" alt="Logo">
                         </div>
-                        <!-- Form for direct submission -->
                         <form id="addUserForm" action="/Account/CreateUser" method="POST">
+                            <!-- User ID -->
                             <div class="form-outline mb-3">
                                 <label class="form-label" for="userId">User ID</label>
-                                <input type="text" id="userId" name="UserId" class="form-control" placeholder="Enter User ID">
+                                <input type="text" id="userId" name="UserId" class="form-control" placeholder="Enter User ID" required>
                             </div>
 
+                            <!-- Name -->
                             <div class="form-outline mb-3">
                                 <label class="form-label" for="name">Name</label>
-                                <input type="text" id="name" name="Name" class="form-control" placeholder="Enter Name">
+                                <input type="text" id="name" name="Name" class="form-control" placeholder="Enter Name" required>
                             </div>
 
+                            <!-- Password -->
                             <div class="form-outline mb-3">
                                 <label class="form-label" for="password">Password</label>
-                                <input type="password" id="password" name="Password" class="form-control" placeholder="Enter Password">
+                                <input type="password" id="password" name="Password" class="form-control" placeholder="Enter Password" required>
                             </div>
 
+                            <!-- Confirm Password -->
                             <div class="form-outline mb-3">
                                 <label class="form-label" for="confirmpassword">Confirm Password</label>
-                                <input type="password" id="confirmpassword" name="ConfirmPassword" class="form-control" placeholder="Confirm Password">
+                                <input type="password" id="confirmpassword" name="ConfirmPassword" class="form-control" placeholder="Confirm Password" required>
                             </div>
 
+                            <!-- Department (Dropdown) -->
                             <div class="form-outline mb-3">
                                 <label class="form-label" for="department">Department</label>
-                                <select id="department" name="Department" class="form-control">
+                                <select id="department" name="Department" class="form-control" required>
                                     <option value="" disabled selected>Select Department</option>
                                     <option value="SAO">SAO</option>
                                     <option value="SOE">SOE</option>
@@ -94,9 +102,10 @@
                                 </select>
                             </div>
 
+                            <!-- Roles -->
                             <div class="form-outline mb-3">
-                                <label class="col-form-label" for="Roles">Roles</label>
-                                <select id="UserTypeId" name="UserTypeId" class="form-control">
+                                <label class="col-form-label" for="UserTypeId">Roles</label>
+                                <select id="UserTypeId" name="UserTypeId" class="form-control" required>
                                     <option value="">Select Role</option>
                                     <option value="1">Admin</option>
                                     <option value="2">Student</option>
@@ -104,10 +113,9 @@
                                 </select>
                             </div>
 
+                            <!-- Submit Button -->
                             <div class="text-center pt-1 d-flex flex-column align-items-center">
-                                <button type="submit" class="btn btn-success rounded-pill" style="width: 120px; background-color: #137333; border: none;">
-                                    Register
-                                </button>
+                                <button type="submit" class="btn btn-success rounded-pill" style="width: 120px; background-color: #137333; border: none;">Register</button>
                                 <a href="#" data-bs-dismiss="modal" class="mt-2">Cancel</a>
                             </div>
                         </form>
@@ -115,28 +123,18 @@
                 </div>
             </div>
         </div>
+
     </div>
+
+    <script>
+        $('#addUserModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var title = button.data('title'); // Extract info from data-title attribute
+            var modal = $(this);
+            modal.find('#modalTitle').text(title); // Update the modal's title
+        });
+    </script>
 </div>
-
-        <script>
-            function submitForm() {
-                const userId = document.getElementById('userId').value;
-                const name = document.getElementById('name').value;
-                const password = document.getElementById('password').value;
-                const confirmpassword = document.getElementById('confirmpassword').value;
-                const department = document.getElementById('department').value;
-
-
-                // Gather form data into an object
-                const userData = {
-                    UserId: userId,
-                    Name: name,
-                    Password: password,
-                    ConfirmPassword: confirmpassword,
-                    Department: department
-                };
-
-
 
 
 
@@ -176,8 +174,6 @@
 </div>
 
 
-
-
 @foreach (var user in Model)
 {
     <!-- Static User Row 1 -->
@@ -202,19 +198,38 @@
         <!-- User Type Column -->
         <div class="d-flex align-items-center" style="flex-basis: 20%; justify-content: flex-start; margin-left: -5px;">
             <p style="margin: 0;">
-                @if (user.UserTypeId == 1) { <span>Admin</span> }
-                else if (user.UserTypeId == 2) { <span>Student</span> }
-                else if (user.UserTypeId == 3) { <span>Super Admin</span> }
-                else { <span>Unknown</span> }
+                @if (user.UserTypeId == 1)
+                {
+                    <span>Admin</span>
+                    ;
+                }
+                else if (user.UserTypeId == 2)
+                {
+                    <span>Student</span>
+                    ;
+                }
+                else if (user.UserTypeId == 3)
+                {
+                    <span>Super Admin</span>
+                    ;
+                }
+                else
+                {
+                    <span>Unknown</span>
+                    ;
+                }
             </p>
         </div>
 
-        <!-- Actions Column (Edit and Delete) -->
+
+
+
+
+        <!-- Three Dots Column -->
         <div class="d-flex align-items-center ml-3 position-relative" style="margin-left:50px">
             <img src="~/img/three.svg" class="menu-toggle" style="cursor: pointer;" />
 
             <div class="dropdown-menu" style="display: none; position: absolute; top: 50px; background-color: white; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); border-radius: 20px; z-index: 1000; width: 200px;">
-                <!-- Edit User Option -->
                 <a href="#" class="dropdown-item edit-user-details" style="padding: 10px; display: flex; align-items: center;"
                    data-toggle="modal" data-target="#editDetailsModal"
                    data-userid="@user.UserId"
@@ -225,80 +240,106 @@
                     Edit Details
                 </a>
 
-                <!-- Open Delete Confirmation Modal -->
-                <button type="button" class="dropdown-item text-danger" style="padding: 10px; display: flex; align-items: center;"
-                        data-toggle="modal" data-target="#deleteUserModal"
-                        data-id="@user.Id" data-name="@user.Name">
+                <a href="#" class="dropdown-item text-danger" style="padding: 10px; display: flex; align-items: center;"
+                   data-toggle="modal" data-target="#deleteUserModal" data-id="@user.Id">
                     <img src="~/img/delete.svg" alt="delete placeholder" style="border-radius: 50%; margin-right: 10px;">
                     Delete user
-                </button>
+                </a>
+
+
             </div>
+
+
+            <!-- Delete Confirmation Modal -->
+            <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content" style="border-radius: 20px; padding: 20px;">
+                        <div class="modal-header text-center">
+                            <h5 class="modal-title" id="deleteModalTitle" style="width: 100%;">Confirm Deletion</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <!-- Form for Deletion -->
+                        <form action="/Account/DeleteUser" method="POST" id="deleteUserForm">
+                            <input type="hidden" name="id" id="deleteUserId" />
+                            <div class="modal-footer justify-content-center">
+                                <!-- Yes Button -->
+                                <button type="submit" class="btn btn-danger" style="border-radius: 20px; padding: 10px 20px; background-color: #FF6B6B;">Yes</button>
+                                <!-- Cancel Button -->
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 20px; padding: 10px 20px;">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+            <style>
+                .dropdown-item {
+                    border-radius: 10px;
+                    transition: background-color 0.3s ease;
+                }
+
+                    /* Hover color change to #137301 */
+                    .dropdown-item:hover {
+                        background-color: #137301;
+                        color: white; /* Optional: Make the text white for better contrast */
+                    }
+
+                .text-danger:hover {
+                    background-color: #fdd;
+                }
+            </style>
+
         </div>
+
+
+
+        <script>
+            function openProfileModal(userId, userName) {
+                // Set the values of the ID and Name fields in the modal
+                document.getElementById('idNumber').value = userId;
+                document.getElementById('firstName').value = userName;
+
+                // Optional: Change the title if needed
+                document.getElementById('addUserModalLabel').innerText = "View Profile";
+
+                // Show the modal
+                $('#addUserModal').modal('show');
+            }
+        </script>
+
+
+        <script>
+            $(document).ready(function () {
+                // When "Delete user" is clicked, show the delete confirmation modal and set the user ID
+                $('.dropdown-item.text-danger').on('click', function () {
+                    var userId = $(this).data('id');  // Capture the user ID
+                    $('#deleteUserId').val(userId);   // Set the user ID in the hidden input field
+                    $('#deleteUserModal').modal('show');  // Show the delete confirmation modal
+                });
+
+                // When the "Yes" button is clicked, the form will be submitted
+                $('#deleteUserForm').submit(function () {
+                    // You can perform any additional validation or actions here before the form submits
+                });
+            });
+
+
+        </script>
+
+
     </div>
 }
-
-<!-- Delete Confirmation Modal -->
-<div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteModalTitle" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content" style="border-radius: 20px; padding: 20px;">
-            <div class="modal-header text-center">
-                <h5 class="modal-title" id="deleteModalTitle" style="width: 100%;">Confirm Deletion</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <div class="modal-body text-center">
-                <p>Are you sure you want to delete <strong id="deleteUserName"></strong>?</p>
-            </div>
-
-            <div class="modal-footer justify-content-center">
-                <!-- Delete Form (submit deletes the user) -->
-                <form action="/Account/DeleteUser" method="post">
-                    <input type="hidden" name="id" id="deleteUserId" />
-                    <button type="submit" class="btn btn-danger" style="border-radius: 20px; padding: 10px 20px; background-color: #FF6B6B;">Yes, Delete</button>
-                </form>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 20px; padding: 10px 20px;">Cancel</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    $(document).ready(function () {
-        // Set user details in the delete confirmation modal
-        $('#deleteUserModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); // Button that triggered the modal
-            var userId = button.data('id'); // Extract user ID
-            var userName = button.data('name'); // Extract user name
-
-            // Update modal content with user details
-            $('#deleteUserId').val(userId); // Set hidden input value in the form
-            $('#deleteUserName').text(userName); // Set user name in the modal text
-        });
-    });
-</script>
-
-<style>
-    .dropdown-item {
-        border-radius: 10px;
-        transition: background-color 0.3s ease;
-    }
-    .dropdown-item:hover {
-        background-color: #137301;
-        color: white;
-    }
-    .text-danger:hover {
-        background-color: #fdd;
-    }
-</style>
-
-
-
-
-
-
-
 
 
 
@@ -309,10 +350,9 @@
 
 
 @{
-    int userRole = ViewBag.UserRole ?? 0; // Default to 0 if ViewBag.UserRole is null
+    int userRole = Context.Session.GetInt32("Role") ?? 0;
 }
 
-<!-- Edit Details Modal -->
 <div class="modal fade" id="editDetailsModal" tabindex="-1" role="dialog" aria-labelledby="editDetailsModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="border-radius: 20px; padding: 20px;">
@@ -323,11 +363,10 @@
                 </button>
             </div>
             <div class="modal-body">
-                <!-- Form to update user details -->
-                <form method="post" action="/Account/UpdateUser">
+                <!-- Form for Updating User Details -->
+                <form action="/Account/UpdateUser" method="POST">
                     <input type="hidden" name="userId" id="editUserId" />
 
-                    <!-- Name Field -->
                     <div class="form-group">
                         <label for="editUserName">Name</label>
                         <input type="text" class="form-control" id="editUserName" name="userName">
@@ -336,7 +375,7 @@
                     <!-- Department Dropdown -->
                     <div class="form-group">
                         <label for="editDepartment">Department</label>
-                        <select id="editDepartment" name="department" class="form-control">
+                        <select id="editDepartment" class="form-control" name="department">
                             <option value="" disabled>Select Department</option>
                             <option value="SAO">SAO</option>
                             <option value="SOE">SOE</option>
@@ -347,12 +386,11 @@
                         </select>
                     </div>
 
-                    <!-- Role Dropdown for Super Admin -->
-                    @if (ViewBag.UserRole == 3 ) // Ensure this is set in the controller
+                    @if (userRole == 3)
                     {
                         <div class="form-group">
                             <label for="editRoleName">Role</label>
-                            <select id="editRoleName" name="userTypeId" class="form-control">
+                            <select id="editRoleName" class="form-control" name="userTypeId">
                                 <option value="" disabled>Select Role</option>
                                 <option value="1">Admin</option>
                                 <option value="2">Student</option>
@@ -360,16 +398,14 @@
                             </select>
                         </div>
                     }
-                    <input type="hidden" id="editUserTypeId" name="userTypeId">
 
-                    <!-- Password Fields -->
                     <div class="form-group">
                         <label for="editUserPassword">Password</label>
                         <input type="password" class="form-control" id="editUserPassword" name="password">
                     </div>
                     <div class="form-group">
                         <label for="confirmUserPassword">Confirm Password</label>
-                        <input type="password" class="form-control" id="confirmUserPassword">
+                        <input type="password" class="form-control" id="confirmUserPassword" name="confirmPassword">
                     </div>
 
                     <div class="modal-footer justify-content-center">
@@ -384,67 +420,55 @@
 
 <script>
     $(document).ready(function () {
-        $('#editDetailsModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); // Button that triggered the modal
-            var userId = button.data('userid');
-            var userName = button.data('name');
-            var department = button.data('department');
-            var userTypeId = button.data('usertype');
+        // Retrieve user role from Razor and convert to JavaScript variable
+        const currentUserRole = @userRole;
 
-            // Set the values in the modal fields
+        // Log the user role for verification
+        console.log("Current User Role:", currentUserRole);
+
+        // Set field accessibility based on role when the modal opens
+        $('#editDetailsModal').on('show.bs.modal', function () {
+            if (currentUserRole === 3) {
+                // Super Admin: All fields are editable
+                $('#editDepartment').prop('disabled', false);
+                $('#editRoleName').prop('disabled', false);
+                $('#editUserName').prop('readonly', false);
+                $('#editUserPassword').prop('readonly', false);
+                $('#confirmUserPassword').prop('readonly', false);
+                console.log("Super Admin: All fields are editable.");
+            } else if (currentUserRole === 1) {
+                // Admin: Only the Role dropdown is readonly
+                $('#editDepartment').prop('disabled', false);
+                $('#editRoleName').prop('disabled', true); // Admin cannot change role
+                $('#editUserName').prop('readonly', false);
+                $('#editUserPassword').prop('readonly', false);
+                $('#confirmUserPassword').prop('readonly', false);
+                console.log("Admin: Role dropdown is readonly.");
+            } else {
+                // Other roles: All fields are readonly
+                $('#editDepartment').prop('disabled', true);
+                $('#editRoleName').prop('disabled', true);
+                $('#editUserName').prop('readonly', true);
+                $('#editUserPassword').prop('readonly', true);
+                $('#confirmUserPassword').prop('readonly', true);
+                console.log("Other roles: All fields are readonly.");
+            }
+        });
+
+        // Populate the form with user data when the modal is opened
+        $(document).on('click', '.edit-user-details', function () {
+            const userId = $(this).data('userid');
+            const userName = $(this).data('name');
+            const department = $(this).data('department');
+            const userTypeId = $(this).data('usertype');
+
             $('#editUserId').val(userId);
             $('#editUserName').val(userName);
             $('#editDepartment').val(department);
-            $('#editRoleName').val(userTypeId);
-            $('#editUserTypeId').val(userTypeId);
-        });
-
-        // Verify password match before form submission
-        $('form').on('submit', function () {
-            var password = $('#editUserPassword').val();
-            var confirmPassword = $('#confirmUserPassword').val();
-            if (password && password !== confirmPassword) {
-                alert("Passwords do not match.");
-                return false; // Prevent form submission
-            }
+            $('#editRoleName').val(userTypeId); // Set role dropdown to user's role
         });
     });
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -502,7 +526,3 @@
     }
 </script>
 
-
-
-    @Html.Partial("~/Views/Body/_Users.cshtml", Model)
-</div>

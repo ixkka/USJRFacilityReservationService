@@ -265,14 +265,11 @@ namespace ASI.Basecode.WebApp.Controllers
         //}
 
 
-
         [HttpPost]
+        [Route("Account/DeleteUser")]
         public IActionResult DeleteUser(int id)
         {
-            // Call the service to delete the user
             bool result = _userService.DeleteUserById(id);
-
-            // Only return success if the deletion was actually successful
             if (result)
             {
                 TempData["SuccessMessage"] = "User deleted successfully!";
@@ -281,9 +278,6 @@ namespace ASI.Basecode.WebApp.Controllers
             {
                 TempData["ErrorMessage"] = "Failed to delete user. User might not exist or there was an error.";
             }
-
-            // Redirect back to the main users list view to reflect the updated data
-
             return Redirect(Request.Headers["Referer"].ToString());
         }
 
