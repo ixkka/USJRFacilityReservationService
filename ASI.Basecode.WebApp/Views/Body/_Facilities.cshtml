@@ -38,13 +38,26 @@
     .content-box {
         border: solid 1px grey;
         border-radius: 20px;
-        height: 400px;
+        height: 380px;
         width: 300px;
         display: flex;
         align-items: start;
         /* justify-content: center; */
         color: white;
     }
+
+    .flex-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px; 
+
+  /*   img {
+        max-width: 100%;
+        max-height: 100%;
+        width: 50;
+        height: 200px;
+        display: block;
+    } */
 </style>
 
 
@@ -79,20 +92,22 @@
 
 
 <!--MAIN CONTENT (CONTAINS gridview layout of facilities and rooms)-->
-@foreach (var facility in Model) {
+@* @foreach (var facility in Model) { *@
   
-    <div class="container-fluid custom-container row">
+    <div class="container-fluid custom-container">
         <!--First ROW-->
-        <div class="row" style="margin-bottom: 40px">
-            <div class="row">
+    <div class="row" style="margin-bottom: 40px;">
+        <div class="flex-container">
+            @foreach (var facility in Model)
+            {
                 <div class="content-box d-flex flex-column">
-                    <div id="cont1" style="cursor:pointer; width: 350px;"> <img src="@Url.Content("~/uploads/" + facility.Thumbnail)" alt="@facility.FacilityName" style="width:100%;" /></div>
+                    <div id="cont1" style="cursor:pointer; width: 117%; height: 50%"> <img src="@Url.Content("~/uploads/" + facility.Thumbnail)" alt="@facility.FacilityName" style="width:85.5%; height:95.5% ;border-radius: 20px;" /></div>
                     <!--TRIAL-->
-                    <p style="padding: 5px 10px 0px 10px; color: black; font-size: 21px; margin: 0;">@facility.FacilityName</p>
+                    <p style="padding:5px 10px 0px 10px; color: black; font-size: 21px; margin: 0;">@facility.FacilityName</p>
                     <p style="padding: 5px 10px 0px 10px; color: grey; font-size:15px; margin: 0;">@facility.Location</p>
                     <div class="d-flex flex-row mt-auto" style="width: 100%; align-items: center; padding: 0px 10px 0px 20px;">
-                        <p style="font-weight: bold; font-size: 20px; color: black;">@facility.BookingPrice</p>
-                        <div style="width:25px; margin-left: 15px; margin-bottom:10px; position:relative; padding-left:75px">
+                        <p style="font-weight: bold; font-size: 20px; color: black;">PHP @facility.BookingPrice</p>
+                        <div style="width:25px; margin-left: 30px;margin-bottom:10px; position:relative; padding-left:95px">
                             <img src="~/img/threeDots_horizontal.png" class="menu-toggle" style="cursor:pointer;" data-menu-id="dropdownMenu1" />
                             <div class="dropdown-menu" id="dropdownMenu1" style="display: none; position: absolute; top: 40px; left: 0; background-color: white; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); border-radius: 20px; z-index: 1000; width: 200px;">
                                 <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;" data-toggle="modal" data-target="#addUserModal" data-title="View Facility" id="cont1">
@@ -134,10 +149,11 @@
                         </div>
                     </div>    
                 </div>
+            }
             </div>
         </div>
     </div>
-}
+@* } *@
 
 
 
