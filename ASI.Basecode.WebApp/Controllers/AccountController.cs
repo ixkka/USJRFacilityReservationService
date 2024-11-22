@@ -32,6 +32,7 @@ namespace ASI.Basecode.WebApp.Controllers
         private readonly TokenProviderOptionsFactory _tokenProviderOptionsFactory;
         private readonly IConfiguration _appConfiguration;
         private readonly IUserService _userService;
+        private readonly IFacilityService _facilityService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AccountController"/> class.
@@ -52,6 +53,7 @@ namespace ASI.Basecode.WebApp.Controllers
                             IConfiguration configuration,
                             IMapper mapper,
                             IUserService userService,
+                            IFacilityService facilityService,
                             TokenValidationParametersFactory tokenValidationParametersFactory,
                             TokenProviderOptionsFactory tokenProviderOptionsFactory) : base(httpContextAccessor, loggerFactory, configuration, mapper)
         {
@@ -61,6 +63,7 @@ namespace ASI.Basecode.WebApp.Controllers
             this._tokenValidationParametersFactory = tokenValidationParametersFactory;
             this._appConfiguration = configuration;
             this._userService = userService;
+            this._facilityService = facilityService;
         }
 
         /// <summary>
@@ -203,10 +206,22 @@ namespace ASI.Basecode.WebApp.Controllers
             return PartialView("/Views/Body/_Users.cshtml", users);
         }
 
+        [HttpGet]
         public IActionResult LoadFacilities()
         {
-            ViewBag.CurrentView = "Facilities"; // Set the current view flag
-            return PartialView("/Views/Body/_Facilities.cshtml");
+            /* ViewBag.CurrentView = "Facilities"; // Set the current view flag
+             return PartialView("/Views/Body/_Facilities.cshtml");*/
+            try
+            {
+                ViewBag.CurrentView = "Facilities";
+                var facilities = _facilityService.GetFacilities();
+
+                return PartialView("/Views/Body/_Facilities.cshtml", facilities);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Failed to load facilities");
+            }
         }
 
         public IActionResult ViewFacility()
