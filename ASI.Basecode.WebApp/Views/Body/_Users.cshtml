@@ -392,11 +392,19 @@
     <!-- Static User Row 1 -->
     <div class="container-fluid d-flex justify-content-between align-items-center py-2 border-bottom">
         <!-- User Column -->
-        <div class="d-flex align-items-center" style="flex-basis: 40%; justify-content: flex-start; margin-left: -5px;">
-           @*  <input type="checkbox" id="user1" style="width: 15px; height: 15px; margin-right: 8px;" /> *@
-            <img src="~/img/profile.jpg" alt="User Profile" class="img-fluid rounded-circle" style="width: 40px; height: 40px; margin-right: 8px;">
-            <span>@user.Name</span>
-        </div>
+            <div class="d-flex align-items-center" style="flex-basis: 40%; justify-content: flex-start; margin-left: -5px;">
+                @* <input type="checkbox" id="user1" style="width: 15px; height: 15px; margin-right: 8px;" /> *@
+                @if (!string.IsNullOrEmpty(user.ProfilePictureUrl))
+                {
+                    <img src="@Url.Content(user.ProfilePictureUrl)" alt="User Profile" class="img-fluid rounded-circle" style="width: 60px; height: 60px; margin-right: 8px;">
+                }
+                else
+                {
+                    <img src="~/img/profile.jpg" alt="Default Profile" class="img-fluid rounded-circle" style="width: 60px; height: 60px; margin-right: 8px;">
+                }
+                <span>@user.Name</span>
+            </div>
+
 
         <!-- ID Column -->
         <div class="d-flex align-items-center" style="flex-basis: 20%; justify-content: flex-start; margin-left: -5px;">

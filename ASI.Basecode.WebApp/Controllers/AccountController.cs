@@ -23,6 +23,7 @@ using System.Threading.Tasks;
 using static ASI.Basecode.Resources.Constants.Enums;
 using X.PagedList;
 using X.PagedList.Extensions;
+using Microsoft.AspNetCore.Hosting;
 
 
 namespace ASI.Basecode.WebApp.Controllers
@@ -35,6 +36,10 @@ namespace ASI.Basecode.WebApp.Controllers
         private readonly TokenProviderOptionsFactory _tokenProviderOptionsFactory;
         private readonly IConfiguration _appConfiguration;
         private readonly IUserService _userService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AccountController"/> class.
@@ -50,6 +55,7 @@ namespace ASI.Basecode.WebApp.Controllers
         /// <param name="tokenProviderOptionsFactory">The token provider options factory.</param>
         public AccountController(
                             SignInManager signInManager,
+                            IWebHostEnvironment webHostEnvironment,
                             IHttpContextAccessor httpContextAccessor,
                             ILoggerFactory loggerFactory,
                             IConfiguration configuration,
@@ -64,7 +70,10 @@ namespace ASI.Basecode.WebApp.Controllers
             this._tokenValidationParametersFactory = tokenValidationParametersFactory;
             this._appConfiguration = configuration;
             this._userService = userService;
+            _webHostEnvironment = webHostEnvironment ?? throw new ArgumentNullException(nameof(webHostEnvironment));
         }
+
+      
 
         /// <summary>
         /// Login Method
@@ -107,6 +116,7 @@ namespace ASI.Basecode.WebApp.Controllers
                 this._session.SetString("UserName", user.Name); // Store user's name in session
                 this._session.SetString("Department", user.Department);
                 this._session.SetInt32("Role", user.UserTypeId);
+                this._session.SetString("ProfilePictureUrl", user.ProfilePictureUrl);
 
                 // Pass the role to the view
                 ViewData["UserRole"] = user.UserTypeId;
@@ -133,23 +143,80 @@ namespace ASI.Basecode.WebApp.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult Register(UserViewModel model)
+        public async Task<IActionResult> Register(UserViewModel model)
         {
+            // Check if the model is null
+            if (model == null)
+            {
+                TempData["ErrorMessage"] = "Model is null.";
+                return View();
+            }
+
+            // Handle file upload if a profile picture is provided
+            if (model.ProfilePicture != null && model.ProfilePicture.Length > 0)
+            {
+                try
+                {
+                    // Ensure _webHostEnvironment is not null
+                    if (_webHostEnvironment == null)
+                    {
+                        TempData["ErrorMessage"] = "Web Host Environment is not available.";
+                        return View();
+                    }
+
+                    // Generate a unique file name
+                    var fileName = Path.GetFileNameWithoutExtension(model.ProfilePicture.FileName);
+                    var extension = Path.GetExtension(model.ProfilePicture.FileName);
+                    fileName = $"{fileName}_{Guid.NewGuid()}{extension}"; // Append GUID to avoid name conflicts
+
+                    // Define the path where the file will be saved
+                    var directoryPath = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
+
+                    // Ensure the directory exists
+                    if (!Directory.Exists(directoryPath))
+                    {
+                        Directory.CreateDirectory(directoryPath); // Create folder if not exists
+                    }
+
+                    var filePath = Path.Combine(directoryPath, fileName);
+
+                    // Save the file
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await model.ProfilePicture.CopyToAsync(stream);
+                    }
+
+                    // Save the relative path to the database
+                    model.ProfilePictureUrl = "/uploads/" + fileName;
+                }
+                catch (Exception ex)
+                {
+                    TempData["ErrorMessage"] = $"Error while uploading file: {ex.Message}";
+                    return View();
+                }
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "No profile picture uploaded.";
+                return View();
+            }
+
             try
             {
-                _userService.AddUser(model);
+                // Now pass the model to the service layer
+                _userService.AddUser(model);  // This should work if model is correctly populated
                 return RedirectToAction("Login", "Account");
-            }
-            catch (InvalidDataException ex)
-            {
-                TempData["ErrorMessage"] = ex.Message;
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.Errors.ServerError;
+                TempData["ErrorMessage"] = ex.Message;
+                return View();
             }
-            return View();
         }
+
+
+
+
 
 
         [AllowAnonymous]

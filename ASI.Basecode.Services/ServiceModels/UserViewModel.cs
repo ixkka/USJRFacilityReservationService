@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -32,5 +33,12 @@ namespace ASI.Basecode.Services.ServiceModels
         public int UserTypeId { get; set; }
         public string Department { get; set; }
         public int Id {  get; set; }
+
+        // New property for profile picture upload
+        [Display(Name = "Profile Picture")]
+        public IFormFile ProfilePicture { get; set; }
+
+        // This stores the URL or path to the uploaded profile picture
+        public string ProfilePictureUrl { get; set; }
     }
 }
