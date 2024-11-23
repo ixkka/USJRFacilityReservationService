@@ -176,9 +176,12 @@
             //FOR NAVIGATING TO A SPECIFIC FACILITY (CLICKING A SPECIFIC FACILITY IN THE FACILITIES PAGE)
             $(document).on('click', '#cont1', function (e) {
                 e.preventDefault();
+
+                // var facilityId = $(this).data('facility-id');
                 $.ajax({
                     url: '/Account/ViewFacility',
                     type: 'GET',
+                    // data: { facilityId: facilityId },
                     success: function (data) {
                         $('#main-content').html(data);
                     },

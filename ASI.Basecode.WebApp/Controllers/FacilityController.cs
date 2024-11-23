@@ -1,10 +1,12 @@
 ﻿using ASI.Basecode.Services.Interfaces;
 using ASI.Basecode.Services.ServiceModels;
+using ASI.Basecode.Services.Services;
 using ASI.Basecode.WebApp.Mvc;
 using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
@@ -69,6 +71,15 @@ namespace ASI.Basecode.WebApp.Controllers
                 }
             }
             return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult GetspecFacility(int id)
+        {
+            var facility = _facilityService.GetFacilities().FirstOrDefault(f=>f.FacilityId==id);
+
+
+            return PartialView("/Views/Body/_SpecificFacility.cshtml",facility);
+
         }
 
 
