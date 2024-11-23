@@ -114,9 +114,9 @@
                             </div>
 
                             <!-- Submit Button -->
-                            <div class="text-center pt-1 d-flex flex-column align-items-center">
-                                <button type="submit" class="btn btn-success rounded-pill" style="width: 120px; background-color: #137333; border: none;">Register</button>
-                                <a href="#" data-bs-dismiss="modal" class="mt-2">Cancel</a>
+                            <div class="text-center pt-1 d-flex align-items-center">
+                                <button type="submit" class="btn btn-success rounded-pill" style="width: 120px; background-color: #137333; border: none; padding-right: 100px">Register</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal" style="border-radius: 20px; padding: 10px 20px;">Cancel</button>
                             </div>
                         </form>
                     </div>
@@ -132,6 +132,16 @@
             var title = button.data('title'); // Extract info from data-title attribute
             var modal = $(this);
             modal.find('#modalTitle').text(title); // Update the modal's title
+        });
+    </script>
+    <script>
+        // Close the modal when "Cancel" is clicked
+        document.querySelector('[data-bs-dismiss="modal"]').addEventListener('click', function () {
+            var modalElement = document.getElementById('addUserModal');
+            var modalInstance = bootstrap.Modal.getInstance(modalElement); // Get the modal instance
+            if (modalInstance) {
+                modalInstance.hide(); // Close the modal
+            }
         });
     </script>
 </div>
@@ -409,8 +419,8 @@
                     </div>
 
                     <div class="modal-footer justify-content-center">
-                        <button type="submit" class="btn btn-primary" style="border-radius: 20px; padding: 10px 20px;">Save Changes</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 20px; padding: 10px 20px;">Cancel</button>
+                        <button type="submit" class="btn btn-success" style="border-radius: 20px; padding: 10px 20px;">Save Changes</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" style="border-radius: 20px; padding: 10px 20px;">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -525,4 +535,3 @@
         $('#addUserModal').modal('hide');  // Close the modal using jQuery for Bootstrap 4
     }
 </script>
-
