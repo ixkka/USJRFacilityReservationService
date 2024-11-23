@@ -28,6 +28,7 @@ namespace ASI.Basecode.WebApp
                 /*CreateMap<UserViewModel, User>();*/
                 CreateMap<UserViewModel, User>().ReverseMap();
                 CreateMap<FacilityViewModel, Facility>().ReverseMap();
+                CreateMap<BookingViewModel, Booking>().ReverseMap();
                 /*CreateMap<User, UserViewModel>();*/
             }
         }

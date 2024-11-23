@@ -1,0 +1,18 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    int userRole = Context.Session.GetInt32("Role") ?? 0;
+}
+@if(userRole == 2)
+{
+    <div>
+        This is for USER
+    </div>
+}
+else
+{
+    <div>
+        This is for ADMIN
+    </div>
+}
