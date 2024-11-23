@@ -17,48 +17,7 @@
 <body style="background-color:#F5FBF7">
 
 
-    @* @if (ViewBag.LoginView == true)
-    {
-    <div style="background-image: url('/img/grad-bg.png'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed;">
-    <main role="main" class="container">
-    @RenderBody()
-    </main>
-    </div>
-    }
-    else
-    {
-    @Html.Partial("_Header")
-
-    <div class="container-fluid">
-    <div class="row">
-    <div class="col-md-3">
-    @Html.Partial("Index") <!-- Sidebar -->
-    </div>
-
-    <div class="col-md-9" role="main" id="main-content">
-    @if (ViewBag.CurrentView == "Facilities" && ViewBag.ShowAddFacilities == true)
-    {
-    @Html.Partial("_AddFacilities") <!-- Render the Add Facilities partial view -->
-    }
-    else if (ViewBag.CurrentView == "Facilities")
-    {
-    @Html.Partial("/Views/Body/_Facilities.cshtml")
-    // Render the Facilities view when Add Facility is not clicked
-    }
-    else if (ViewBag.CurrentView == "EditFacility")
-    {
-    @Html.Partial("_AddFacilities") <!-- Use the same partial view to edit -->
-    }
-    else
-    {
-    <!-- Default content for other views -->
-    <p>Greetings fellow peasants, TONIGHT WE STEAL THE MOON.</p>
-    }
-    </div>
-    </div>
-    </div>
-    } *@
-
+   
     @if (ViewBag.LoginView == true)
     {
         <div style="background-image: url('/img/grad-bg.png'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed;">
@@ -76,7 +35,7 @@
             <div class="row">
                 <div class="col-md-3">
                     @* @Html.Partial("Index") <!-- Sidebar --> *@
-                    <partial name="Index" />
+                     <partial name="Index" />
                 </div>
 
                 <div class="col-md-9" role="main" id="main-content">
@@ -115,6 +74,35 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.js"></script>
     <script src="https://kit.fontawesome.com/7a7c645416.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+
+
+
+
+    <script>
+        $(document).ready(function () {
+            // Handle pagination button click
+            $(document).on("click", ".page-link", function () {
+                var page = $(this).data("page");
+                $.ajax({
+                    url: '/AccountController/LoadUsers',
+                    type: 'GET',
+                    data: { page: page },
+                    beforeSend: function () {
+                        // Optional: Show a loading spinner
+                        $("#userList").html("<p class='text-center'>Loading...</p>");
+                    },
+                    success: function (response) {
+                        // Update the user list and pagination dynamically
+                        $("#userSection").html(response);
+                    },
+                    error: function () {
+                        alert("Failed to load data. Please try again.");
+                    }
+                });
+            });
+        });
+    </script>
 
 
 
@@ -226,27 +214,8 @@
         });
     </script>
 
-    @* <script>
-    $(document).ready(function () {
-    // When the Register button is clicked
-    $('.register-btn').on('click', function (e) {
-    e.preventDefault();
 
-    // Perform an AJAX request to load the Register partial view or page
-    $.ajax({
-    url: '/Account/Register',  // Adjust the URL to match the Register action
-    type: 'GET',
-    success: function (data) {
-    $('#main-content').html(data);  // Replace the main content with the partial view
-    },
-    error: function () {
-    alert('Failed to load the Register content.');
-    }
-    });
-    });
-    });
-    </script>
-    *@
+    
     <script>
         $(document).ready(function () {
             // When the Facilities menu item is clicked

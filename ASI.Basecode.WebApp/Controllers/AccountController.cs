@@ -21,6 +21,9 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using static ASI.Basecode.Resources.Constants.Enums;
+using X.PagedList;
+using X.PagedList.Extensions;
+
 
 namespace ASI.Basecode.WebApp.Controllers
 {
@@ -32,7 +35,6 @@ namespace ASI.Basecode.WebApp.Controllers
         private readonly TokenProviderOptionsFactory _tokenProviderOptionsFactory;
         private readonly IConfiguration _appConfiguration;
         private readonly IUserService _userService;
-        private readonly IFacilityService _facilityService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AccountController"/> class.
@@ -53,7 +55,6 @@ namespace ASI.Basecode.WebApp.Controllers
                             IConfiguration configuration,
                             IMapper mapper,
                             IUserService userService,
-                            IFacilityService facilityService,
                             TokenValidationParametersFactory tokenValidationParametersFactory,
                             TokenProviderOptionsFactory tokenProviderOptionsFactory) : base(httpContextAccessor, loggerFactory, configuration, mapper)
         {
@@ -63,7 +64,6 @@ namespace ASI.Basecode.WebApp.Controllers
             this._tokenValidationParametersFactory = tokenValidationParametersFactory;
             this._appConfiguration = configuration;
             this._userService = userService;
-            this._facilityService = facilityService;
         }
 
         /// <summary>
@@ -86,41 +86,7 @@ namespace ASI.Basecode.WebApp.Controllers
         /// <param name="model">The model.</param>
         /// <param name="returnUrl">The return URL.</param>
         /// <returns> Created response view </returns>
-        /// 
-
-
-
-
-
-        /*
-                [HttpPost]
-                [AllowAnonymous]
-
-                public async Task<IActionResult> Login(LoginViewModel model, string returnUrl)
-                {
-                    this._session.SetString("HasSession", "Exist");
-
-                    User user = null;
-
-                    // Authenticate the user
-                    var loginResult = _userService.AuthenticateUser(model.UserId, model.Password, ref user);
-                    if (loginResult == LoginResult.Success)
-                    {
-                        // Successful authentication
-                        await this._signInManager.SignInAsync(user);
-                        this._session.SetString("UserName", user.Name); // Store user's name in session
-                        this._session.SetString("Department", user.Department);
-                        this._session.SetInt32("Role", user.UserTypeId);
-
-                        return RedirectToAction("Index", "Home"); // Redirect to home
-                    }
-                    else
-                    {
-                        // Authentication failed
-                        TempData["ErrorMessage"] = "Incorrect UserId or Password";
-                        return View();
-                    }
-                }*/
+        ///
 
 
         [HttpPost]
@@ -154,11 +120,6 @@ namespace ASI.Basecode.WebApp.Controllers
                 return View();
             }
         }
-
-
-
-
-
 
 
 
@@ -198,30 +159,37 @@ namespace ASI.Basecode.WebApp.Controllers
             return RedirectToAction("Login", "Account");
         }
 
-        public IActionResult LoadUsers()
+        //public IActionResult LoadUsers()
+        //{
+        //    var users = _userService.GetAllUsers();
+        //    ViewBag.UserRole = HttpContext.Session.GetInt32("Role") ?? 0;
+        //    ViewBag.UserCount = users.Count();
+        //    return PartialView("/Views/Body/_Users.cshtml", users);
+
+
+
+        public IActionResult LoadUsers(int page = 1)
         {
+            // Fetch all users
             var users = _userService.GetAllUsers();
+
+            // Convert to IPagedList for pagination
+            int pageSize = 10;  // Number of users per page
+            var pagedUsers = users.ToPagedList(page, pageSize);  // Ensure this is IPagedList
+
+            // Add necessary data to ViewBag
             ViewBag.UserRole = HttpContext.Session.GetInt32("Role") ?? 0;
             ViewBag.UserCount = users.Count();
-            return PartialView("/Views/Body/_Users.cshtml", users);
+
+            // Return the paginated users to the partial view
+            return PartialView("/Views/Body/_Users.cshtml", users.ToPagedList(page, 10));
         }
 
-        [HttpGet]
+
         public IActionResult LoadFacilities()
         {
-            /* ViewBag.CurrentView = "Facilities"; // Set the current view flag
-             return PartialView("/Views/Body/_Facilities.cshtml");*/
-            try
-            {
-                ViewBag.CurrentView = "Facilities";
-                var facilities = _facilityService.GetFacilities();
-
-                return PartialView("/Views/Body/_Facilities.cshtml", facilities);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "Failed to load facilities");
-            }
+            ViewBag.CurrentView = "Facilities"; // Set the current view flag
+            return PartialView("/Views/Body/_Facilities.cshtml");
         }
 
         public IActionResult ViewFacility()
@@ -252,13 +220,6 @@ namespace ASI.Basecode.WebApp.Controllers
         }
 
 
-
-        ///////////////////////////////////////////////////// TRIAL
-        //public IActionResult GetUsers()
-        //{
-        //    var users = _userService.GetAllUsers();
-        //    return View(users);
-        //}
         [HttpGet]
         public IActionResult GetUsers()
         {
@@ -313,7 +274,7 @@ namespace ASI.Basecode.WebApp.Controllers
         [Route("Account/UpdateUser")]
         public IActionResult UpdateUser(string userId, string userName, string department, int userTypeId, string? password)
         {
-            // Fetch user by userId as a string
+            
             var user = _userService.GetUserById(userId);
             if (user == null) return Json(new { success = false, message = "User not found." });
 
