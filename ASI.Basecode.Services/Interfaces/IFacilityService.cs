@@ -19,5 +19,7 @@ namespace ASI.Basecode.Services.Interfaces
         void DeleteImage(RoomGalleryViewModel model);
         IEnumerable<RoomGalleryViewModel> GetRoomGallery();
         IEnumerable<DayOfTheWeek> GetDays();
+        IEnumerable<FacilityViewModel> GetFacilities();
+
     }
 }

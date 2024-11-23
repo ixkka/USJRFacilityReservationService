@@ -122,24 +122,24 @@
 
                         <!-- Per Hour -->
                         <div class="input-group mb-3" style="align-items: center; margin: 10px;">
-                            <span class="input-group-text" style="border-radius: 10px; margin-right: 10px;">Per Hour</span>
-                            <span class="p-2 text-center bg-secondary text-white mb-2" style="border-radius: 10px; margin: 10px;">Free</span>
-                            <input type="number" class="form-control" style="border-radius: 10px; margin-right: 20px;">
+                            <button id="byDurationBtn" type="button" class="btn btn-outline-secondary priceduration-btn" data-Priceduration="ByDuration" style="border-radius: 10px; margin-right: 10px;">By Duration</button>
+                            <button id="freeBtn" type="button" class="btn btn-outline-secondary priceduration-btn" data-Priceduration="Free" style="border-radius: 10px; margin: 10px;">Free</button>>
+                            <input id="priceInput" type="number" class="form-control" style="border-radius: 10px; margin-right: 20px;">
                         </div>
-
+                        <input asp-for="BookingPrice" type="hidden" id="bookingPriceInput" />
                         <!-- Half Day -->
-                        <div class="input-group mb-3" style="align-items: center; margin: 10px;">
-                            <span class="input-group-text" style="border-radius: 10px; margin-right: 10px;">Half Day</span>
-                            <span class="p-2 text-center bg-secondary text-white mb-2" style="border-radius: 10px; margin: 10px;">Free</span>
+@*                         <div class="input-group mb-3" style="align-items: center; margin: 10px;">
+                            <button type="button" class="btn btn-outline-secondary priceduration-btn" data-Priceduration="HalfDay" style="border-radius: 10px; margin-right: 10px;">Half Day</button>
+                            <button type="button" class="btn btn-outline-secondary priceduration-btn" data-Priceduration="Free" style="border-radius: 10px; margin: 10px;">Free</button>>
                             <input type="number" class="form-control" style="border-radius: 10px; margin-right: 20px;">
-                        </div>
+                        </div> *@
 
                         <!-- Full Day -->
-                        <div class="input-group mb-3" style="align-items: center; margin: 10px;">
-                            <span class="input-group-text" style="border-radius: 10px; margin-right: 10px;">Full Day</span>
-                            <span class="p-2 text-center bg-secondary text-white mb-2" style="border-radius: 10px; margin: 10px;">Free</span>
+@*                         <div class="input-group mb-3" style="align-items: center; margin: 10px;">
+                            <button type="button" class="btn btn-outline-secondary priceduration-btn" data-Priceduration="FullDay" style="border-radius: 10px; margin-right: 10px;">Full Day</button>
+                            <button type="button" class="btn btn-outline-secondary priceduration-btn" data-Priceduration="Free" style="border-radius: 10px; margin: 10px;">Free</button>>
                             <input type="number" class="form-control" style="border-radius: 10px; margin-right: 20px;">
-                        </div>
+                        </div> *@
                     </div>
                 </div>
 
@@ -147,7 +147,7 @@
 
                 <div class="d-flex justify-content-between">
                     <button type="submit" class="btn btn-success me-1" style="border-radius: 10px; width: 48%;">Add</button>
-                    <button type="button" class="btn btn-secondary ms-1" style="border-radius: 10px; width: 48%;">Cancel</button>
+                    <button type="button" id="SpecificFacilityBackBTN" btn btn-secondary ms-1" style="border-radius: 10px; width: 48%;">Cancel</button>
                 </div>
 
             @* </form> *@
@@ -206,4 +206,67 @@
         });
     });
 </script>
+
+@* <script>
+    document.querySelectorAll('.priceduration-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            // Remove 'active' class from all buttons
+            document.querySelectorAll('.priceduration-btn').forEach(btn => btn.classList.remove('active'));
+
+            // Add 'active' class to the clicked button
+            this.classList.add('active');
+
+            // Update the hidden input value to the data-duration of the clicked button
+            document.getElementById('bookingPriceInput').value = this.getAttribute('data-Priceduration');
+        });
+    });
+</script> *@
+
+<script>
+    document.querySelectorAll('.priceduration-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            // Remove 'active' class from all buttons
+            document.querySelectorAll('.priceduration-btn').forEach(btn => btn.classList.remove('active'));
+
+            // Add 'active' class to the clicked button
+            this.classList.add('active');
+
+            // Update the hidden input value based on the clicked button
+            if (this.getAttribute('data-Priceduration') === 'Free') {
+                document.getElementById('bookingPriceInput').value = 0;
+                document.getElementById('priceInput').disabled = true; 
+            } else {
+                document.getElementById('priceInput').disabled = false; 
+                document.getElementById('priceInput').addEventListener('input', function () {
+                    document.getElementById('bookingPriceInput').value = this.value;
+                });
+            }
+        });
+    });
+
+    // Ensure the hidden input updates correctly if 'By Duration' is selected and the number input is changed
+    document.getElementById('priceInput').addEventListener('input', function () {
+        if (document.getElementById('byDurationBtn').classList.contains('active')) {
+            document.getElementById('bookingPriceInput').value = this.value;
+        }
+    });
+</script>
+
+@* <script>
+    $(document).on('click', '#cancelBTN', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '/Account/LoadFacilities',
+                    type: 'GET',
+                    success: function (data) {
+                        $('#main-content').html(data);
+                    },
+                    error: function () {
+                        alert('Failed to load the Facility details.');
+                    }
+                });
+            });
+        });
+</script> *@
+
 
