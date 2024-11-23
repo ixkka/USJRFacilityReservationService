@@ -120,6 +120,23 @@
 
     <script>
         $(document).ready(function () {
+            $('li:contains("Reservations")').on('click', function (e) {
+                e.preventDefault();
+
+                // Perform an AJAX request to load the _Users partial view
+                $.ajax({
+                    url: '/Body/Reservations',  // Corrected path to the LoadUsers action
+                    type: 'GET',
+                    success: function (data) {
+                        $('#main-content').html(data);  // Replace the main content with the partial view
+                    },
+                    error: function () {
+                        alert('Failed to load the Users section.');
+                    }
+                });
+
+            });
+
             // When the Users menu item is clicked
             $('li:contains("Users")').on('click', function (e) {
                 e.preventDefault();

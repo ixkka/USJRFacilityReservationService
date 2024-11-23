@@ -1,0 +1,267 @@
+﻿@model IEnumerable<ASI.Basecode.Services.ServiceModels.BookingViewModel>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    int userRole = Context.Session.GetInt32("Role") ?? 0;
+}
+<style>
+    .clickable {
+        cursor: pointer;
+    }
+    /* Add a bottom border to the clicked column */
+    .clicked {
+        border-bottom: 4px solid #137301;
+        color: #137301;
+    }
+    .fliterClick {
+        cursor: pointer;
+    }
+    .filterClicked {
+        background-color: rgba(19, 115, 1, 0.4)
+    }
+
+
+
+    /* .custom-container {
+        padding: 20px;
+    }
+
+    .col {
+        display: flex;
+    }
+
+        .col:first-child {
+            justify-content: flex-start;
+        }
+
+        .col:nth-child(2) {
+            justify-content: center;
+        }
+
+        .col:last-child {
+            justify-content: flex-end;
+        }
+
+    .content-box {
+        border: solid 1px grey;
+        border-radius: 20px;
+        height: 380px;
+        width: 300px;
+        display: flex;
+        align-items: start;
+    }
+        /* justify-content: center; /
+                color: white;
+            }
+
+            .flex-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 30px;
+            }
+          /   img {
+                max-width: 100%;
+                max-height: 100%;
+                width: 50;
+                height: 200px;
+                display: block;
+            } */ */
+</style>
+
+<!--HEADER PART (CONTAINS search bar, filters, book reservation button)-->
+<div class="container-fluid d-flex justify-content-between align-items-center" style="padding-bottom: 10px;">
+    <div class="d-flex">
+    </div>
+
+    <div class="d-flex align-items-center" style="gap: 30px; margin-left: -10px;">
+        <div class="position-relative">
+            <input type="text" class="form-control" placeholder="Search" style="width: 300px; padding-left: 30px; border-radius: 5px;">
+            <img src="~/img/search.svg" alt="Search" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
+        </div>
+
+        <button class="btn btn-outline-secondary position-relative" style="border-radius: 5px; padding: 8px 25px; min-width: 120px;">
+            <img src="~/img/filter.svg" alt="Filters" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
+            Filters
+        </button>
+     
+        <button type="button" class="btn btn-success position-relative add-facility-btn" data-url="/Body/BookReservation" style="border-radius: 5px; padding: 8px 25px; min-width: 120px; background-color: #137301">
+            <img src="~/img/calendar.svg">
+            Book Reservation
+        </button>
+    </div>
+</div>
+
+<!-- Row containing "your reservations" and "pending reservations" text-->
+<div class="container">
+    <div class="row">
+        <div class="clickable clicked" style="margin-right: 3rem; padding: 0px 5px">
+            Your reservations
+        </div>
+        @if(userRole == 2)
+        {
+            <div class="d-flex align-items-center clickable" id="reservationBtn"  style="padding: 0px 5px;">
+                Pending reservations
+                <div class="d-flex justify-content-center align-items-center" style="background-color: #FF8E8E; height: 25px; width: 25px; border-radius: 5px; margin-left: 5px;">
+                    2
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="d-flex align-items-center clickable" id="reservationBtn" style="padding: 0px 5px;">
+                Reservation Requests
+                <div class="d-flex justify-content-center align-items-center" style="background-color: #FF8E8E; height: 25px; width: 25px; border-radius: 5px; margin-left: 5px;">
+                    2
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<hr style="border: 1px solid rgba(19, 115, 1, 0.3); margin-top: 2px; margin-bottom: 20px;">
+
+<div class="container">
+    <div class="row">
+        <div style="margin-right: 33rem;">
+            <p style="display: inline; font-size: 1.1rem; font-weight: bold;">November 11, 2024</p> 
+            <p style="display: inline; font-size: 1.1rem;">|</p>
+            <p style="display: inline; font-size: 1.1rem;">Monday</p>
+        </div>
+        <div style="margin-right: 4rem;">
+            <img src="~/img/leftArrowBack.png" />
+            <img src="~/img/bookingCalender.png" />
+            <p style="display: inline; font-size: 0.9rem;">November 2024</p>
+            <img src="~/img/rightArrowBack.png" />
+        </div>
+        <div class="row" style="background-color: rgba(139, 139, 139, 0.3); border-radius: 0.8rem;">
+            <div class="d-flex justify-content-center align-items-center filterClick filterClicked" style="width: 2.5rem; height: 2rem; border-radius: 0.8rem;">
+                1d
+            </div>
+            <div class="d-flex justify-content-center align-items-center filterClick" style="width: 2.5rem; height: 2rem; border-radius: 0.8rem;">
+                1w
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid" style="padding: 0px; margin-top: 2rem;">
+    <div class="row">
+        @foreach(var booking in Model)
+        {
+             <div class="col-md-6 mb-4">
+                <div class="card h-100" style="border-radius: 1rem;">
+                    <div class="row">
+                        <!-- Image column -->
+                        <div class="col-5">
+                            <div class="h-100" style="min-height: 220px; position: relative;">
+                                <img src="~/img/facilities_icon.png" class="position-absolute w-100 h-100" style="border-radius: 1rem; object-fit: cover; top: 0; left: 0;" alt="ImageTitle">
+                            </div>
+                        </div>
+                        <!-- Text content column - decreased from col-8 to col-7 -->
+                        <div class="col-7">
+                            <div class="card-body h-100 d-flex flex-column">
+                                <h5 class="card-title">@booking.FacilityName</h5>
+                                <p class="card-text">@booking.BookingTimeStart to @booking.BookingTimeEnd</p>
+                                @* <p class="card-text flex-grow-1">@booking.BookingTimeStart</p> *@
+                                @* <div class="mt-auto">
+                                    <a href="#" class="btn btn-primary">Learn More</a>
+                                </div> *@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+
+@* <style>
+    .dropdown-item {
+        border-radius: 10px;
+        transition: background-color 0.3s ease;
+    }
+
+        /* Hover color change to #137301 */
+        .dropdown-item:hover {
+            background-color: #137301;
+            color: white; /* Optional: Make the text white for better contrast */
+        }
+
+    .text-danger:hover {
+        background-color: #fdd;
+    }
+</style>
+
+<!-- jQuery Script for Dropdown and Modal Handling -->
+<script>
+    $(document).ready(function () {
+        // Toggle the dropdown menu when the three dots are clicked
+        $('.menu-toggle').on('click', function (e) {
+            e.preventDefault(); // Prevent default click behavior
+            var menuId = $(this).data('menu-id'); // Get the menu id from the data attribute
+
+            // Hide other open dropdowns
+            $('.dropdown-menu').not('#' + menuId).hide();
+
+            // Toggle the current dropdown menu
+            $('#' + menuId).toggle();
+        });
+
+        // Close the dropdown if clicking outside of it
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('.menu-toggle, .dropdown-menu').length) {
+                $('.dropdown-menu').hide(); // Hide the dropdown
+            }
+        });
+
+        // Handle the edit facility click
+        $('.edit-facility').on('click', function (e) {
+            e.preventDefault();
+
+            var url = $(this).data('url');
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function (data) {
+                    $('#main-content').html(data);
+                },
+                error: function () {
+                    alert('Failed to load the Edit Facility content.');
+                }
+            });
+        });
+    });
+</script> *@
+
+
+
+<script>
+    $(document).on('click', '.clickable', function () {
+        $('.clickable').removeClass('clicked');
+        $(this).addClass('clicked');
+    });
+
+
+    $(document).on('click', '.filterClick', function () {
+        $('.filterClick').removeClass('filterClicked');
+        $(this).addClass('filterClicked');
+    });
+
+    $(document).on('click', '#reservationBtn', function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: '/Body/pendingReservations',
+            type: 'GET',
+            success: function (data) {
+                $('#main-content').html(data);
+            },
+            error: function () {
+                alert('Failed to load the Facility details.');
+            }
+        });
+    });
+</script>

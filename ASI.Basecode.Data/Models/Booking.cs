@@ -17,10 +17,14 @@ namespace ASI.Basecode.Data.Models
         public int? UserId { get; set; }
         public int? FacilityId { get; set; }
         public string BookingStatus { get; set; }
+        public string FacilityName { get; set; }
+        public string Notes { get; set; }
+        public DateTime? BookingDate { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
-        public TimeSpan? TimeFrom { get; set; }
-        public TimeSpan? TimeTo { get; set; }
+
+        public TimeSpan? BookingTimeStart { get; set; }
+        public TimeSpan? BookingTimeEnd { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDt { get; set; }
         public string UpdatedBy { get; set; }
