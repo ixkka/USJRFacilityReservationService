@@ -161,8 +161,12 @@
                         <!-- Text content column - decreased from col-8 to col-7 -->
                         <div class="col-7">
                             <div class="card-body h-100 d-flex flex-column">
-                                <h5 class="card-title">@booking.FacilityName</h5>
+                                <h5 class="card-title" style="margin: 0px;">@booking.FacilityName</h5>
                                 <p class="card-text">@booking.BookingTimeStart to @booking.BookingTimeEnd</p>
+                                <div class="mt-auto">
+                                    <p style="margin: 0px;">@booking.BookingDate</p>
+                                    <p>@booking.BookingStatus</p>
+                                </div>
                                 @* <p class="card-text flex-grow-1">@booking.BookingTimeStart</p> *@
                                 @* <div class="mt-auto">
                                     <a href="#" class="btn btn-primary">Learn More</a>

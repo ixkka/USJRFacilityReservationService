@@ -52,6 +52,11 @@ namespace ASI.Basecode.WebApp.Controllers
         {
             return PartialView("/Views/Body/_PendingAndRequests.cshtml");
         }
+        public IActionResult CancelBooking()
+        {
+            // Logic to handle cancellation
+            return RedirectToAction("/Views/Body/_PendingAndRequests.cshtml"); // Or any other action
+        }
 
         [HttpPost]
         public IActionResult CreateBooking(BookingViewModel booking)
