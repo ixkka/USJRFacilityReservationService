@@ -1,5 +1,9 @@
-@model IEnumerable<ASI.Basecode.Services.ServiceModels.UserViewModel>
+ @* @model IEnumerable<ASI.Basecode.Services.ServiceModels.UserViewModel> *@
+     @model X.PagedList.IPagedList<ASI.Basecode.Services.ServiceModels.UserViewModel>
 @using ASI.Basecode.Services.ServiceModels
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+
 
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -28,7 +32,194 @@
 
 
 
-<div class="container-fluid d-flex justify-content-between align-items-center" style="padding-bottom: 10px;">
+ @* <div class="container-fluid d-flex justify-content-between align-items-center" style="padding-bottom: 10px;">
+     <div class="d-flex align-items-center">
+         <h5 class="mb-0">All Accounts <span class="badge bg-success rounded ms-2">@ViewBag.UserCount</span></h5>
+     </div>
+
+     <div class="d-flex align-items-center" style="gap: 30px; margin-left: -10px;">
+         <div class="position-relative">
+             <input type="text" class="form-control" placeholder="Search" style="width: 300px; padding-left: 30px; border-radius: 5px;">
+             <img src="~/img/search.svg" alt="Search" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
+         </div>
+
+         <button class="btn btn-outline-secondary position-relative" style="border-radius: 5px; padding: 8px 25px; min-width: 120px;">
+             <img src="~/img/filter.svg" alt="Filters" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
+             Filters
+         </button>
+
+         <button type="button" class="btn btn-success position-relative" style="border-radius: 5px; padding: 8px 25px; min-width: 120px;"
+                 data-toggle="modal" data-target="#addUserModal" data-title="Add User">
+             <img src="~/img/add.svg" alt="Add User" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
+             Add user
+         </button>
+
+
+         <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+             <div class="modal-dialog">
+                 <div class="modal-content" style="border-radius: 20px; border: 1px solid #ddd;">
+                     <div class="modal-header" style="border-bottom: none;">
+                         <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
+                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                     </div>
+                     <div class="modal-body">
+                         <div class="text-center mb-4">
+                             <img src="https://usjr.edu.ph/wp-content/uploads/2016/05/USJR1.png"
+                                  style="width: 100px;" alt="Logo">
+                         </div>
+                         <form id="addUserForm" action="/Account/CreateUser" method="POST">
+                             <!-- User ID -->
+                             <div class="form-outline mb-3">
+                                 <label class="form-label" for="userId">User ID</label>
+                                 <input type="text" id="userId" name="UserId" class="form-control" placeholder="Enter User ID" required>
+                             </div>
+
+                             <!-- Name -->
+                             <div class="form-outline mb-3">
+                                 <label class="form-label" for="name">Name</label>
+                                 <input type="text" id="name" name="Name" class="form-control" placeholder="Enter Name" required>
+                             </div>
+
+                             <!-- Password -->
+                             <div class="form-outline mb-3">
+                                 <label class="form-label" for="password">Password</label>
+                                 <input type="password" id="password" name="Password" class="form-control" placeholder="Enter Password" required>
+                             </div>
+
+                             <!-- Confirm Password -->
+                             <div class="form-outline mb-3">
+                                 <label class="form-label" for="confirmpassword">Confirm Password</label>
+                                 <input type="password" id="confirmpassword" name="ConfirmPassword" class="form-control" placeholder="Confirm Password" required>
+                             </div>
+
+                             <!-- Department (Dropdown) -->
+                             <div class="form-outline mb-3">
+                                 <label class="form-label" for="department">Department</label>
+                                 <select id="department" name="Department" class="form-control" required>
+                                     <option value="" disabled selected>Select Department</option>
+                                     <option value="SAO">SAO</option>
+                                     <option value="SOE">SOE</option>
+                                     <option value="SBM">SBM</option>
+                                     <option value="SOEng">SOEng</option>
+                                     <option value="SCS">SCS</option>
+                                     <option value="SAMS">SAMS</option>
+                                 </select>
+                             </div>
+
+                             <!-- Roles -->
+                             <div class="form-outline mb-3">
+                                 <label class="col-form-label" for="UserTypeId">Roles</label>
+                                 <select id="UserTypeId" name="UserTypeId" class="form-control" required>
+                                     <option value="">Select Role</option>
+                                     <option value="1">Admin</option>
+                                     <option value="2">Student</option>
+                                     <option value="3">Super Admin</option>
+                                 </select>
+                             </div>
+
+                             <!-- Submit Button -->
+                             <div class="text-center pt-1 d-flex align-items-center justify-content-center">
+                                 <button type="submit" class="btn btn-success rounded-pill" style="width: 120px; background-color: #137333; border: none; padding-right: 100px">Register</button>
+                                 <button type="button" class="btn btn-danger" data-dismiss="modal" style="border-radius: 20px; padding: 10px 20px;">Cancel</button>
+                             </div>
+                         </form>
+                     </div>
+                 </div>
+             </div>
+         </div>
+
+     </div>
+
+     <script>
+         $('#addUserModal').on('show.bs.modal', function (event) {
+             var button = $(event.relatedTarget); // Button that triggered the modal
+             var title = button.data('title'); // Extract info from data-title attribute
+             var modal = $(this);
+             modal.find('#modalTitle').text(title); // Update the modal's title
+         });
+     </script>
+     <script>
+         // Close the modal when "Cancel" is clicked
+         document.querySelector('[data-bs-dismiss="modal"]').addEventListener('click', function () {
+             var modalElement = document.getElementById('addUserModal');
+             var modalInstance = bootstrap.Modal.getInstance(modalElement); // Get the modal instance
+             if (modalInstance) {
+                 modalInstance.hide(); // Close the modal
+             }
+         });
+     </script>
+ </div>
+
+
+
+
+
+
+
+ <div class="pt-3"></div>
+
+
+ <!-- Table Header Section -->
+ <div class="container-fluid d-flex justify-content-between align-items-center" style="background-color:#D0E3CC; padding: 10px; border-radius:10px;">
+     <!-- Left-aligned (User) -->
+     <div class="d-flex align-items-center" style="flex-basis: 40%;">
+         <label for="users" style="color:#137301; margin: 0;">User</label>
+     </div>
+
+     <!-- Center-aligned (ID) -->
+     <div class="d-flex align-items-center justify-content-center" style="flex-basis: 25%; text-align: center;">
+         <p style="color:#137301; margin: 0;">ID</p>
+     </div>
+
+     <!-- Department Column -->
+     <div class="d-flex align-items-center justify-content-center" style="flex-basis: 25%; text-align: center;">
+         <p style="color:#137301; margin: 0;">Department</p>
+     </div>
+
+     <!-- User Type Column -->
+     <div class="d-flex align-items-center justify-content-center" style="flex-basis: 25%; text-align: center;">
+         <p style="color:#137301; margin: 0;">User Type</p>
+     </div>
+
+     <!-- Action Column -->
+     <div class="d-flex align-items-center justify-content-end" style="flex-basis: 15%; text-align: right;">
+         <p style="color:#137301; margin: 0;">Actions</p>
+     </div>
+ </div> *@
+
+
+ @* There is a header above here *@
+
+
+<div id="userListContainer">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="container-fluid d-flex justify-content-between align-items-center" style="padding-bottom: 10px;">
     <div class="d-flex align-items-center">
         <h5 class="mb-0">All Accounts <span class="badge bg-success rounded ms-2">@ViewBag.UserCount</span></h5>
     </div>
@@ -79,7 +270,7 @@
                             <!-- Password -->
                             <div class="form-outline mb-3">
                                 <label class="form-label" for="password">Password</label>
-                                <input type="password" id="password" name="Password" class="form-control" placeholder="Enter Password" required>
+                                <input type="password" id="password" name="Password" class="form-control" placeholder="Enter Password" required minlength="8">
                             </div>
 
                             <!-- Confirm Password -->
@@ -114,7 +305,7 @@
                             </div>
 
                             <!-- Submit Button -->
-                            <div class="text-center pt-1 d-flex align-items-center">
+                            <div class="text-center pt-1 d-flex align-items-center justify-content-center">
                                 <button type="submit" class="btn btn-success rounded-pill" style="width: 120px; background-color: #137333; border: none; padding-right: 100px">Register</button>
                                 <button type="button" class="btn btn-danger" data-dismiss="modal" style="border-radius: 20px; padding: 10px 20px;">Cancel</button>
                             </div>
@@ -184,16 +375,36 @@
 </div>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 @foreach (var user in Model)
 {
     <!-- Static User Row 1 -->
     <div class="container-fluid d-flex justify-content-between align-items-center py-2 border-bottom">
         <!-- User Column -->
-        <div class="d-flex align-items-center" style="flex-basis: 40%; justify-content: flex-start; margin-left: -5px;">
-            <input type="checkbox" id="user1" style="width: 15px; height: 15px; margin-right: 8px;" />
-            <img src="~/img/user.svg" alt="User Profile" class="img-fluid rounded-circle" style="width: 40px; height: 40px; margin-right: 8px;">
-            <span>@user.Name</span>
-        </div>
+            <div class="d-flex align-items-center" style="flex-basis: 40%; justify-content: flex-start; margin-left: -5px;">
+                @* <input type="checkbox" id="user1" style="width: 15px; height: 15px; margin-right: 8px;" /> *@
+                @if (!string.IsNullOrEmpty(user.ProfilePictureUrl))
+                {
+                    <img src="@Url.Content(user.ProfilePictureUrl)" alt="User Profile" class="img-fluid rounded-circle" style="width: 60px; height: 60px; margin-right: 8px;">
+                }
+                else
+                {
+                    <img src="~/img/profile.jpg" alt="Default Profile" class="img-fluid rounded-circle" style="width: 60px; height: 60px; margin-right: 8px;">
+                }
+                <span>@user.Name</span>
+            </div>
+
 
         <!-- ID Column -->
         <div class="d-flex align-items-center" style="flex-basis: 20%; justify-content: flex-start; margin-left: -5px;">
@@ -350,9 +561,27 @@
 
     </div>
 }
+<div class="d-flex justify-content-center py-3">
+    @Html.PagedListPager(Model, page => Url.Action("LoadUsers", new { page }))
+</div>
+</div>
+<script>
+    $(document).on("click", ".pagination a", function (e) {
+        e.preventDefault(); // Prevent default navigation behavior
 
-
-
+        var url = $(this).attr("href"); // Get the target URL
+        $.ajax({
+            url: url,
+            type: "GET",
+            success: function (data) {
+                $("#userListContainer").html(data); // Replace the container content
+            },
+            error: function () {
+                alert("Error loading page.");
+            }
+        });
+    });
+</script>
 
 
 
@@ -362,7 +591,6 @@
 @{
     int userRole = Context.Session.GetInt32("Role") ?? 0;
 }
-
 <div class="modal fade" id="editDetailsModal" tabindex="-1" role="dialog" aria-labelledby="editDetailsModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="border-radius: 20px; padding: 20px;">
@@ -427,7 +655,6 @@
         </div>
     </div>
 </div>
-
 <script>
     $(document).ready(function () {
         // Retrieve user role from Razor and convert to JavaScript variable
@@ -479,17 +706,6 @@
         });
     });
 </script>
-
-
-
-
-
-
-
-
-
-
-
 <script>
     document.querySelectorAll('.menu-toggle').forEach(function (menuToggle) {
         menuToggle.addEventListener('click', function () {
@@ -525,10 +741,6 @@
         });
     });
 </script>
-
-
-
-
 <script>
     // Function to close the modal
     function closeApp() {

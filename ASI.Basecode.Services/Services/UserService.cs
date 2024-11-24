@@ -39,15 +39,20 @@ namespace ASI.Basecode.Services.Services
         public void AddUser(UserViewModel model)
         {
             var user = new User();
+
             if (!_repository.UserExists(model.UserId))
             {
+                // Map UserViewModel to User entity
                 _mapper.Map(model, user);
+
+                // Encrypt the password and set other properties
                 user.Password = PasswordManager.EncryptPassword(model.Password);
                 user.CreatedTime = DateTime.Now;
                 user.UpdatedTime = DateTime.Now;
                 user.CreatedBy = Environment.UserName;
                 user.UpdatedBy = Environment.UserName;
 
+                // Save the user using the repository
                 _repository.AddUser(user);
             }
             else
@@ -55,6 +60,8 @@ namespace ASI.Basecode.Services.Services
                 throw new InvalidDataException("User already exists.");
             }
         }
+
+
 
         public List<UserViewModel> GetAllUsers()
         {

@@ -24,8 +24,8 @@ namespace ASI.Basecode.Data.Repositories
 
         public void AddUser(User user)
         {
-            this.GetDbSet<User>().Add(user);
-            UnitOfWork.SaveChanges();
+            this.GetDbSet<User>().Add(user); // Add the user to the DbSet
+            UnitOfWork.SaveChanges(); // Save the changes to the database
         }
 
         public bool DeleteUserById(int id)

@@ -21,6 +21,10 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using static ASI.Basecode.Resources.Constants.Enums;
+using X.PagedList;
+using X.PagedList.Extensions;
+using Microsoft.AspNetCore.Hosting;
+
 
 namespace ASI.Basecode.WebApp.Controllers
 {
@@ -32,7 +36,10 @@ namespace ASI.Basecode.WebApp.Controllers
         private readonly TokenProviderOptionsFactory _tokenProviderOptionsFactory;
         private readonly IConfiguration _appConfiguration;
         private readonly IUserService _userService;
-        private readonly IFacilityService _facilityService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AccountController"/> class.
@@ -48,12 +55,12 @@ namespace ASI.Basecode.WebApp.Controllers
         /// <param name="tokenProviderOptionsFactory">The token provider options factory.</param>
         public AccountController(
                             SignInManager signInManager,
+                            IWebHostEnvironment webHostEnvironment,
                             IHttpContextAccessor httpContextAccessor,
                             ILoggerFactory loggerFactory,
                             IConfiguration configuration,
                             IMapper mapper,
                             IUserService userService,
-                            IFacilityService facilityService,
                             TokenValidationParametersFactory tokenValidationParametersFactory,
                             TokenProviderOptionsFactory tokenProviderOptionsFactory) : base(httpContextAccessor, loggerFactory, configuration, mapper)
         {
@@ -63,8 +70,10 @@ namespace ASI.Basecode.WebApp.Controllers
             this._tokenValidationParametersFactory = tokenValidationParametersFactory;
             this._appConfiguration = configuration;
             this._userService = userService;
-            this._facilityService = facilityService;
+            _webHostEnvironment = webHostEnvironment ?? throw new ArgumentNullException(nameof(webHostEnvironment));
         }
+
+      
 
         /// <summary>
         /// Login Method
@@ -86,41 +95,7 @@ namespace ASI.Basecode.WebApp.Controllers
         /// <param name="model">The model.</param>
         /// <param name="returnUrl">The return URL.</param>
         /// <returns> Created response view </returns>
-        /// 
-
-
-
-
-
-        /*
-                [HttpPost]
-                [AllowAnonymous]
-
-                public async Task<IActionResult> Login(LoginViewModel model, string returnUrl)
-                {
-                    this._session.SetString("HasSession", "Exist");
-
-                    User user = null;
-
-                    // Authenticate the user
-                    var loginResult = _userService.AuthenticateUser(model.UserId, model.Password, ref user);
-                    if (loginResult == LoginResult.Success)
-                    {
-                        // Successful authentication
-                        await this._signInManager.SignInAsync(user);
-                        this._session.SetString("UserName", user.Name); // Store user's name in session
-                        this._session.SetString("Department", user.Department);
-                        this._session.SetInt32("Role", user.UserTypeId);
-
-                        return RedirectToAction("Index", "Home"); // Redirect to home
-                    }
-                    else
-                    {
-                        // Authentication failed
-                        TempData["ErrorMessage"] = "Incorrect UserId or Password";
-                        return View();
-                    }
-                }*/
+        ///
 
 
         [HttpPost]
@@ -141,6 +116,7 @@ namespace ASI.Basecode.WebApp.Controllers
                 this._session.SetString("UserName", user.Name); // Store user's name in session
                 this._session.SetString("Department", user.Department);
                 this._session.SetInt32("Role", user.UserTypeId);
+                this._session.SetString("ProfilePictureUrl", user.ProfilePictureUrl);
 
                 // Pass the role to the view
                 ViewData["UserRole"] = user.UserTypeId;
@@ -158,11 +134,6 @@ namespace ASI.Basecode.WebApp.Controllers
 
 
 
-
-
-
-
-
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Register()
@@ -172,23 +143,80 @@ namespace ASI.Basecode.WebApp.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult Register(UserViewModel model)
+        public async Task<IActionResult> Register(UserViewModel model)
         {
+            // Check if the model is null
+            if (model == null)
+            {
+                TempData["ErrorMessage"] = "Model is null.";
+                return View();
+            }
+
+            // Handle file upload if a profile picture is provided
+            if (model.ProfilePicture != null && model.ProfilePicture.Length > 0)
+            {
+                try
+                {
+                    // Ensure _webHostEnvironment is not null
+                    if (_webHostEnvironment == null)
+                    {
+                        TempData["ErrorMessage"] = "Web Host Environment is not available.";
+                        return View();
+                    }
+
+                    // Generate a unique file name
+                    var fileName = Path.GetFileNameWithoutExtension(model.ProfilePicture.FileName);
+                    var extension = Path.GetExtension(model.ProfilePicture.FileName);
+                    fileName = $"{fileName}_{Guid.NewGuid()}{extension}"; // Append GUID to avoid name conflicts
+
+                    // Define the path where the file will be saved
+                    var directoryPath = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
+
+                    // Ensure the directory exists
+                    if (!Directory.Exists(directoryPath))
+                    {
+                        Directory.CreateDirectory(directoryPath); // Create folder if not exists
+                    }
+
+                    var filePath = Path.Combine(directoryPath, fileName);
+
+                    // Save the file
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await model.ProfilePicture.CopyToAsync(stream);
+                    }
+
+                    // Save the relative path to the database
+                    model.ProfilePictureUrl = "/uploads/" + fileName;
+                }
+                catch (Exception ex)
+                {
+                    TempData["ErrorMessage"] = $"Error while uploading file: {ex.Message}";
+                    return View();
+                }
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "No profile picture uploaded.";
+                return View();
+            }
+
             try
             {
-                _userService.AddUser(model);
+                // Now pass the model to the service layer
+                _userService.AddUser(model);  // This should work if model is correctly populated
                 return RedirectToAction("Login", "Account");
-            }
-            catch (InvalidDataException ex)
-            {
-                TempData["ErrorMessage"] = ex.Message;
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.Errors.ServerError;
+                TempData["ErrorMessage"] = ex.Message;
+                return View();
             }
-            return View();
         }
+
+
+
+
 
 
         [AllowAnonymous]
@@ -198,30 +226,37 @@ namespace ASI.Basecode.WebApp.Controllers
             return RedirectToAction("Login", "Account");
         }
 
-        public IActionResult LoadUsers()
+        //public IActionResult LoadUsers()
+        //{
+        //    var users = _userService.GetAllUsers();
+        //    ViewBag.UserRole = HttpContext.Session.GetInt32("Role") ?? 0;
+        //    ViewBag.UserCount = users.Count();
+        //    return PartialView("/Views/Body/_Users.cshtml", users);
+
+
+
+        public IActionResult LoadUsers(int page = 1)
         {
+            // Fetch all users
             var users = _userService.GetAllUsers();
+
+            // Convert to IPagedList for pagination
+            int pageSize = 10;  // Number of users per page
+            var pagedUsers = users.ToPagedList(page, pageSize);  // Ensure this is IPagedList
+
+            // Add necessary data to ViewBag
             ViewBag.UserRole = HttpContext.Session.GetInt32("Role") ?? 0;
             ViewBag.UserCount = users.Count();
-            return PartialView("/Views/Body/_Users.cshtml", users);
+
+            // Return the paginated users to the partial view
+            return PartialView("/Views/Body/_Users.cshtml", users.ToPagedList(page, 10));
         }
 
-        [HttpGet]
+
         public IActionResult LoadFacilities()
         {
-            /* ViewBag.CurrentView = "Facilities"; // Set the current view flag
-             return PartialView("/Views/Body/_Facilities.cshtml");*/
-            try
-            {
-                ViewBag.CurrentView = "Facilities";
-                var facilities = _facilityService.GetFacilities();
-
-                return PartialView("/Views/Body/_Facilities.cshtml", facilities);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "Failed to load facilities");
-            }
+            ViewBag.CurrentView = "Facilities"; // Set the current view flag
+            return PartialView("/Views/Body/_Facilities.cshtml");
         }
 
         public IActionResult ViewFacility()
@@ -252,13 +287,6 @@ namespace ASI.Basecode.WebApp.Controllers
         }
 
 
-
-        ///////////////////////////////////////////////////// TRIAL
-        //public IActionResult GetUsers()
-        //{
-        //    var users = _userService.GetAllUsers();
-        //    return View(users);
-        //}
         [HttpGet]
         public IActionResult GetUsers()
         {
@@ -313,7 +341,7 @@ namespace ASI.Basecode.WebApp.Controllers
         [Route("Account/UpdateUser")]
         public IActionResult UpdateUser(string userId, string userName, string department, int userTypeId, string? password)
         {
-            // Fetch user by userId as a string
+            
             var user = _userService.GetUserById(userId);
             if (user == null) return Json(new { success = false, message = "User not found." });
 
