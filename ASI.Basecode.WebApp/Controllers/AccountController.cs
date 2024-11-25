@@ -37,8 +37,10 @@ namespace ASI.Basecode.WebApp.Controllers
         private readonly IConfiguration _appConfiguration;
         private readonly IUserService _userService;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IFacilityService _facilityService;
 
-        
+
+
 
 
         /// <summary>
@@ -61,6 +63,7 @@ namespace ASI.Basecode.WebApp.Controllers
                             IConfiguration configuration,
                             IMapper mapper,
                             IUserService userService,
+                            IFacilityService facilityService,
                             TokenValidationParametersFactory tokenValidationParametersFactory,
                             TokenProviderOptionsFactory tokenProviderOptionsFactory) : base(httpContextAccessor, loggerFactory, configuration, mapper)
         {
@@ -70,6 +73,7 @@ namespace ASI.Basecode.WebApp.Controllers
             this._tokenValidationParametersFactory = tokenValidationParametersFactory;
             this._appConfiguration = configuration;
             this._userService = userService;
+            this._facilityService = facilityService;
             _webHostEnvironment = webHostEnvironment ?? throw new ArgumentNullException(nameof(webHostEnvironment));
         }
 
@@ -252,11 +256,24 @@ namespace ASI.Basecode.WebApp.Controllers
             return PartialView("/Views/Body/_Users.cshtml", users.ToPagedList(page, 10));
         }
 
-
+        [HttpGet]
         public IActionResult LoadFacilities()
         {
-            ViewBag.CurrentView = "Facilities"; // Set the current view flag
-            return PartialView("/Views/Body/_Facilities.cshtml");
+            /*ViewBag.CurrentView = "Facilities"; // Set the current view flag
+            return PartialView("/Views/Body/_Facilities.cshtml");*/
+
+            try
+            {
+                ViewBag.CurrentView = "Facilities";
+                var facilities = _facilityService.GetFacilities();
+
+                return PartialView("/Views/Body/_Facilities.cshtml", facilities);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in LoadFacilities: {ex.Message}");
+                return StatusCode(500, "Failed to load facilities");
+            }
         }
 
         public IActionResult ViewFacility()
