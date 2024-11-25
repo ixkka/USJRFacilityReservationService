@@ -1,4 +1,4 @@
- @* @model IEnumerable<ASI.Basecode.Services.ServiceModels.UserViewModel> *@
+@* @model IEnumerable<ASI.Basecode.Services.ServiceModels.UserViewModel> *@
      @model X.PagedList.IPagedList<ASI.Basecode.Services.ServiceModels.UserViewModel>
 @using ASI.Basecode.Services.ServiceModels
 @using X.PagedList
@@ -32,7 +32,7 @@
 
 
 
- @* <div class="container-fluid d-flex justify-content-between align-items-center" style="padding-bottom: 10px;">
+@* <div class="container-fluid d-flex justify-content-between align-items-center" style="padding-bottom: 10px;">
      <div class="d-flex align-items-center">
          <h5 class="mb-0">All Accounts <span class="badge bg-success rounded ms-2">@ViewBag.UserCount</span></h5>
      </div>
@@ -188,7 +188,7 @@
  </div> *@
 
 
- @* There is a header above here *@
+@* There is a header above here *@
 
 
 <div id="userListContainer">
@@ -220,160 +220,167 @@
 
 
     <div class="container-fluid d-flex justify-content-between align-items-center" style="padding-bottom: 10px;">
-    <div class="d-flex align-items-center">
-        <h5 class="mb-0">All Accounts <span class="badge bg-success rounded ms-2">@ViewBag.UserCount</span></h5>
-    </div>
-
-    <div class="d-flex align-items-center" style="gap: 30px; margin-left: -10px;">
-        <div class="position-relative">
-            <input type="text" class="form-control" placeholder="Search" style="width: 300px; padding-left: 30px; border-radius: 5px;">
-            <img src="~/img/search.svg" alt="Search" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
+        <div class="d-flex align-items-center">
+            <h5 class="mb-0">All Accounts <span class="badge bg-success rounded ms-2">@ViewBag.UserCount</span></h5>
         </div>
 
-        <button class="btn btn-outline-secondary position-relative" style="border-radius: 5px; padding: 8px 25px; min-width: 120px;">
-            <img src="~/img/filter.svg" alt="Filters" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
-            Filters
-        </button>
+        <div class="d-flex align-items-center" style="gap: 30px; margin-left: -10px;">
+            <div class="position-relative">
+                <input type="text" class="form-control" placeholder="Search" style="width: 300px; padding-left: 30px; border-radius: 5px;">
+                <img src="~/img/search.svg" alt="Search" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
+            </div>
 
-        <button type="button" class="btn btn-success position-relative" style="border-radius: 5px; padding: 8px 25px; min-width: 120px;"
-                data-toggle="modal" data-target="#addUserModal" data-title="Add User">
-            <img src="~/img/add.svg" alt="Add User" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
-            Add user
-        </button>
+            <button class="btn btn-outline-secondary position-relative" style="border-radius: 5px; padding: 8px 25px; min-width: 120px;">
+                <img src="~/img/filter.svg" alt="Filters" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
+                Filters
+            </button>
+
+            <button type="button" class="btn btn-success position-relative" style="border-radius: 5px; padding: 8px 25px; min-width: 120px;"
+                    data-toggle="modal" data-target="#addUserModal" data-title="Add User">
+                <img src="~/img/add.svg" alt="Add User" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
+                Add user
+            </button>
 
 
-        <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content" style="border-radius: 20px; border: 1px solid #ddd;">
-                    <div class="modal-header" style="border-bottom: none;">
-                        <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="text-center mb-4">
-                            <img src="https://usjr.edu.ph/wp-content/uploads/2016/05/USJR1.png"
-                                 style="width: 100px;" alt="Logo">
+            <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content" style="border-radius: 20px; border: 1px solid #ddd;">
+                        <div class="modal-header" style="border-bottom: none;">
+                            <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <form id="addUserForm" action="/Account/CreateUser" method="POST">
-                            <!-- User ID -->
-                            <div class="form-outline mb-3">
-                                <label class="form-label" for="userId">User ID</label>
-                                <input type="text" id="userId" name="UserId" class="form-control" placeholder="Enter User ID" required>
+                        <div class="modal-body">
+                            <div class="text-center mb-4">
+                                <img src="https://usjr.edu.ph/wp-content/uploads/2016/05/USJR1.png"
+                                     style="width: 100px;" alt="Logo">
                             </div>
+                            <form id="addUserForm" action="/Account/CreateUser" enctype="multipart/form-data" method="POST">
+                                <!-- User ID -->
+                                <div class="form-outline mb-3">
+                                    <label class="form-label" for="userId">User ID</label>
+                                    <input type="text" id="userId" name="UserId" class="form-control" placeholder="Enter User ID" required>
+                                </div>
 
-                            <!-- Name -->
-                            <div class="form-outline mb-3">
-                                <label class="form-label" for="name">Name</label>
-                                <input type="text" id="name" name="Name" class="form-control" placeholder="Enter Name" required>
-                            </div>
+                                <!-- Name -->
+                                <div class="form-outline mb-3">
+                                    <label class="form-label" for="name">Name</label>
+                                    <input type="text" id="name" name="Name" class="form-control" placeholder="Enter Name" required>
+                                </div>
 
-                            <!-- Password -->
-                            <div class="form-outline mb-3">
-                                <label class="form-label" for="password">Password</label>
-                                <input type="password" id="password" name="Password" class="form-control" placeholder="Enter Password" required minlength="8">
-                            </div>
+                                <!-- Password -->
+                                <div class="form-outline mb-3">
+                                    <label class="form-label" for="password">Password</label>
+                                    <input type="password" id="password" name="Password" class="form-control" placeholder="Enter Password" required minlength="8">
+                                </div>
 
-                            <!-- Confirm Password -->
-                            <div class="form-outline mb-3">
-                                <label class="form-label" for="confirmpassword">Confirm Password</label>
-                                <input type="password" id="confirmpassword" name="ConfirmPassword" class="form-control" placeholder="Confirm Password" required>
-                            </div>
+                                <!-- Confirm Password -->
+                                <div class="form-outline mb-3">
+                                    <label class="form-label" for="confirmpassword">Confirm Password</label>
+                                    <input type="password" id="confirmpassword" name="ConfirmPassword" class="form-control" placeholder="Confirm Password" required>
+                                </div>
 
-                            <!-- Department (Dropdown) -->
-                            <div class="form-outline mb-3">
-                                <label class="form-label" for="department">Department</label>
-                                <select id="department" name="Department" class="form-control" required>
-                                    <option value="" disabled selected>Select Department</option>
-                                    <option value="SAO">SAO</option>
-                                    <option value="SOE">SOE</option>
-                                    <option value="SBM">SBM</option>
-                                    <option value="SED">SED</option>
-                                    <option value="SCS">SCS</option>
-                                    <option value="SAMS">SAMS</option>
-                                </select>
-                            </div>
+                                <!-- Department (Dropdown) -->
+                                <div class="form-outline mb-3">
+                                    <label class="form-label" for="department">Department</label>
+                                    <select id="department" name="Department" class="form-control" required>
+                                        <option value="" disabled selected>Select Department</option>
+                                        <option value="SAO">SAO</option>
+                                        <option value="SOE">SOE</option>
+                                        <option value="SBM">SBM</option>
+                                        <option value="SOEng">SOEng</option>
+                                        <option value="SCS">SCS</option>
+                                        <option value="SAMS">SAMS</option>
+                                    </select>
+                                </div>
 
-                            <!-- Roles -->
-                            <div class="form-outline mb-3">
-                                <label class="col-form-label" for="UserTypeId">Roles</label>
-                                <select id="UserTypeId" name="UserTypeId" class="form-control" required>
-                                    <option value="">Select Role</option>
-                                    <option value="1">Admin</option>
-                                    <option value="2">Student</option>
-                                    <option value="3">Super Admin</option>
-                                </select>
-                            </div>
+                                <!-- Roles -->
+                                <div class="form-outline mb-3">
+                                    <label class="col-form-label" for="UserTypeId">Roles</label>
+                                    <select id="UserTypeId" name="UserTypeId" class="form-control" required>
+                                        <option value="">Select Role</option>
+                                        <option value="1">Admin</option>
+                                        <option value="2">Student</option>
+                                        <option value="3">Super Admin</option>
+                                    </select>
+                                </div>
 
-                            <!-- Submit Button -->
-                            <div class="text-center pt-1 d-flex align-items-center justify-content-center">
-                                <button type="submit" class="btn btn-success rounded-pill" style="width: 120px; background-color: #137333; border: none; padding-right: 100px">Register</button>
-                                <p class ="pl-4"></p>
-                                <button type="button" class="btn btn-danger" data-dismiss="modal" style="border-radius: 20px; padding: 10px 20px;">Cancel</button>
-                            </div>
-                        </form>
+                                <div class="form-outline mb-3">
+                                    <label class="form-label" for="profilePicture">Upload Profile Picture</label>
+                                    <input type="file" id="profilePicture" name="ProfilePicture" class="form-control" accept="image/*">
+                                </div>
+
+
+                                <!-- Submit Button -->
+                                <div class="text-center pt-1 d-flex align-items-center justify-content-center">
+                                    <button type="submit" class="btn btn-success rounded-pill" style="width: 120px; background-color: #137333; border: none; padding-right: 100px">Register</button>
+                                    <p class="pl-4"></p>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal" style="border-radius: 20px; padding: 10px 20px;">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
 
+        <script>
+            $('#addUserModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget); // Button that triggered the modal
+                var title = button.data('title'); // Extract info from data-title attribute
+                var modal = $(this);
+                modal.find('#modalTitle').text(title); // Update the modal's title
+            });
+        </script>
+        <script>
+            // Close the modal when "Cancel" is clicked
+            document.querySelector('[data-bs-dismiss="modal"]').addEventListener('click', function () {
+                var modalElement = document.getElementById('addUserModal');
+                var modalInstance = bootstrap.Modal.getInstance(modalElement); // Get the modal instance
+                if (modalInstance) {
+                    modalInstance.hide(); // Close the modal
+                }
+            });
+        </script>
     </div>
 
-    <script>
-        $('#addUserModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); // Button that triggered the modal
-            var title = button.data('title'); // Extract info from data-title attribute
-            var modal = $(this);
-            modal.find('#modalTitle').text(title); // Update the modal's title
-        });
-    </script>
-    <script>
-        // Close the modal when "Cancel" is clicked
-        document.querySelector('[data-bs-dismiss="modal"]').addEventListener('click', function () {
-            var modalElement = document.getElementById('addUserModal');
-            var modalInstance = bootstrap.Modal.getInstance(modalElement); // Get the modal instance
-            if (modalInstance) {
-                modalInstance.hide(); // Close the modal
-            }
-        });
-    </script>
-</div>
 
 
 
 
 
 
+    <div class="pt-3"></div>
 
-<div class="pt-3"></div>
 
+    <!-- Table Header Section -->
+    <div class="container-fluid d-flex justify-content-between align-items-center" style="background-color:#D0E3CC; padding: 10px; border-radius:10px;">
+        <!-- Left-aligned (User) -->
+        <div class="d-flex align-items-center" style="flex-basis: 40%;">
+            <label for="users" style="color:#137301; margin: 0;">User</label>
+        </div>
 
-<!-- Table Header Section -->
-<div class="container-fluid d-flex justify-content-between align-items-center" style="background-color:#D0E3CC; padding: 10px; border-radius:10px;">
-    <!-- Left-aligned (User) -->
-    <div class="d-flex align-items-center" style="flex-basis: 40%;">
-        <label for="users" style="color:#137301; margin: 0;">User</label>
+        <!-- Center-aligned (ID) -->
+        <div class="d-flex align-items-center justify-content-center" style="flex-basis: 25%; text-align: center;">
+            <p style="color:#137301; margin: 0;">ID</p>
+        </div>
+
+        <!-- Department Column -->
+        <div class="d-flex align-items-center justify-content-center" style="flex-basis: 25%; text-align: center;">
+            <p style="color:#137301; margin: 0;">Department</p>
+        </div>
+
+        <!-- User Type Column -->
+        <div class="d-flex align-items-center justify-content-center" style="flex-basis: 25%; text-align: center;">
+            <p style="color:#137301; margin: 0;">User Type</p>
+        </div>
+
+        <!-- Action Column -->
+        <div class="d-flex align-items-center justify-content-end" style="flex-basis: 15%; text-align: right;">
+            <p style="color:#137301; margin: 0;">Actions</p>
+        </div>
     </div>
 
-    <!-- Center-aligned (ID) -->
-    <div class="d-flex align-items-center justify-content-center" style="flex-basis: 25%; text-align: center;">
-        <p style="color:#137301; margin: 0;">ID</p>
-    </div>
-
-    <!-- Department Column -->
-    <div class="d-flex align-items-center justify-content-center" style="flex-basis: 25%; text-align: center;">
-        <p style="color:#137301; margin: 0;">Department</p>
-    </div>
-
-    <!-- User Type Column -->
-    <div class="d-flex align-items-center justify-content-center" style="flex-basis: 25%; text-align: center;">
-        <p style="color:#137301; margin: 0;">User Type</p>
-    </div>
-
-    <!-- Action Column -->
-    <div class="d-flex align-items-center justify-content-end" style="flex-basis: 15%; text-align: right;">
-        <p style="color:#137301; margin: 0;">Actions</p>
-    </div>
-</div>
 
 
 
@@ -387,12 +394,11 @@
 
 
 
-
-@foreach (var user in Model)
-{
-    <!-- Static User Row 1 -->
-    <div class="container-fluid d-flex justify-content-between align-items-center py-2 border-bottom">
-        <!-- User Column -->
+    @foreach (var user in Model)
+    {
+        <!-- Static User Row 1 -->
+        <div class="container-fluid d-flex justify-content-between align-items-center py-2 border-bottom">
+            <!-- User Column -->
             <div class="d-flex align-items-center" style="flex-basis: 40%; justify-content: flex-start; margin-left: -5px;">
                 @* <input type="checkbox" id="user1" style="width: 15px; height: 15px; margin-right: 8px;" /> *@
                 @if (!string.IsNullOrEmpty(user.ProfilePictureUrl))
@@ -407,168 +413,203 @@
             </div>
 
 
-        <!-- ID Column -->
-        <div class="d-flex align-items-center" style="flex-basis: 20%; justify-content: flex-start; margin-left: -5px;">
-            <p style="margin: 0;">@user.UserId</p>
-        </div>
+            <!-- ID Column -->
+            <div class="d-flex align-items-center" style="flex-basis: 20%; justify-content: flex-start; margin-left: -5px;">
+                <p style="margin: 0;">@user.UserId</p>
+            </div>
 
-        <!-- Department Column -->
-        <div class="d-flex align-items-center" style="flex-basis: 20%; justify-content: flex-start; margin-left: -5px;">
-            <p style="margin: 0;">@user.Department</p>
-        </div>
+            <!-- Department Column -->
+            <div class="d-flex align-items-center" style="flex-basis: 20%; justify-content: flex-start; margin-left: -5px;">
+                <p style="margin: 0;">@user.Department</p>
+            </div>
 
-        <!-- User Type Column -->
-        <div class="d-flex align-items-center" style="flex-basis: 20%; justify-content: flex-start; margin-left: -5px;">
-            <p style="margin: 0;">
-                @if (user.UserTypeId == 1)
-                {
-                    <span>Admin</span>
-                    ;
-                }
-                else if (user.UserTypeId == 2)
-                {
-                    <span>Student</span>
-                    ;
-                }
-                else if (user.UserTypeId == 3)
-                {
-                    <span>Super Admin</span>
-                    ;
-                }
-                else
-                {
-                    <span>Unknown</span>
-                    ;
-                }
-            </p>
-        </div>
-
-
-
-
-
-        <!-- Three Dots Column -->
-        <div class="d-flex align-items-center ml-3 position-relative" style="margin-left:50px">
-            <img src="~/img/three.svg" class="menu-toggle" style="cursor: pointer;" />
-
-            <div class="dropdown-menu" style="display: none; position: absolute; top: 50px; background-color: white; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); border-radius: 20px; z-index: 1000; width: 200px;">
-                <a href="#" class="dropdown-item edit-user-details" style="padding: 10px; display: flex; align-items: center;"
-                   data-toggle="modal" data-target="#editDetailsModal"
-                   data-userid="@user.UserId"
-                   data-name="@user.Name"
-                   data-department="@user.Department"
-                   data-usertype="@user.UserTypeId">
-                    <img src="~/img/userprofile.svg" alt="profile placeholder" style="border-radius: 50%; margin-right: 10px;">
-                    Edit Details
-                </a>
-
-                <a href="#" class="dropdown-item text-danger" style="padding: 10px; display: flex; align-items: center;"
-                   data-toggle="modal" data-target="#deleteUserModal" data-id="@user.Id">
-                    <img src="~/img/delete.svg" alt="delete placeholder" style="border-radius: 50%; margin-right: 10px;">
-                    Delete user
-                </a>
-
-
+            <!-- User Type Column -->
+            <div class="d-flex align-items-center" style="flex-basis: 20%; justify-content: flex-start; margin-left: -5px;">
+                <p style="margin: 0;">
+                    @if (user.UserTypeId == 1)
+                    {
+                        <span>Admin</span>
+                        ;
+                    }
+                    else if (user.UserTypeId == 2)
+                    {
+                        <span>Student</span>
+                        ;
+                    }
+                    else if (user.UserTypeId == 3)
+                    {
+                        <span>Super Admin</span>
+                        ;
+                    }
+                    else
+                    {
+                        <span>Unknown</span>
+                        ;
+                    }
+                </p>
             </div>
 
 
-            <!-- Delete Confirmation Modal -->
-            <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content" style="border-radius: 20px; padding: 20px;">
-                        <div class="modal-header text-center">
-                            <h5 class="modal-title" id="deleteModalTitle" style="width: 100%;">Confirm Deletion</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
 
-                        <!-- Form for Deletion -->
-                        <form action="/Account/DeleteUser" method="POST" id="deleteUserForm">
-                            <input type="hidden" name="id" id="deleteUserId" />
-                            <div class="modal-footer justify-content-center">
-                                <!-- Yes Button -->
-                                <button type="submit" class="btn btn-danger" style="border-radius: 20px; padding: 10px 20px; background-color: #FF6B6B;">Yes</button>
-                                <!-- Cancel Button -->
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 20px; padding: 10px 20px;">Cancel</button>
+
+
+            <!-- Three Dots Column -->
+            <div class="d-flex align-items-center ml-3 position-relative" style="margin-left:50px">
+                <img src="~/img/three.svg" class="menu-toggle" style="cursor: pointer;" />
+
+                <div class="dropdown-menu" style="display: none; position: absolute; top: 50px; background-color: white; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); border-radius: 20px; z-index: 1000; width: 200px;">
+                    <a href="#" class="dropdown-item edit-user-details" style="padding: 10px; display: flex; align-items: center;"
+                       data-toggle="modal" data-target="#editDetailsModal"
+                       data-userid="@user.UserId"
+                       data-name="@user.Name"
+                       data-department="@user.Department"
+                       data-usertype="@user.UserTypeId">
+                        <img src="~/img/userprofile.svg" alt="profile placeholder" style="border-radius: 50%; margin-right: 10px;">
+                        Edit Details
+                    </a>
+
+                    <a href="#" class="dropdown-item text-danger" style="padding: 10px; display: flex; align-items: center;"
+                       data-toggle="modal" data-target="#deleteUserModal" data-id="@user.Id">
+                        <img src="~/img/delete.svg" alt="delete placeholder" style="border-radius: 50%; margin-right: 10px;">
+                        Delete user
+                    </a>
+
+
+                </div>
+
+
+                <!-- Delete Confirmation Modal -->
+                <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content" style="border-radius: 20px; padding: 20px;">
+                            <div class="modal-header text-center">
+                                <h5 class="modal-title" id="deleteModalTitle" style="width: 100%;">Confirm Deletion</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
-                        </form>
+
+                            <!-- Form for Deletion -->
+                            <form action="/Account/DeleteUser" method="POST" id="deleteUserForm">
+                                <input type="hidden" name="id" id="deleteUserId" />
+                                <div class="modal-footer justify-content-center">
+                                    <!-- Yes Button -->
+                                    <button type="submit" class="btn btn-danger" style="border-radius: 20px; padding: 10px 20px; background-color: #FF6B6B;">Yes</button>
+                                    <!-- Cancel Button -->
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 20px; padding: 10px 20px;">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
+
+
+
+
+
+
+
+
+
+                <style>
+                    .dropdown-item {
+                        border-radius: 10px;
+                        transition: background-color 0.3s ease;
+                    }
+
+                        /* Hover color change to #137301 */
+                        .dropdown-item:hover {
+                            background-color: #137301;
+                            color: white; /* Optional: Make the text white for better contrast */
+                        }
+
+                    .text-danger:hover {
+                        background-color: #fdd;
+                    }
+                </style>
+
             </div>
 
 
 
+            <script>
+                function openProfileModal(userId, userName) {
+                    // Set the values of the ID and Name fields in the modal
+                    document.getElementById('idNumber').value = userId;
+                    document.getElementById('firstName').value = userName;
 
+                    // Optional: Change the title if needed
+                    document.getElementById('addUserModalLabel').innerText = "View Profile";
 
-
-
-
-
-            <style>
-                .dropdown-item {
-                    border-radius: 10px;
-                    transition: background-color 0.3s ease;
+                    // Show the modal
+                    $('#addUserModal').modal('show');
                 }
+            </script>
 
-                    /* Hover color change to #137301 */
-                    .dropdown-item:hover {
-                        background-color: #137301;
-                        color: white; /* Optional: Make the text white for better contrast */
-                    }
 
-                .text-danger:hover {
-                    background-color: #fdd;
-                }
-            </style>
+            <script>
+                $(document).ready(function () {
+                    // When "Delete user" is clicked, show the delete confirmation modal and set the user ID
+                    $('.dropdown-item.text-danger').on('click', function () {
+                        var userId = $(this).data('id');  // Capture the user ID
+                        $('#deleteUserId').val(userId);   // Set the user ID in the hidden input field
+                        $('#deleteUserModal').modal('show');  // Show the delete confirmation modal
+                    });
+
+                    // When the "Yes" button is clicked, the form will be submitted
+                    $('#deleteUserForm').submit(function () {
+                        // You can perform any additional validation or actions here before the form submits
+                    });
+                });
+
+
+            </script>
+
 
         </div>
+    }
 
 
 
-        <script>
-            function openProfileModal(userId, userName) {
-                // Set the values of the ID and Name fields in the modal
-                document.getElementById('idNumber').value = userId;
-                document.getElementById('firstName').value = userName;
-
-                // Optional: Change the title if needed
-                document.getElementById('addUserModalLabel').innerText = "View Profile";
-
-                // Show the modal
-                $('#addUserModal').modal('show');
-            }
-        </script>
-
-
-        <script>
-            $(document).ready(function () {
-                // When "Delete user" is clicked, show the delete confirmation modal and set the user ID
-                $('.dropdown-item.text-danger').on('click', function () {
-                    var userId = $(this).data('id');  // Capture the user ID
-                    $('#deleteUserId').val(userId);   // Set the user ID in the hidden input field
-                    $('#deleteUserModal').modal('show');  // Show the delete confirmation modal
-                });
-
-                // When the "Yes" button is clicked, the form will be submitted
-                $('#deleteUserForm').submit(function () {
-                    // You can perform any additional validation or actions here before the form submits
-                });
-            });
-
-
-        </script>
-
-
+    <div class="pagination-container text-center">
+        @Html.PagedListPager(Model, page => Url.Action("LoadUsers", new { page }))
     </div>
-}
 
+    <style>
+        .pagination-container {
+            display: flex;
+            justify-content: center; /* Centers the pagination */
+            align-items: center; /* Vertically aligns if needed */
+            margin-top: 20px; /* Optional: Adds some spacing on top */
+        }
 
+        .pagination {
+            display: flex; /* Use flex to align items horizontally */
+            list-style-type: none; /* Removes default list styles */
+            margin: 0; /* Removes any default margin */
+            padding: 0; /* Removes any default padding */
+        }
 
-    @Html.PagedListPager(Model, page => Url.Action("LoadUsers", new { page }))
+            .pagination li {
+                margin: 0 5px; /* Add spacing between the pagination items */
+            }
+
+            .pagination a {
+                display: inline-block; /* Ensures that the pagination items are inline */
+                padding: 10px 15px; /* Adjust the button padding */
+                text-decoration: none; /* Remove default underline */
+                background-color: #f0f0f0; /* Optional: Background for pagination items */
+                border-radius: 5px; /* Optional: Rounded corners */
+            }
+
+                .pagination a:hover {
+                    background-color: #137301; /* Optional: Hover color */
+                    color: white; /* Change text color on hover */
+                }
+
+    </style>
+
 </div>
-</div>
-
 
 <script>
     $(document).on("click", ".pagination a", function (e) {
@@ -607,7 +648,7 @@
             </div>
             <div class="modal-body">
                 <!-- Form for Updating User Details -->
-                <form action="/Account/UpdateUser" method="POST">
+                <form action="/Account/UpdateUser" enctype="multipart/form-data" method="POST">
                     <input type="hidden" name="userId" id="editUserId" />
 
                     <div class="form-group">
@@ -649,6 +690,11 @@
                     <div class="form-group">
                         <label for="confirmUserPassword">Confirm Password</label>
                         <input type="password" class="form-control" id="confirmUserPassword" name="confirmPassword">
+                    </div>
+
+                    <div class="form-outline mb-3">
+                        <label class="form-label" for="profilePicture">Edit Profile Picture</label>
+                        <input type="file" id="profilePicture" name="ProfilePicture" class="form-control" accept="image/*">
                     </div>
 
                     <div class="modal-footer justify-content-center">
@@ -711,6 +757,9 @@
         });
     });
 </script>
+
+
+@* TOOGLE SA THREE DOTS *@
 <script>
     document.querySelectorAll('.menu-toggle').forEach(function (menuToggle) {
         menuToggle.addEventListener('click', function () {
@@ -746,6 +795,8 @@
         });
     });
 </script>
+
+
 <script>
     // Function to close the modal
     function closeApp() {

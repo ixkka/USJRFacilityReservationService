@@ -21,7 +21,7 @@ namespace ASI.Basecode.Services.ServiceModels
 
         [Required(ErrorMessage = "Confirmation Password is required.")]
         [Compare("Password", ErrorMessage = "Password and Confirmation Password must match.")]
-       
+
 
         public string ConfirmPassword { get; set; }
 
@@ -32,13 +32,11 @@ namespace ASI.Basecode.Services.ServiceModels
         public DateTime UpdatedTime { get; set; }
         public int UserTypeId { get; set; }
         public string Department { get; set; }
-        public int Id {  get; set; }
+        public int Id { get; set; }
 
         // New property for profile picture upload
         [Display(Name = "Profile Picture")]
-        public IFormFile ProfilePicture { get; set; }
-
-        // This stores the URL or path to the uploaded profile picture
-        public string ProfilePictureUrl { get; set; }
+        public IFormFile? ProfilePicture { get; set; } // For file upload
+        public string? ProfilePictureUrl { get; set; } // To store file path in the database
     }
 }

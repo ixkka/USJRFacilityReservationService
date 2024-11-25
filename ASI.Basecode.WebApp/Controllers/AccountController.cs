@@ -77,7 +77,7 @@ namespace ASI.Basecode.WebApp.Controllers
             _webHostEnvironment = webHostEnvironment ?? throw new ArgumentNullException(nameof(webHostEnvironment));
         }
 
-      
+
 
         /// <summary>
         /// Login Method
@@ -280,7 +280,7 @@ namespace ASI.Basecode.WebApp.Controllers
         {
             return PartialView("/Views/Body/_SpecificFacility.cshtml");
         }
-       
+
 
         [HttpGet]
         public IActionResult LoadAddFacilities(bool isEdit = false)
@@ -356,9 +356,8 @@ namespace ASI.Basecode.WebApp.Controllers
 
         [HttpPost]
         [Route("Account/UpdateUser")]
-        public IActionResult UpdateUser(string userId, string userName, string department, int userTypeId, string? password)
+        public async Task<IActionResult> UpdateUser(string userId, string userName, string department, int userTypeId, string? password, IFormFile profilePicture)
         {
-            
             var user = _userService.GetUserById(userId);
             if (user == null) return Json(new { success = false, message = "User not found." });
 
@@ -372,17 +371,42 @@ namespace ASI.Basecode.WebApp.Controllers
 
             // Update UserTypeId only if it's a valid role
             if (userTypeId == 1 || userTypeId == 2 || userTypeId == 3)
-            {
                 user.UserTypeId = userTypeId;
-            }
             else
-            {
                 return Redirect(Request.Headers["Referer"].ToString());
-            }
 
             // Update password if provided
             if (!string.IsNullOrEmpty(password))
-                user.Password = PasswordManager.EncryptPassword(password); // Use PasswordManager for encryption
+                user.Password = PasswordManager.EncryptPassword(password);
+
+            // Handle profile picture upload
+            if (profilePicture != null && profilePicture.Length > 0)
+            {
+                try
+                {
+                    var fileName = Path.GetFileNameWithoutExtension(profilePicture.FileName);
+                    var extension = Path.GetExtension(profilePicture.FileName);
+                    fileName = $"{fileName}_{Guid.NewGuid()}{extension}";
+
+                    var directoryPath = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
+
+                    if (!Directory.Exists(directoryPath))
+                        Directory.CreateDirectory(directoryPath);
+
+                    var filePath = Path.Combine(directoryPath, fileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await profilePicture.CopyToAsync(stream);
+                    }
+
+                    user.ProfilePictureUrl = "/uploads/" + fileName; // Save relative path
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { success = false, message = "Error while uploading profile picture: " + ex.Message });
+                }
+            }
 
             // Update the user in the database
             _userService.UpdateUser(user);
@@ -392,50 +416,71 @@ namespace ASI.Basecode.WebApp.Controllers
 
 
 
+
+
+
+
+
+
+
+
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult CreateUser(UserViewModel model)
+        public async Task<IActionResult> CreateUser(UserViewModel model)
         {
-            Console.WriteLine("Received data:");
-            Console.WriteLine("UserId: " + model.UserId);
-            Console.WriteLine("Name: " + model.Name);
-            Console.WriteLine("Password: " + model.Password);
-            Console.WriteLine("ConfirmPassword: " + model.ConfirmPassword);
-            Console.WriteLine("Department: " + model.Department);
-            Console.WriteLine("Role: " + model.UserTypeId);
-
-            // Validate model state
             if (!ModelState.IsValid)
             {
-                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
-                {
-                    Console.WriteLine("Validation error: " + error.ErrorMessage);
-                }
-
-                ViewBag.ErrorMessage = "Please correct the highlighted errors.";
-                var users = _userService.GetAllUsers(); // Ensure users list is passed to the view
+                TempData["ErrorMessage"] = "Validation error occurred.";
                 return Redirect(Request.Headers["Referer"].ToString());
+            }
+
+            // Handle file upload (same as your existing implementation)
+            if (model.ProfilePicture != null && model.ProfilePicture.Length > 0)
+            {
+                try
+                {
+                    if (_webHostEnvironment == null)
+                    {
+                        TempData["ErrorMessage"] = "Server error: Unable to upload profile picture.";
+                        return Redirect(Request.Headers["Referer"].ToString());
+                    }
+
+                    var fileName = Path.GetFileNameWithoutExtension(model.ProfilePicture.FileName);
+                    var extension = Path.GetExtension(model.ProfilePicture.FileName);
+                    fileName = $"{fileName}_{Guid.NewGuid()}{extension}";
+
+                    var uploadPath = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
+                    if (!Directory.Exists(uploadPath))
+                    {
+                        Directory.CreateDirectory(uploadPath);
+                    }
+                    var filePath = Path.Combine(uploadPath, fileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await model.ProfilePicture.CopyToAsync(stream);
+                    }
+
+                    model.ProfilePictureUrl = $"/uploads/{fileName}";
+                }
+                catch (Exception ex)
+                {
+                    TempData["ErrorMessage"] = $"Error during file upload: {ex.Message}";
+                    return Redirect(Request.Headers["Referer"].ToString());
+                }
             }
 
             try
             {
-                _userService.AddUserAdmin(model);
-                ViewBag.SuccessMessage = "User added successfully!";
-                var users = _userService.GetAllUsers(); // Pass users list after success
-                return Redirect(Request.Headers["Referer"].ToString());
-            }
-            catch (InvalidDataException ex)
-            {
-                Console.WriteLine("Error: " + ex.Message);
-                ViewBag.ErrorMessage = ex.Message;
-                var users = _userService.GetAllUsers(); // Pass users list after exception
-                return Redirect(Request.Headers["Referer"].ToString());
+                _userService.AddUser(model);
+                TempData["SuccessMessage"] = "User created successfully!";
+
+                // Redirect to the previous page (or a specific page if "Referer" is unavailable)
+                return Redirect(Request.Headers["Referer"].ToString() ?? Url.Action("Users", "Account"));
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error: " + ex.Message);
-                ViewBag.ErrorMessage = "An error occurred while adding the user. Please try again later.";
-                var users = _userService.GetAllUsers(); // Pass users list after exception
+                TempData["ErrorMessage"] = ex.Message;
                 return Redirect(Request.Headers["Referer"].ToString());
             }
         }
