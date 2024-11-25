@@ -305,7 +305,6 @@
                             </div>
 
                             <!-- Submit Button -->
-                            <div class="text-center pt-1 d-flex align-items-center justify-content-center ">
                             <div class="text-center pt-1 d-flex align-items-center justify-content-center">
                                 <button type="submit" class="btn btn-success rounded-pill" style="width: 120px; background-color: #137333; border: none; padding-right: 100px">Register</button>
                                 <p class ="pl-4"></p>
@@ -563,10 +562,14 @@
 
     </div>
 }
-<div class="d-flex justify-content-center py-3">
+
+
+
     @Html.PagedListPager(Model, page => Url.Action("LoadUsers", new { page }))
 </div>
 </div>
+
+
 <script>
     $(document).on("click", ".pagination a", function (e) {
         e.preventDefault(); // Prevent default navigation behavior
