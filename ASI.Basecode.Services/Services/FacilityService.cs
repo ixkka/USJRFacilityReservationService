@@ -182,6 +182,11 @@ namespace ASI.Basecode.Services.Services
             }).ToList();
         }
 
+        public Facility GetFacilityByIdService(int facilityId)
+        {
+            return _facilityRepository.GetFacilityById(facilityId); 
+        }
+
         public IEnumerable<DayOfTheWeek> GetDays()
         {
             return _facilityRepository.GetDays();

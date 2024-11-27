@@ -100,7 +100,7 @@
         <div class="flex-container">
             @foreach (var facility in Model)
             {
-                <div class="content-box d-flex flex-column">
+                <div class="content-box d-flex flex-column" data-facilityid="@facility.FacilityId">
                     <div id="cont1" style="cursor:pointer; width: 117%; height: 50%"> <img src="@Url.Content("~/uploads/" + facility.Thumbnail)" alt="@facility.FacilityName" style="width:85.5%; height:95.5% ;border-radius: 20px;" /></div>
                     <!--TRIAL-->
                     <p style="padding:5px 10px 0px 10px; color: black; font-size: 21px; margin: 0;">@facility.FacilityName</p>

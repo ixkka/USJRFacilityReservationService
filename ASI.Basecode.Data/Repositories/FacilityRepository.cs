@@ -64,5 +64,10 @@ namespace ASI.Basecode.Data.Repositories
         {
             return this.GetDbSet<DayOfTheWeek>();
         }
+
+        public Facility GetFacilityById(int facilityId)
+        {
+            return this.GetDbSet<Facility>().FirstOrDefault(u => u.FacilityId == facilityId);
+        }
     }
 }
