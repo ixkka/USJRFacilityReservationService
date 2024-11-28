@@ -175,7 +175,7 @@
  </style> 
 
   <!-- jQuery Script for Dropdown and Modal Handling -->
-    <script>
+<script>
        $(document).ready(function () {
            // Toggle the dropdown menu when the three dots are clicked
            $('.menu-toggle').on('click', function (e) {
@@ -196,6 +196,32 @@
                }
            });
 
+
+              $(document).ready(function () {
+              $(document).on('click', '.content-box', function (e) {
+                      e.preventDefault();
+                      var facilityId = $(this).data('facilityid');
+
+                      $.ajax({
+                          url: '/FacilityController/GetspecFacility',
+                          type: 'GET',
+                          data: { id: facilityId },
+                          beforeSend: function () {
+                              $('#main-content').html('<p class="text-center">Loading facility details...</p>');
+                          },
+                          success: function (data) {
+                              $('#main-content').html(data);
+                          },
+                          error: function () {
+                              alert('Failed to load facility details. Please try again.');
+                          }
+                      });
+                  });
+              });
+</script>
+
+<script>
+
            // Handle the edit facility click
            $('.edit-facility').on('click', function (e) {
                e.preventDefault(); 
@@ -213,6 +239,6 @@
                });
            });
        });
-   </script> 
+</script> 
 
 

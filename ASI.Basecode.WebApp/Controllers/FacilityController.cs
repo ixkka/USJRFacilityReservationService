@@ -73,6 +73,7 @@ namespace ASI.Basecode.WebApp.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet]
         public IActionResult GetspecFacility(int id)
         {
             var facility = _facilityService.GetFacilityByIdService(id);
@@ -82,8 +83,8 @@ namespace ASI.Basecode.WebApp.Controllers
                 return NotFound("Facility Not Found");
             }
 
-            return PartialView("/Views/Body/_SpecificFacility.cshtml",facility);
-
+            return PartialView("/Views/Body/_SpecificFacility.cshtml", facility);
+            //return View();
         }
 
 
