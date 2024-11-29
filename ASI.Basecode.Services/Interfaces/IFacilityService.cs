@@ -20,7 +20,7 @@ namespace ASI.Basecode.Services.Interfaces
         IEnumerable<RoomGalleryViewModel> GetRoomGallery();
         IEnumerable<DayOfTheWeek> GetDays();
         IEnumerable<FacilityViewModel> GetFacilities();
-        Facility GetFacilityByIdService(int facilityId);
+        FacilityViewModel GetFacilityByIdService(int facilityId);
 
     }
 }

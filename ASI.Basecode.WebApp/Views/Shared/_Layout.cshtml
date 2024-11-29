@@ -162,10 +162,12 @@
             });
 
             //FOR NAVIGATING TO A SPECIFIC FACILITY (CLICKING A SPECIFIC FACILITY IN THE FACILITIES PAGE)
-            // $(document).on('click', '#cont1', function (e) {
+            //onclick can be chnaged to #cont1 or .facility-box
+            // $(document).on('click', '.facility-box', function (e) {
             //     e.preventDefault();
 
-            //     var facilityId = $(this).data('facility-id');
+            //     var facilityId = $(this).data('id');
+            //     console.log('Facility ID:', facilityId);
             //     $.ajax({
             //         url: '/Account/ViewFacility',
             //         type: 'GET',

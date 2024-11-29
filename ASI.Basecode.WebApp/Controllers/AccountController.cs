@@ -278,6 +278,14 @@ namespace ASI.Basecode.WebApp.Controllers
 
         public IActionResult ViewFacility()
         {
+            /*var facility = _facilityService.GetFacilityByIdService(id);
+
+            if (facility == null)
+            {
+                return NotFound("Facility Not Found");
+            }
+*/
+            //return PartialView("/Views/Body/_SpecificFacility.cshtml", facility);
             return PartialView("/Views/Body/_SpecificFacility.cshtml");
         }
 

@@ -182,9 +182,26 @@ namespace ASI.Basecode.Services.Services
             }).ToList();
         }
 
-        public Facility GetFacilityByIdService(int facilityId)
+        public FacilityViewModel GetFacilityByIdService(int facilityId)
         {
-            return _facilityRepository.GetFacilityById(facilityId); 
+            var data = _facilityRepository.GetFacility()
+                .Where(x => x.FacilityId == facilityId)
+                .Select(s => new FacilityViewModel { 
+                    FacilityId = s.FacilityId, 
+                    FacilityName = s.FacilityName, 
+                    Description = s.Description, 
+                    Location = s.Location, 
+                    Capacity = s.Capacity.Value, 
+                    Thumbnail = s.Thumbnail, 
+                    Amenity = s.Amenity, 
+                    BookingDays = s.BookingDays, 
+                    BookingHoursStart = s.BookingHoursStart, 
+                    BookingHoursEnd = s.BookingHoursEnd, 
+                    BookingDuration = s.BookingDuration, 
+                    BookingPrice = s.BookingPrice }).FirstOrDefault(); // Assuming you want a single result
+                return data;
+
+            //return _facilityRepository.GetFacilityById(facilityId); 
         }
 
         public IEnumerable<DayOfTheWeek> GetDays()
