@@ -15,7 +15,7 @@
                 <img src="~/img/arrow_back.svg" />  
             </div>
             <div class="d-flex align-items-center">
-                <h5 class="mb-0" style="font-size: 25px; font-weight:500;">@Model.FacilityId</h5>
+                <h5 class="mb-0" style="font-size: 25px; font-weight:500;">@Model.FacilityName</h5>
             </div>
         </div>
 
@@ -39,10 +39,10 @@
     <div style="height: 100vh; width: 60%; margin-right: 10px">
         <!--BIGGEST PICTURE-->
         <div style="width: 100%; height: 40%; border-radius: 20px;">
-            <img style="width: 100%; height: 100%; border-radius: 20px" src="~/img/facilities_icon.png" />
+            <img style="width: 100%; height: 100%; border-radius: 20px" src="@Url.Content("~/uploads/" + @Model.Thumbnail)" />
         </div>
 
-        <!--SUB PICTURES-->
+        @* <!--SUB PICTURES-->
         <div class="d-flex flex-row justify-content-between" style="margin-top: 10px;">
             <div style="width: 23%; height: 10%; border-radius: 10px;">
                 <img style="width: 100%; height: 100%; border-radius: 10px" src="~/img/facilities_icon.png" />
@@ -56,12 +56,12 @@
             <div style="width: 23%; height: 10%; border-radius: 10px;">
                 <img style="width: 100%; height: 100%; border-radius: 10px" src="~/img/facilities_icon.png" />
             </div>
-        </div>
+        </div> *@
 
         <!--ABOUT SECTION-->
         <div style="margin-top: 20px;">
             <h2>About</h2>
-            <p style="color: #8B8B8B;">Lorem ipsum dolor sit amet. Et fugit nostrum est velit placeat sed tempore odio 33 atque laboriosam non praesentium excepturi sit explicabo illum. Est laoriosam repellendus ut nobis vero At quis enim nam nihil vero. Ea autem numquam qui nostrum praesentium aut consequatur quibusdam ea sunt voluptate. Ut distinctio suscipit aut quasi odit ut illum veniam qui nobis similique.</p>
+            <p style="color: #8B8B8B;">@Model.Description</p>
         </div>
 
         <!--AMENITIES SECTION-->

@@ -184,8 +184,10 @@ namespace ASI.Basecode.Services.Services
 
         public FacilityViewModel GetFacilityByIdService(int facilityId)
         {
+            
+            var newfacilityId = facilityId;
             var data = _facilityRepository.GetFacility()
-                .Where(x => x.FacilityId == facilityId)
+                .Where(x => x.FacilityId == newfacilityId)
                 .Select(s => new FacilityViewModel { 
                     FacilityId = s.FacilityId, 
                     FacilityName = s.FacilityName, 
