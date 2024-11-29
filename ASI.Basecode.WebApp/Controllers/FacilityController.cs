@@ -80,9 +80,11 @@ namespace ASI.Basecode.WebApp.Controllers
 
             if (facility == null)
             {
-                return NotFound("Facility Not Found");
+                return NotFound("Facility Not Found this is GetspecFacility");
             }
 
+            Console.WriteLine($"Facility ID: {facility.FacilityId}"); 
+            Console.WriteLine($"Facility Name: {facility.FacilityName}");
 
             return PartialView("/Views/Body/_SpecificFacility.cshtml", facility);
             //return View();

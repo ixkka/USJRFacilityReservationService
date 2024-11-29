@@ -257,7 +257,7 @@ namespace ASI.Basecode.WebApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult LoadFacilities()
+        public IActionResult LoadFacilities(int page =1)
         {
             /*ViewBag.CurrentView = "Facilities"; // Set the current view flag
             return PartialView("/Views/Body/_Facilities.cshtml");*/
@@ -267,7 +267,10 @@ namespace ASI.Basecode.WebApp.Controllers
                 ViewBag.CurrentView = "Facilities";
                 var facilities = _facilityService.GetFacilities();
 
-                return PartialView("/Views/Body/_Facilities.cshtml", facilities);
+                int pageSize = 8; 
+                var pagedUsers = facilities.ToPagedList(page, pageSize);
+
+                return PartialView("/Views/Body/_Facilities.cshtml", facilities.ToPagedList(page, 8));
             }
             catch (Exception ex)
             {
