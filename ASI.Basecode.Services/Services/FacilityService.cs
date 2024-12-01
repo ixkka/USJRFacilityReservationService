@@ -200,7 +200,8 @@ namespace ASI.Basecode.Services.Services
                     BookingHoursStart = s.BookingHoursStart, 
                     BookingHoursEnd = s.BookingHoursEnd, 
                     BookingDuration = s.BookingDuration, 
-                    BookingPrice = s.BookingPrice }).FirstOrDefault(); // Assuming you want a single result
+                    BookingPrice = s.BookingPrice,
+                    Confirmation = s.Confirmation}).FirstOrDefault(); // Assuming you want a single result
                 return data;
 
             //return _facilityRepository.GetFacilityById(facilityId); 

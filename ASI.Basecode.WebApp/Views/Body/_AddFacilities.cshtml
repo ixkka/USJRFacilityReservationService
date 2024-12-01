@@ -26,10 +26,7 @@
                 <div class="mb-4">
                     <label for="amenities" class="form-label">Amenities</label> 
                     <div class="d-flex flex-wrap" id="amenity-list"> 
-                        <span class="p-2 text-center bg-secondary text-white me-2 mb-2" style="border-radius: 10px; margin: 10px;">Wi-Fi</span> 
-                        <span class="p-2 text-center bg-secondary text-white me-2 mb-2" style="border-radius: 10px; margin: 10px;">Air conditioner</span>
-                        <span class="p-2 text-center bg-secondary text-white me-2 mb-2" style="border-radius: 10px; margin: 10px;">Projector</span>
-                        <span class="p-2 text-center bg-secondary text-white mb-2" style="border-radius: 10px; margin: 10px;">Speakers</span>
+                        
                     </div> 
                 </div> 
                 <div class="mb-4">
@@ -109,9 +106,10 @@
                 <div class="mb-4">
                     <label for="confirmationRequirement" class="form-label">Confirmation Requirement</label>
                     <div class="d-grid gap-2" style="width: 50%;">
-                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;">Yes</button>
-                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;">No</button>
+                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;" data-confirm="1" id="confirmYes">Yes</button>
+                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;" data-confirm="0" id="confirmNo">No</button>
                     </div>
+                    <input asp-for="Confirmation" type="hidden" id="confirmationInput" />
                 </div>
 
                 <!-- Price Section -->
@@ -157,38 +155,33 @@
 </div>
 
 <script>
-    // $(document).ready(function () {
-    //     Handle adding new amenities
-    //     $('#add-amenity-btn').click(function () {
-    //         var newAmenity = $('#addAmenity').val().trim();
+    $(document).ready(function () {
+        // Handle Yes button click
+        $('#confirmYes').click(function () {
+            $('#confirmationInput').val(true);
+            $('#confirmYes')
+                .addClass('btn-primary')
+                .removeClass('btn-outline-secondary');
+            $('#confirmNo')
+                .removeClass('btn-primary')
+                .addClass('btn-outline-secondary');
+        });
 
-    //         if (newAmenity) {
-    //             Create a new span element for the amenity
-    //             var amenitySpan = $('<span></span>')
-    //                 .addClass('p-2 text-center bg-secondary text-white me-2 mb-2')
-    //                 .css({
-    //                     'border-radius': '10px',
-    //                     'margin': '10px'
-    //                 })
-    //                 .text(newAmenity);
+        // Handle No button click
+        $('#confirmNo').click(function () {
+            $('#confirmationInput').val(false);
+            $('#confirmNo')
+                .addClass('btn-primary')
+                .removeClass('btn-outline-secondary');
+            $('#confirmYes')
+                .removeClass('btn-primary')
+                .addClass('btn-outline-secondary');
+        });
+    });
+</script>
 
-    //             Append the new amenity to the list
-    //             $('#amenity-list').append(amenitySpan);
 
-    //             Clear the input field
-    //             $('#addAmenity').val('');
-    //         }
-    //     });
-
-    //     Optionally, handle pressing Enter key to add amenities
-    //     $('#addAmenity').keypress(function (e) {
-    //         if (e.which === 13) { Enter key
-    //             $('#add-amenity-btn').click();
-    //             return false; Prevent form submission
-    //         }
-    //     });
-    // });
-
+<script>
     $(document).ready(function () {
         var amenities = [];
 

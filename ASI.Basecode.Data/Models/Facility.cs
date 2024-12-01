@@ -30,6 +30,7 @@ namespace ASI.Basecode.Data.Models
         public string BookingHoursEnd { get; set; }
         public string BookingDuration { get; set; }
         public int BookingPrice { get; set; }
+        public bool Confirmation { get; set; } 
 
         public virtual ICollection<Booking> Bookings { get; set; }
         public virtual ICollection<ImageGallery> ImageGalleries { get; set; }
