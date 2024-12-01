@@ -42,46 +42,29 @@
             <img style="width: 100%; height: 100%; border-radius: 20px" src="@Url.Content("~/uploads/" + @Model.Thumbnail)" />
         </div>
 
-        @* <!--SUB PICTURES-->
-        <div class="d-flex flex-row justify-content-between" style="margin-top: 10px;">
-            <div style="width: 23%; height: 10%; border-radius: 10px;">
-                <img style="width: 100%; height: 100%; border-radius: 10px" src="~/img/facilities_icon.png" />
-            </div>
-            <div style="width: 23%; height: 10%; border-radius: 10px;">
-                <img style="width: 100%; height: 100%; border-radius: 10px" src="~/img/facilities_icon.png" />
-            </div>
-            <div style="width: 23%; height: 10%; border-radius: 10px;">
-                <img style="width: 100%; height: 100%; border-radius: 10px" src="~/img/facilities_icon.png" />
-            </div>
-            <div style="width: 23%; height: 10%; border-radius: 10px;">
-                <img style="width: 100%; height: 100%; border-radius: 10px" src="~/img/facilities_icon.png" />
-            </div>
-        </div> *@
-
         <!--ABOUT SECTION-->
         <div style="margin-top: 20px;">
             <h2>About</h2>
             <p style="color: #8B8B8B;">@Model.Description</p>
         </div>
 
-        <!--AMENITIES SECTION-->
+        <!-- AMENITIES SECTION -->
         <div style="margin-top: 30px;">
             <h2>Amenities</h2>
-            <div class="d-flex flex-row" style="gap: 10px; width: 100%">
-                <div style="background-color: #ECECEC; padding: 5px 15px; border-radius: 15px">
-                    Wifi
-                </div>
-                <div style="background-color: #ECECEC; padding: 5px 15px; border-radius: 15px">
-                    Air conditioner
-                </div>
-                <div style="background-color: #ECECEC; padding: 5px 15px; border-radius: 15px">
-                    Projector
-                </div>
-                <div style="background-color: #ECECEC; padding: 5px 15px; border-radius: 15px">
-                    Speakers
-                </div>
+            <div class="d-flex flex-row flex-wrap" style="gap: 10px; width: 100%">
+                @if (!string.IsNullOrEmpty(Model.Amenity))
+                {
+                    var amenities = Model.Amenity.Split(", ");
+                    foreach (var amenity in amenities)
+                    {
+                        <div style="background-color: #ECECEC; padding: 5px 15px; border-radius: 15px">
+                            @amenity
+                        </div>
+                    }
+                }
             </div>
         </div>
+
         
     </div>
 
@@ -91,20 +74,17 @@
         <!--FIRST CONTAINER (BOOKING DETAILS)-->
         <div style="border: solid 2px #8B8B8B; border-radius: 10px; padding: 15px 10px; margin-bottom: 20px;">
             <h7 style="color: #8B8B8B;">Location</h7>
-            <p style="font-weight: bold;">Location</p>
+            <p style="font-weight: bold;">@Model.Location</p>
             <h7 style="color: #8B8B8B;">Capacity</h7>
-            <p style="font-weight: bold;">200 people</p>
+            <p style="font-weight: bold;">@Model.Capacity people</p>
             <h7 style="color: #8B8B8B;">Booking Days</h7>
-            <p style="font-weight: bold;">Monday to Saturday (except holidays)</p>
+            <p style="font-weight: bold;">@Model.BookingDays</p>
             <h7 style="color: #8B8B8B;">Booking Hours</h7>
-            <p style="font-weight: bold;">9:00 AM to 4:00 PM</p>
-            <h7 style="color: #8B8B8B;">Booking Duration</h7>
+            <p style="font-weight: bold;">@Model.BookingHoursStart to @Model.BookingHoursEnd</p>
+            <h7 style="color: #8B8B8B;">Allowed Booking Type</h7>
             <div class="d-flex flex-row" style="gap: 10px; margin-bottom: 20px;">
                 <div style="background-color: #ECECEC; padding: 5px 15px; border-radius: 15px">
-                    Half Day
-                </div>
-                <div style="background-color: #ECECEC; padding: 5px 15px; border-radius: 15px">
-                    Full day
+                    @Model.BookingDuration
                 </div>
             </div>
             <p style="font-weight: bold;">Please be aware that a confirmation from xxx office is needed to finalize this booking.</p>
@@ -112,15 +92,15 @@
 
         <!--SECOND CONTAINER (HALF DAY PRICE)-->
         <div class="d-flex flex-row justify-content-between" style="border: solid 2px #8B8B8B; border-radius: 10px; padding: 15px 15px; margin-bottom: 20px;">
-            <p style="color: #8B8B8B; margin: 0">Price (half day)</p>
-            <p style="font-weight: bold; margin: 0">Php 2,500</p>
+            <p style="color: #8B8B8B; margin: 0">Price:</p>
+            <p style="font-weight: bold; margin: 0">@Model.BookingPrice</p>
         </div>
 
-        <!--THIRD CONTAINER (FULL DAY PRICE)-->
+@*         <!--THIRD CONTAINER (FULL DAY PRICE)-->
         <div class="d-flex flex-row justify-content-between" style="border: solid 2px #8B8B8B; border-radius: 10px; padding: 15px 15px; margin-bottom: 20px;">
             <p style="color: #8B8B8B; margin: 0">Price (full day)</p>
             <p style="font-weight: bold; margin: 0">Php 5,000</p>
-        </div>
+        </div> *@
 
         <button type="button" class="d-flex flex-row align-items-center justify-content-center" style="border-radius: 10px; padding: 20px 20px; width: 100%; background-color: #137301;">
             <img src="~/img/calendar.svg">
