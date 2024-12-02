@@ -101,18 +101,19 @@ namespace ASI.Basecode.Services.Services
             existingData.Thumbnail = model.Thumbnail;
             existingData.UpdatedDt = DateTime.Now;
             existingData.UpdatedBy = System.Environment.UserName;
+            existingData.BookingDays = model.BookingDays;
 
-            if (model._RoomGallery != null && model._RoomGallery.Any())
-            {
-                foreach (var file in model._RoomGallery)
-                {
-                    existingData.ImageGalleries.Add(new ImageGallery()
-                    {
-                        ImageName = file.GalleryName,
-                        Path = file.GalleryUrl,
-                    });
-                }
-            }
+            //if (model._RoomGallery != null && model._RoomGallery.Any())
+            //{
+            //    foreach (var file in model._RoomGallery)
+            //    {
+            //        existingData.ImageGalleries.Add(new ImageGallery()
+            //        {
+            //            ImageName = file.GalleryName,
+            //            Path = file.GalleryUrl,
+            //        });
+            //    }
+            //}
 
             _facilityRepository.UpdateFacility(existingData);
         }

@@ -109,6 +109,47 @@ namespace ASI.Basecode.WebApp.Controllers
             }
         }
 
+        // Update Facility GET action to load the update form
+        [HttpGet]
+        public IActionResult Edit(int facilityId)
+        {
+            var facility = _facilityService.GetFacilityByIdService(facilityId);
+
+            if (facility == null)
+            {
+                return NotFound("Facility not found.");
+            }
+
+            // Return the view with the facility details
+            return View(facility);
+        }
+
+        // Update Facility POST action to handle form submission
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(FacilityViewModel facility)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _facilityService.UpdateFacility(facility);
+
+                    // Redirect to the index or listing page after update
+                    return RedirectToAction("Index", "Home");
+                }
+                catch (Exception ex)
+                {
+                    // Log the exception (not shown here)
+                    ModelState.AddModelError("", "An error occurred while updating the facility.");
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(facility);
+        }
+
+        // Other controller actions
 
 
         public IActionResult Index()
