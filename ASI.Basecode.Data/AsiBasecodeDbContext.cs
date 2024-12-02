@@ -116,7 +116,7 @@ namespace ASI.Basecode.Data
                     .HasColumnType("datetime")
                     .HasColumnName("UpdatedDT");
 
-                entity.Property(e => e.Confirmation).IsRequired();
+                entity.Property(e => e.Confirmation).IsRequired().HasDefaultValue(1);
             });
 
             ModelBuilderExtensions.Seed(modelBuilder);

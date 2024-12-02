@@ -88,6 +88,28 @@ namespace ASI.Basecode.WebApp.Controllers
             //return View();
         }
 
+        [HttpPost]
+        public IActionResult DeleteFacility(FacilityViewModel room)
+        {
+            if (room == null || room.FacilityId <= 0)
+            {
+                return BadRequest("Invalid facility data.");
+            }
+
+            try
+            {
+                _facilityService.DeleteFacility(room);
+                //return Ok("Facility deleted successfully.");
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (not shown here)
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+
 
         public IActionResult Index()
         {
