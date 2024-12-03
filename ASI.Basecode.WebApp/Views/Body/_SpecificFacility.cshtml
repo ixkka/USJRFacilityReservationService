@@ -201,7 +201,7 @@
                             <button type="button" class="btn btn-outline-secondary" data-value="M">M</button>
                             <button type="button" class="btn btn-outline-secondary" data-value="T">T</button>
                             <button type="button" class="btn btn-outline-secondary" data-value="W">W</button>
-                            <button type="button" class="btn btn-outline-secondary" data-value="TH">TH</button>
+                            <button type="button" class="btn btn-outline-secondary" data-value="Th">TH</button>
                             <button type="button" class="btn btn-outline-secondary" data-value="F">F</button>
                             <button type="button" class="btn btn-outline-secondary" data-value="Sa">Sa</button>
                             <button type="button" class="btn btn-outline-secondary" data-value="Su">Su</button>
@@ -251,8 +251,8 @@
 
                     <!-- Thumbnail -->
                     <div class="form-group">
-                        <label asp-for="Thumbnail" class="control-label"></label>
-                        <input asp-for="Thumbnail" class="form-control" />
+                        <label asp-for="Thumbnail" class="control-label" style="display: none;"></label>
+                        <input asp-for="Thumbnail" type="hidden" class="form-control" />
                     </div>
                 </form>
             </div>
@@ -267,6 +267,31 @@
 </div>
 
 <!-- Script to Handle Button Toggles -->
+<script>
+       // Set the value of the booking days input field to the facility's BookingDays
+       $('#bookingDaysInput').val(facility.BookingDays);
+
+       // Split the BookingDays string into an array of days
+       var bookingDaysArray = facility.BookingDays.split(', ');
+       console.log('bookingarr');
+       console.log(bookingDaysArray);
+       // Reset the button styles to unselected state (btn-outline-secondary)
+       $('#bookingDaysButtons').find('button')
+           .removeClass('btn-primary')
+           .addClass('btn-outline-secondary');
+
+       // Loop through each button and check if the button's data-value is in the bookingDaysArray
+       $('#bookingDaysButtons').find('button').each(function () {
+           if (bookingDaysArray.includes($(this).data('value'))) {
+               // If the button's value is in the array, mark it as selected (btn-primary)
+   
+               $(this).addClass('btn-primary')
+                   .removeClass('btn-outline-secondary');
+           }
+       });
+</script>
+
+
 <script>
     $(document).ready(function () {
 
@@ -287,24 +312,38 @@
         toggleButtons('#confirmationButtons', '#confirmationInput');
         toggleButtons('#bookingDurationButtons', '#bookingDurationInput');
 
+        // Initialize the current value of the input field
+        var currentValue = $('#bookingDaysInput').val();
+        currentValue = '';
+
         // Handle booking days button toggle
         $('#bookingDaysButtons').find('button').click(function () {
-            var value = $(this).data('value');
-            var currentValue = $('#bookingDaysInput').val();
+            // Retrieve the value associated with the clicked button
+            var tempValue = $(this).data('value');
 
-            if ($(this).hasClass('btn-primary')) {
-                $(this).removeClass('btn-primary')
-                    .addClass('btn-outline-secondary');
-                currentValue = currentValue.replace(value + ',', '');
+            // Convert the current input value into an array, removing any empty elements
+            var currentValueArray = currentValue.split(',').filter(Boolean);
+
+            // Check if the clicked value is already in the array
+            if (currentValueArray.includes(tempValue)) {
+                // If present, remove it and update button appearance to 'unselected'
+                currentValueArray = currentValueArray.filter(item => item !== tempValue);
+                $(this).removeClass('btn-primary').addClass('btn-outline-secondary');
             } else {
-                $(this).addClass('btn-primary')
-                    .removeClass('btn-outline-secondary');
-                currentValue += value + ',';
+                // If not present, add it and update button appearance to 'selected'
+                currentValueArray.push(tempValue);
+                $(this).addClass('btn-primary').removeClass('btn-outline-secondary');
             }
 
-            // Remove trailing comma
-            $('#bookingDaysInput').val(currentValue.replace(/,$/, ''));
+            // Update the input value with the modified array
+            currentValue = currentValueArray.join(',');
+            $('#bookingDaysInput').val(currentValue);
+
+            // Debug: Log the updated value
+            console.log(currentValue);
         });
+
+
 
         // Populate the modal with facility details
         $('#editModal').on('show.bs.modal', function (event) {
@@ -347,20 +386,6 @@
                 }
             });
 
-            // Reset and Set BookingDays
-            $('#bookingDaysInput').val(facility.BookingDays);
-            var bookingDaysArray = facility.BookingDays.split(', ');
-
-            $('#bookingDaysButtons').find('button')
-                .removeClass('btn-primary')
-                .addClass('btn-outline-secondary');
-
-            $('#bookingDaysButtons').find('button').each(function () {
-                if (bookingDaysArray.includes($(this).data('value'))) {
-                    $(this).addClass('btn-primary')
-                        .removeClass('btn-outline-secondary');
-                }
-            });
         });
     });
 </script>
