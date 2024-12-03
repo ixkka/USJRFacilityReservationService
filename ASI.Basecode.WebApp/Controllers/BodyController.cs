@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
+using X.PagedList.Extensions;
 
 namespace ASI.Basecode.WebApp.Controllers
 {
@@ -16,24 +18,30 @@ namespace ASI.Basecode.WebApp.Controllers
     {
 
         private readonly IBookingService _bookingService;
+        private readonly IFacilityService _facilityService;
         public BodyController(IHttpContextAccessor httpContextAccessor,
                               ILoggerFactory loggerFactory,
                               IConfiguration configuration,
                               IBookingService bookingService,
+                              IFacilityService facilityService,
                               IMapper mapper = null) : base(httpContextAccessor, loggerFactory, configuration, mapper)
         {
             this._bookingService = bookingService;
+            this._facilityService = facilityService;
         }
 
         [HttpGet]
-        public IActionResult Reservations()
+        public IActionResult Reservations(int page = 1)
         {
             try
             {
                 ViewBag.CurrentView = "Reservations";
                 var bookings = _bookingService.GetAllBookings();
 
-                return PartialView("/Views/Body/_Reservations.cshtml", bookings);
+                int pageSize = 6;
+                var pagedBookings = bookings.ToPagedList(page, pageSize);
+
+                return PartialView("/Views/Body/_Reservations.cshtml", bookings.ToPagedList(page, 6));
             }
             catch (Exception ex)
             {
@@ -44,6 +52,9 @@ namespace ASI.Basecode.WebApp.Controllers
         [HttpGet]
         public IActionResult BookReservation()
         {
+            var facilityList = _facilityService.GetFacilities();
+            ViewBag.facilities = facilityList.ToList();
+
             return PartialView("/Views/Body/_CreateSingleBooking.cshtml");
         }
 

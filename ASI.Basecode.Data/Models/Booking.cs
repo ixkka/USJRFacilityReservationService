@@ -19,9 +19,9 @@ namespace ASI.Basecode.Data.Models
         public string BookingStatus { get; set; }
         public string FacilityName { get; set; }
         public string Notes { get; set; }
-        public DateTime? BookingDate { get; set; }
-        public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        public DateTime BookingDate { get; set; }
+        //public DateTime? StartDate { get; set; }
+        //public DateTime? EndDate { get; set; }
 
         public TimeSpan? BookingTimeStart { get; set; }
         public TimeSpan? BookingTimeEnd { get; set; }

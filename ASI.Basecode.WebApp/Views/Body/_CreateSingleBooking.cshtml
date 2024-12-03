@@ -53,10 +53,19 @@
 <div class="d-flex justify-content-center align-items-center" style="height: 100%; width: 100%;">
     <form asp-controller="Body" asp-action="CreateBooking" method="post">
         <!--Facility Name-->
-        <div class="container">
-            <label for="facility" class="form-label" style="margin: 0px;">Facility</label>
-            <input asp-for="FacilityName" type="text" class="form-control" style="width: 25rem; border-radius: 10px; margin-bottom: 10px;">
+        <div class="container" style="border-radius: 10px; margin-bottom: 10px">
+            <label class="form-label" for="facility">Facility</label>
+            <select id="facility" class="form-control" asp-for="FacilityId" onchange="updateFacilityName()">
+                <option value="" disabled selected>Select Facility</option>
+                @foreach(var facility in ViewBag.facilities)
+                {
+                    <option value="@facility.FacilityId" data-name="@facility.FacilityName">@facility.FacilityName</option>
+                }
+            </select>
+            <input type="hidden" id="facilityName" asp-for="FacilityName" />
+             @* <span asp-validation-for="Department" class="text-danger"></span> *@
         </div>
+        
 
         <!--Booking Date-->
         <div class="container">
@@ -112,5 +121,20 @@
                 alert('Failed to load the Facility details.');
             }
         });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        // Initialize Bootstrap Select
+        $('#facility').selectpicker();
+    });
+</script>
+
+<script>
+    $(document).on('change', '#facility', function () {
+        var selectedOption = $(this).find(':selected');
+        var facilityName = selectedOption.data('name'); // Use jQuery .data() to get the attribute
+        $('#facilityName').val(facilityName); // Set the value of the input
     });
 </script>
