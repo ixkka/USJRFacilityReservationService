@@ -3,6 +3,7 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    int userId = Context.Session.GetInt32("UserId") ?? 0;
 }
 <style>
     .clickable {
@@ -100,6 +101,9 @@
             <button type="submit" class="add-btn" style="border-radius: 10px; width: 48%;">Create</button>
             <button type="button" id="createBookingBackBTN" class="cancel-btn" style=" border-radius: 10px; width: 48%;">Cancel</button>
         </div>
+
+        <input asp-for="BookingType" id="BookingType" type="hidden" data-initial-value="Single Booking" />
+        <input asp-for="UserId" id="userId" type="hidden" value="@userId" />
     </form>
 </div>
 
@@ -122,13 +126,19 @@
             }
         });
     });
+
+    $(document).ready(function () {
+        // Set the initial value for BookingType hidden input
+        var initialValue = $('#BookingType').data('initial-value');
+        $('#BookingType').val(initialValue);
+    });
 </script>
 
 <script>
-    $(document).ready(function () {
-        // Initialize Bootstrap Select
-        $('#facility').selectpicker();
-    });
+    // $(document).ready(function () {
+    //     // Initialize Bootstrap Select
+    //     $('#facility').selectpicker();
+    // });
 </script>
 
 <script>

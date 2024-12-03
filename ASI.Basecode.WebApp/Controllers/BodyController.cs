@@ -35,13 +35,13 @@ namespace ASI.Basecode.WebApp.Controllers
         {
             try
             {
-                ViewBag.CurrentView = "Reservations";
+                //ViewBag.CurrentView = "Reservations";
                 var bookings = _bookingService.GetAllBookings();
-
+   
                 int pageSize = 6;
                 var pagedBookings = bookings.ToPagedList(page, pageSize);
 
-                return PartialView("/Views/Body/_Reservations.cshtml", bookings.ToPagedList(page, 6));
+                return PartialView("/Views/Body/_Reservations.cshtml", pagedBookings);
             }
             catch (Exception ex)
             {
@@ -50,7 +50,7 @@ namespace ASI.Basecode.WebApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult BookReservation()
+        public IActionResult SingleBookingReservation()
         {
             var facilityList = _facilityService.GetFacilities();
             ViewBag.facilities = facilityList.ToList();

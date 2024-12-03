@@ -121,6 +121,7 @@ namespace ASI.Basecode.WebApp.Controllers
                 this._session.SetString("Department", user.Department);
                 this._session.SetInt32("Role", user.UserTypeId);
                 this._session.SetString("ProfilePictureUrl", user.ProfilePictureUrl);
+                this._session.SetInt32("UserId", user.Id);
 
                 // Pass the role to the view
                 ViewData["UserRole"] = user.UserTypeId;
