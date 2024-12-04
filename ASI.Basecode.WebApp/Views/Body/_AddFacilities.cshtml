@@ -22,30 +22,26 @@
                 <textarea asp-for="Description" class="form-control" id="about" rows="5" style="border-radius: 10px;"></textarea>
             </div>
 
-            <!-- Amenities Section -->
-            <div class="mb-4">
-                <label for="amenities" class="form-label">Amenities</label>
-                <div class="d-flex flex-wrap">
-                    <span class="p-2 text-center bg-secondary text-white me-2 mb-2" style="border-radius: 10px; margin: 10px;">Wi-Fi</span>
-                    <span class="p-2 text-center bg-secondary text-white me-2 mb-2" style="border-radius: 10px; margin: 10px;">Air conditioner</span>
-                    <span class="p-2 text-center bg-secondary text-white me-2 mb-2" style="border-radius: 10px; margin: 10px;">Projector</span>
-                    <span class="p-2 text-center bg-secondary text-white mb-2" style="border-radius: 10px; margin: 10px;">Speakers</span>
+                <!-- Amenities Section -->
+                <div class="mb-4">
+                    <label for="amenities" class="form-label">Amenities</label> 
+                    <div class="d-flex flex-wrap" id="amenity-list"> 
+                        
+                    </div> 
+                </div> 
+                <div class="mb-4">
+                    <label for="addAmenity" class="form-label">Add Amenity</label> 
+                    <div class="input-group"> 
+                        <!-- Input field with border radius --> 
+
+                        <input type="text" class="form-control" id="addAmenity" placeholder="Enter new amenity" style="border-radius: 10px;">
+                        <!-- Plus button with SVG icon --> 
+                        <button type ="button" class="btn" id="add-amenity-btn" style="background-color: #d4e8d4; border-radius: 10px; margin-left:5px"> 
+                            <img src="~/img/add-black.svg" alt="Add" style="width: 24px; height: 24px;"> 
+                        </button> 
+                    </div>
                 </div>
-            </div>
-
-            <div class="mb-4">
-                <label for="addAmenity" class="form-label">Add Amenity</label>
-                <div class="input-group">
-                    <!-- Input field with border radius -->
-                    <input type="text" class="form-control" id="addAmenity" placeholder="Enter new amenity" style="border-radius: 10px;">
-                    <!-- Plus button with SVG icon -->
-                    <button class="btn" style="background-color: #d4e8d4; border-radius: 10px; margin-left:5px">
-                        <img src="~/img/add-black.svg" alt="Add" style="width: 24px; height: 24px;">
-                    </button>
-                </div>
-            </div>
-
-
+                <input type="hidden" asp-for="Amenity" id="hidden-amenity-input">
         </div>
 
         <!-- Right Column for Form Fields -->
@@ -110,9 +106,10 @@
                 <div class="mb-4">
                     <label for="confirmationRequirement" class="form-label">Confirmation Requirement</label>
                     <div class="d-grid gap-2" style="width: 50%;">
-                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;">Yes</button>
-                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;">No</button>
+                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;" data-confirm="1" id="confirmYes">Yes</button>
+                        <button type="button" class="btn btn-outline-secondary" style="border-radius: 10px;" data-confirm="0" id="confirmNo">No</button>
                     </div>
+                    <input asp-for="Confirmation" type="hidden" id="confirmationInput" />
                 </div>
 
                 <!-- Price Section -->
@@ -156,6 +153,83 @@
     </div>
     </form>
 </div>
+
+<script>
+    $(document).ready(function () {
+        // Handle Yes button click
+        $('#confirmYes').click(function () {
+            $('#confirmationInput').val(true);
+            $('#confirmYes')
+                .addClass('btn-primary')
+                .removeClass('btn-outline-secondary');
+            $('#confirmNo')
+                .removeClass('btn-primary')
+                .addClass('btn-outline-secondary');
+        });
+
+        // Handle No button click
+        $('#confirmNo').click(function () {
+            $('#confirmationInput').val(false);
+            $('#confirmNo')
+                .addClass('btn-primary')
+                .removeClass('btn-outline-secondary');
+            $('#confirmYes')
+                .removeClass('btn-primary')
+                .addClass('btn-outline-secondary');
+        });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        var amenities = [];
+
+        // Handle adding new amenities
+        $('#add-amenity-btn').click(function () {
+            var newAmenity = $('#addAmenity').val().trim();
+
+            if (newAmenity) {
+                // Add the new amenity to the list
+                amenities.push(newAmenity);
+
+                // Create a new span element for the amenity
+                var amenitySpan = $('<span></span>')
+                    .addClass('p-2 text-center bg-secondary text-white me-2 mb-2')
+                    .css({
+                        'border-radius': '10px',
+                        'margin': '10px'
+                    })
+                    .text(newAmenity);
+
+                // Append the new amenity to the list
+                $('#amenity-list').append(amenitySpan);
+
+                // Clear the input field
+                $('#addAmenity').val('');
+
+                // Update the hidden input with the joined amenities string
+                $('#hidden-amenity-input').val(amenities.join(', '));
+            }
+        });
+
+        // Optionally, handle pressing Enter key to add amenities
+        $('#addAmenity').keypress(function (e) {
+            if (e.which === 13) { // Enter key
+                $('#add-amenity-btn').click();
+                return false; // Prevent form submission
+            }
+        });
+
+        // Ensure hidden input is updated before form submission
+        $('form').submit(function () {
+            $('#hidden-amenity-input').val(amenities.join(', '));
+        });
+    });
+
+</script>
+
+
 
 <script>
     document.getElementById('imagePlaceholder').addEventListener('click', function () {

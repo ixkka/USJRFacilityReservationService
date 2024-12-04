@@ -162,22 +162,41 @@
             });
 
             //FOR NAVIGATING TO A SPECIFIC FACILITY (CLICKING A SPECIFIC FACILITY IN THE FACILITIES PAGE)
-            $(document).on('click', '#cont1', function (e) {
-                e.preventDefault();
+            //onclick can be chnaged to #cont1 or .facility-box
+            // $(document).on('click', '.facility-box', function (e) {
+            //     e.preventDefault();
 
-                // var facilityId = $(this).data('facility-id');
-                $.ajax({
-                    url: '/Account/ViewFacility',
-                    type: 'GET',
-                    // data: { facilityId: facilityId },
-                    success: function (data) {
-                        $('#main-content').html(data);
-                    },
-                    error: function () {
-                        alert('Failed to load the Facility details.');
-                    }
-                });
-            });
+            //     var facilityId = $(this).data('id');
+            //     console.log('Facility ID:', facilityId);
+            //     $.ajax({
+            //         url: '/Account/ViewFacility',
+            //         type: 'GET',
+            //         data: { facilityId: facilityId },
+            //         success: function (data) {
+            //             $('#main-content').html(data);
+            //         },
+            //         error: function () {
+            //             alert('Failed to load the Facility details.');
+            //         }
+            //     });
+            // });
+
+            // $(document).on('click', '.content-box', function (e) {
+            //     e.preventDefault();
+
+            //     var facilityId = $(this).data('facilityid');
+            //     $.ajax({
+            //         url: '/FacilityController/GetspecFacility',
+            //         type: 'GET',
+            //         data: { facilityId: facilityId },
+            //         success: function (data) {
+            //             $('#main-content').html(data);
+            //         },
+            //         error: function () {
+            //             alert('Failed to load the Facility details.');
+            //         }
+            //     });
+            // });
 
             $(document).on('click', '#SpecificFacilityBackBTN', function (e) {
                 e.preventDefault();
@@ -292,27 +311,27 @@
 
     </script>
 
-    <script>
-        $(document).on('click', '.add-facility-btn, .edit-facility', function (e) {
-            e.preventDefault(); // Prevent default behavior of the button or link
+     <script>
+         $(document).on('click', '.add-facility-btn, .edit-facility', function (e) {
+             e.preventDefault(); // Prevent default behavior of the button or link
 
-            var url = $(this).data('url'); // Get the URL from data-url attribute
+             var url = $(this).data('url'); // Get the URL from data-url attribute
 
-            // Perform an AJAX request to load the Add/Edit Facilities partial view
-            $.ajax({
-                url: url,
-                type: 'GET',
-                success: function (data) {
-                    $('#main-content').html(data); // Replace the main content with the Add/Edit Facilities partial view
-                },
-                error: function () {
-                    alert('Failed to load the content.');
-                }
-            });
-        });
+             // Perform an AJAX request to load the Add/Edit Facilities partial view
+             $.ajax({
+                 url: url,
+                 type: 'GET',
+                 success: function (data) {
+                     $('#main-content').html(data); // Replace the main content with the Add/Edit Facilities partial view
+                 },
+                 error: function () {
+                     alert('Failed to load the content.');
+                 }
+             });
+         });
 
-    </script>
-
+     </script>
+ 
 
 
     @await RenderSectionAsync("Scripts", required: false)

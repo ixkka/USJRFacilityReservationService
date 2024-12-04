@@ -73,14 +73,83 @@ namespace ASI.Basecode.WebApp.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult GetspecFacility(int id)
+     //[HttpGet]
+        public IActionResult GetspecFacility(int facilityId)
         {
-            var facility = _facilityService.GetFacilities().FirstOrDefault(f=>f.FacilityId==id);
+            var newId = facilityId;
+            var facility = _facilityService.GetFacilityByIdService(newId);
 
+            if (facility == null)
+            {
+                return NotFound("Facility Not Found this is GetspecFacility");
+            }
 
-            return PartialView("/Views/Body/_SpecificFacility.cshtml",facility);
-
+            return PartialView("/Views/Body/_SpecificFacility.cshtml", facility);
+            //return View();
         }
+
+        [HttpPost]
+        public IActionResult DeleteFacility(FacilityViewModel room)
+        {
+            if (room == null || room.FacilityId <= 0)
+            {
+                return BadRequest("Invalid facility data.");
+            }
+
+            try
+            {
+                _facilityService.DeleteFacility(room);
+                //return Ok("Facility deleted successfully.");
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (not shown here)
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        // Update Facility GET action to load the update form
+        [HttpGet]
+        public IActionResult Edit(int facilityId)
+        {
+            var facility = _facilityService.GetFacilityByIdService(facilityId);
+
+            if (facility == null)
+            {
+                return NotFound("Facility not found.");
+            }
+
+            // Return the view with the facility details
+            return View(facility);
+        }
+
+        // Update Facility POST action to handle form submission
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(FacilityViewModel facility)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _facilityService.UpdateFacility(facility);
+
+                    // Redirect to the index or listing page after update
+                    return RedirectToAction("Index", "Home");
+                }
+                catch (Exception ex)
+                {
+                    // Log the exception (not shown here)
+                    ModelState.AddModelError("", "An error occurred while updating the facility.");
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(facility);
+        }
+
+        // Other controller actions
 
 
         public IActionResult Index()

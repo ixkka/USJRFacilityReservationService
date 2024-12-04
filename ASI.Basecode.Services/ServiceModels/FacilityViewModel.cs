@@ -39,5 +39,7 @@ namespace ASI.Basecode.Services.ServiceModels
         public string BookingHoursEnd { get; set; }
         public string BookingDuration { get; set; }
         public int BookingPrice { get; set; }
+        [Display(Name = "Confirmation")] 
+        public bool Confirmation { get; set; }
     }
 }

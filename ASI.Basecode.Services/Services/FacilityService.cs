@@ -95,26 +95,42 @@ namespace ASI.Basecode.Services.Services
 
         public void UpdateFacility(FacilityViewModel model)
         {
-            var existingData = _facilityRepository.GetFacility().Where(s => s.FacilityId == model.FacilityId).FirstOrDefault();
-            _mapper.Map(model, existingData);
-            existingData.UpdatedDt = DateTime.Now;
-            existingData.Thumbnail = model.Thumbnail;
-            existingData.UpdatedDt = DateTime.Now;
-            existingData.UpdatedBy = System.Environment.UserName;
+            //var existingData = _facilityRepository.GetFacility().Where(s => s.FacilityId == model.FacilityId).FirstOrDefault();
+            //_mapper.Map(model, existingData);
+            //existingData.UpdatedDt = DateTime.Now;
+            //existingData.Thumbnail = model.Thumbnail;
+            //existingData.UpdatedDt = DateTime.Now;
+            //existingData.UpdatedBy = System.Environment.UserName;
+            //existingData.BookingDays = model.BookingDays;
 
-            if (model._RoomGallery != null && model._RoomGallery.Any())
+            //_facilityRepository.UpdateFacility(existingData);
+
+            // Fetch the existing facility data
+            var existingData = _facilityRepository.GetFacility()
+                .FirstOrDefault(s => s.FacilityId == model.FacilityId);
+
+            if (existingData != null)
             {
-                foreach (var file in model._RoomGallery)
-                {
-                    existingData.ImageGalleries.Add(new ImageGallery()
-                    {
-                        ImageName = file.GalleryName,
-                        Path = file.GalleryUrl,
-                    });
-                }
-            }
+                // Map the updated model to the existing data
+                _mapper.Map(model, existingData);
 
-            _facilityRepository.UpdateFacility(existingData);
+                // Update metadata
+                existingData.UpdatedDt = DateTime.Now;
+                existingData.UpdatedBy = System.Environment.UserName;
+
+                // Update Thumbnail and BookingDays
+                existingData.Thumbnail = model.Thumbnail;
+
+                // Clear and update BookingDays
+                existingData.BookingDays = model.BookingDays;
+
+                // Save changes
+                _facilityRepository.UpdateFacility(existingData);
+            }
+            else
+            {
+                throw new Exception("Facility not found.");
+            }
         }
 
         public void UpdateGallery(RoomGalleryViewModel model)
@@ -180,6 +196,31 @@ namespace ASI.Basecode.Services.Services
                 BookingDuration = f.BookingDuration,
                 BookingPrice = f.BookingPrice,
             }).ToList();
+        }
+
+        public FacilityViewModel GetFacilityByIdService(int facilityId)
+        {
+            
+            var newfacilityId = facilityId;
+            var data = _facilityRepository.GetFacility()
+                .Where(x => x.FacilityId == newfacilityId)
+                .Select(s => new FacilityViewModel { 
+                    FacilityId = s.FacilityId, 
+                    FacilityName = s.FacilityName, 
+                    Description = s.Description, 
+                    Location = s.Location, 
+                    Capacity = s.Capacity.Value, 
+                    Thumbnail = s.Thumbnail, 
+                    Amenity = s.Amenity, 
+                    BookingDays = s.BookingDays, 
+                    BookingHoursStart = s.BookingHoursStart, 
+                    BookingHoursEnd = s.BookingHoursEnd, 
+                    BookingDuration = s.BookingDuration, 
+                    BookingPrice = s.BookingPrice,
+                    Confirmation = s.Confirmation}).FirstOrDefault(); // Assuming you want a single result
+                return data;
+
+            //return _facilityRepository.GetFacilityById(facilityId); 
         }
 
         public IEnumerable<DayOfTheWeek> GetDays()
