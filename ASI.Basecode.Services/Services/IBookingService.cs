@@ -50,7 +50,7 @@ namespace ASI.Basecode.Services.Services
             booking.BookingDate = model.BookingDate;
             booking.BookingTimeStart = model.BookingTimeStart;
             booking.BookingTimeEnd = model.BookingTimeEnd;
-            booking.BookingStatus = "booked";
+            booking.BookingStatus = "Booked";
             booking.Notes = model.Notes;
             booking.CreatedBy = Environment.UserName;
             booking.UpdatedBy = Environment.UserName;
