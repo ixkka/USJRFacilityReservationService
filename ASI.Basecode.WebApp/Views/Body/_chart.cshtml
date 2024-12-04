@@ -1,0 +1,249 @@
+﻿<div id="chart" class="chart">
+    <div id="year-chart" class="year" style="width: 95%; height: 80%; display:block; margin-left: auto; margin-right: auto; margin-top: 2%;">
+        <canvas id="year-canvas" style="width:100%; height:100%;"></canvas>
+    </div>
+    <div id="week-chart" class="week" style="width: 95%; height: 80%; display:block; margin-left: auto; margin-right: auto; margin-top: 2%;">
+        <canvas id="week-canvas" style="width:100%; height:100%;"></canvas>
+    </div>
+    <div id="month-chart" class="month" style="width: 95%; height: 80%; display:block; margin-left: auto; margin-right: auto; margin-top: 2%;">
+        <canvas id="month-canvas" style="width:100%; height:100%;"></canvas>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"> </script>
+<script>
+    let button1 = document.getElementById('usage-head-1w');
+    let button2 = document.getElementById('usage-head-1m');
+    let button3 = document.getElementById('usage-head-1y');
+
+    function year(){
+        let xvalues = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        let yvalues = [120, 200, 150, 80, 170, 80, 100, 20, 150, 210, 120, 30];
+
+        document.getElementById('year-chart').style.display = "block";
+        document.getElementById('month-chart').style.display = 'none';
+        document.getElementById('week-chart').style.display = 'none';
+
+        button1.style.backgroundColor = 'lightgray';
+        button2.style.backgroundColor = 'lightgray';
+        button3.style.backgroundColor = 'mediumseagreen';
+
+        new Chart("year-canvas", {
+            type: "bar",
+            data: {
+                labels: xvalues,
+                datasets: [{
+                    backgroundColor: "green",
+                    data: yvalues
+                }]
+            },
+            options: {
+                legend: { display: false },
+                title: {
+                    display: true,
+                    text: "Year Booking"
+                }
+            }
+        });
+    }
+
+    function month(){
+
+        let xvalues = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"];
+        let yvalues = [12, 13, 14, 15, 16, 17, 21, 23, 52, 12, 56, 76, 23, 21, 45, 98, 23, 12, 19, 20, 100, 21, 55, 62, 32, 17, 85, 55, 21, 33, 41];
+        button1.style.backgroundColor = 'lightgray';
+        button2.style.backgroundColor = 'mediumseagreen';
+        button3.style.backgroundColor = 'lightgray';
+
+        document.getElementById('week-chart').style.display = 'none';
+        document.getElementById('month-chart').style.display = 'block';
+        document.getElementById('year-chart').style.display = 'none';
+
+        new Chart("month-canvas", {
+            type: "bar",
+            data: {
+                labels: xvalues,
+                datasets: [{
+                    backgroundColor: "blue",
+                    data: yvalues
+                }]
+            },
+            options: {
+                legend: { display: false },
+                title: {
+                    display: true,
+                    text: "Monthly Booking"
+                }
+            }
+        });
+    }
+
+    function week() {
+
+        let xvalues = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+        let yvalues = [120, 300, 150, 180, 170, 90, 100];
+
+
+        button1.style.backgroundColor = 'mediumseagreen';
+        button2.style.backgroundColor = 'lightgray';
+        button3.style.backgroundColor = 'lightgray';
+
+        document.getElementById('week-chart').style.display = 'block';
+        document.getElementById('month-chart').style.display = 'none';
+        document.getElementById('year-chart').style.display = 'none';
+
+        new Chart("week-canvas", {
+            type: "bar",
+            data: {
+                labels: xvalues,
+                datasets: [{
+                    backgroundColor: "blue",
+                    data: yvalues
+                }]
+            },
+            options: {
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: "Weekly Booking"
+                    }
+            }
+        });
+    }
+
+</script>
+
+<style>
+
+    .chart{
+        width: 100%;
+        height: 400px;
+    }
+
+</style>
+@* 
+
+
+
+
+
+<div id="chart" class="chart-container"></div>
+<div class="x-axis" id="x-axis"></div>
+
+<script>
+    // Example data
+    const chartData = [
+        { label: "Jan", value: 120 },
+        { label: "Feb", value: 200 },
+        { label: "Mar", value: 150 },
+        { label: "Apr", value: 80 },
+        { label: "May", value: 170 },
+    ];
+
+    // Maximum value for scaling
+    const maxValue = 300;
+
+    // Function to render the chart
+    function renderChart(data) {
+        const chart = document.getElementById("chart");
+        const xAxis = document.getElementById("x-axis");
+
+        // Clear existing content
+        chart.innerHTML = "";
+        xAxis.innerHTML = "";
+
+        // Loop through data to create bars and labels
+        data.forEach(item => {
+            // Create a bar
+            const bar = document.createElement("div");
+            bar.className = "bar";
+            bar.style.height = `${(item.value / maxValue) * 100}%`;
+
+            // Add a label above the bar
+            const barLabel = document.createElement("span");
+            barLabel.innerText = item.value;
+            bar.appendChild(barLabel);
+
+            // Append bar to the chart
+            chart.appendChild(bar);
+
+            // Create a label for the x-axis
+            const xLabel = document.createElement("div");
+            xLabel.innerText = item.label;
+            xAxis.appendChild(xLabel);
+        });
+    }
+
+    // Initial render
+    renderChart(chartData);
+
+    // Example: Update chart dynamically after 3 seconds
+    setTimeout(() => {
+        const newData = [
+            { label: "Jun", value: 100 },
+            { label: "Jul", value: 180 },
+            { label: "Aug", value: 220 },
+            { label: "Sep", value: 90 },
+            { label: "Oct", value: 140 },
+        ];
+        renderChart(newData);
+    }, 3000);
+</script>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        padding: 0;
+    }
+
+    .chart-container {
+        display: flex;
+        justify-content: space-around;
+        align-items: flex-end;
+        width: 80%;
+        margin: 20px auto;
+        height: 300px;
+        border-left: 2px solid #333;
+        border-bottom: 2px solid #333;
+        position: relative;
+    }
+
+        .chart-container .bar {
+            width: 50px;
+            margin: 0 10px;
+            background-color: #4CAF50;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            transition: height 0.3s ease;
+        }
+
+            .chart-container .bar:hover {
+                background-color: #45a049;
+            }
+
+            .chart-container .bar span {
+                position: absolute;
+                bottom: 100%;
+                font-size: 12px;
+                color: #000;
+            }
+
+        .chart-container .x-axis {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+
+            .chart-container .x-axis div {
+                width: 50px;
+                text-align: center;
+            }
+
+    .chart-title {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 20px;
+    }
+</style> *@
