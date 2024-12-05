@@ -1,0 +1,66 @@
+﻿<h3>Settings & Preferences</h3>
+<hr style="border: 1px solid rgba(19, 115, 1, 0.3);" />
+    <div class="preferences">
+        <h4 class="booking-header" style="margin-top: 40px;">Booking Settings</h4>
+        <p style="color:gray;">Set up default booking preferences</p>
+    <form style="width: 100%;">
+    <div class="settings-body" style="display:flex; margin-top:40px; width: 100%;">
+    
+            <div style="width:50%; border-right: 1px solid rgba(19, 115, 1, 0.3); padding-right: 2%;">
+                <p style="font-size: 20px;">Single Bookings</p>
+                <p>Booking Hours</p>
+                <div class="input-group" style="margin-bottom: 30px; ">
+                    <input type="time" class="form-control" style="border-radius: 10px; margin-right: 20px;">
+                    <span class="input-group-text" style="border-radius: 10px; margin-right: 20px;">to</span>
+                    <input type="time" class="form-control" style="border-radius: 10px; ">
+                </div>
+                <textarea style="width: 100%; min-height:150px; resize: none;" placeholder="Enter Notes/Additional Instructions"></textarea>
+            </div>
+            <div style="width:50%; padding-left: 2%; border-left: 1px solid rgba(19, 115, 1, 0.3);">
+                <p style="font-size: 20px;">Recurrent Bookings</p>
+                <p>Booking Hours</p>
+                <div class="input-group" style="margin-bottom: 10px; ">
+                    <input type="time" class="form-control" style="border-radius: 10px; margin-right: 20px;">
+                    <span class="input-group-text" style="border-radius: 10px; margin-right: 20px;">to</span>
+                    <input type="time" class="form-control" style="border-radius: 10px; ">
+                </div>
+                <div class="mb-4" style="margin-top: 20px;">
+                    <label for="bookingDays" class="form-label ">Booking Days</label>
+                    <div class="d-grid gap-2">
+                        <button type="button" class="btn btn-outline-secondary day-btn" data-day="M">M</button>
+                        <button type="button" class="btn btn-outline-secondary day-btn" data-day="T">T</button>
+                        <button type="button" class="btn btn-outline-secondary day-btn" data-day="W">W</button>
+                        <button type="button" class="btn btn-outline-secondary day-btn" data-day="Th">Th</button>
+                        <button type="button" class="btn btn-outline-secondary day-btn" data-day="F">F</button>
+                        <button type="button" class="btn btn-outline-secondary day-btn" data-day="Sa">Sa</button>
+                        <button type="button" class="btn btn-outline-secondary day-btn" data-day="Su">Su</button>
+                    </div>
+                    <input type="hidden" id="bookingDaysInput" />
+                </div>
+                <div>
+                    <textarea style="width: 100%; min-height:150px; resize: none;" placeholder="Enter Notes/Additional Instructions"></textarea>
+                </div>
+            </div>
+    </div>
+    </form>
+
+        <div>
+        <button class="btn btn-success position-relative add-facility-btn"style="border-radius: 5px; padding: 8px 25px; min-width: 150px; min-height: 50px" >Save</button>
+        </div>
+
+    </div>
+
+   <script>
+      document.querySelectorAll('.day-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            this.classList.toggle('active'); // Toggle the active state
+
+            // Collect selected days
+            const selectedDays = Array.from(document.querySelectorAll('.day-btn.active'))
+                .map(btn => btn.dataset.day); // Extract day value from data-day attribute
+
+            // Update the hidden input value
+            document.getElementById('bookingDaysInput').value = selectedDays.join(', ');
+        });
+    });
+   </script>

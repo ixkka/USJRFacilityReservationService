@@ -441,3 +441,66 @@
 
     </div>
 </div>
+
+<div class="analytics" style="margin-top: 80px; border-top: 1px solid #137301;">
+    <div class="analytics-header" style="margin-top: 10px; display:flex; padding: 5px 15px; justify-content: space-between;">
+        <h2>Booking</h2>
+        <div style="display: flex;">
+            <input type="date" style="height: 30px; width: 160px; border-radius: 10px; border: 1px solid gray" >
+            <div style="height: 30px; width: 80px;background-color: lightgray; margin-left: 20px; border-radius: 10px; justify-content:space-between;">
+                <button onclick="colorChange('header-1d')" id="header-1d" style="border: none; height: 30px; width: 37px; background-color: mediumseagreen; border-radius: 10px;">1d</button>
+                <button onclick="colorChange('header-1w')" id="header-1w" style="border: none; height: 30px; width: 37px; background-color: lightgray; border-radius: 10px;">1w</button>
+                <script>
+                    function colorChange(active){
+                        let button1 = document.getElementById('header-1d');
+                        let button2 = document.getElementById('header-1w');
+
+                        if(active === 'header-1d'){
+                            button1.style.backgroundColor = 'mediumseagreen';
+                            button2.style.backgroundColor = 'lightgray';
+                        }
+                        else if(active === 'header-1w'){
+                            button1.style.backgroundColor = 'lightgray';
+                            button2.style.backgroundColor = 'mediumseagreen';
+                        }
+                    }
+                </script>
+            </div>
+        </div>
+    </div>
+    <div class="booking-body">
+        <div style="border: 1px solid #137301; border-radius: 10px; width: 100%; min-height: 400px;">
+         
+        </div>
+    </div>
+    <hr style="border: .5px solid #137301;" />
+    <div class="usage">
+        <div class="usage-header" style="margin-top: 10px; display:flex; padding: 5px 15px; justify-content: space-between;">
+            <h2>Usage Report</h2>
+            <div style="display: flex;">
+                <input type="month" style="height: 30px; width: 160px; border-radius: 10px; border: 1px solid gray">
+                <div style="height: 30px; width: 100px;background-color: lightgray; margin-left: 20px; border-radius: 10px; justify-content:space-between; display: flex;">
+                    <button onclick="week()" id="usage-head-1w" style="border: none; height: 30px; width: 40px; background-color: mediumseagreen; border-radius: 10px;">1w</button>
+                    <button onclick="month()" id="usage-head-1m" style="border: none; height: 30px; width: 40px; background-color: lightgray; border-radius: 10px;">1m</button>
+                    <button onclick="year()" id="usage-head-1y" style="border: none; height: 30px; width: 40px; background-color: lightgray; border-radius: 10px;">1y</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="usage-body">
+        <div style="border: 1px solid #137301; border-radius: 10px; width: 100%; min-height: 200px;">
+            @Html.Partial("~/Views/Body/_chart.cshtml")
+        </div>
+        <div style="display:flex; margin-top:10px;">
+            <div class="total-single-bookings" style="width: 20%; height:150px; border:1px solid #137301; border-radius: 10px;">
+                <p style="font-size: 15px;margin-top: 5px; margin-left: 5px;  margin-right: 5px;">Total Single Bookings</p>
+            </div>
+            <div class="total-recuring-bookings" style="margin-left: 10px; width: 20%; height:150px; border:1px solid #137301; border-radius: 10px;">
+                <p style="font-size: 15px;margin-top: 5px; margin-left: 5px;  margin-right: 5px;">Total Recurring Bookings</p>
+            </div>
+            <div class="User-act" style="margin-left: 10px; width: 60%; height:150px; border:1px solid #137301; border-radius: 10px;">
+                <p style="font-size: 15px;margin-top: 5px; margin-left: 5px;  margin-right: 5px;">User Activity</p>
+            </div>
+        </div>
+    </div>
+</div>

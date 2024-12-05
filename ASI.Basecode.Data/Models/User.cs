@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 
@@ -20,5 +20,6 @@ namespace ASI.Basecode.Data.Models
         public UserType UserType { get; set; }
 
         public string ProfilePictureUrl { get; set; }
+        public virtual ICollection<BookingPreference> BookingPreferences { get; set; }
     }
 }

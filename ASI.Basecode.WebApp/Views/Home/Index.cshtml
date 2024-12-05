@@ -71,7 +71,12 @@
                         <img src="~/img/userprofile.svg" /> Users
                     </li>
                 }
-
+                else if(role == 2)
+                {
+                    <li class="hover">
+                        <img src="~/img/settings.svg" />Settings
+                    </li>
+                }
                 <li class="hover">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <a asp-action="SignOutUser" asp-controller="Account">Logout</a>
