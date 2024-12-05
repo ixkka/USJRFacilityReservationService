@@ -13,5 +13,10 @@ namespace ASI.Basecode.Data.Interfaces
     {
         IQueryable<Booking> GetAllBookings();
         void AddBooking(Booking booking);
+        IQueryable<Booking> GetBookingById(int userId);
+
+        IQueryable<Booking> GetPendingBookings();
+
+        IQueryable<Booking> GetPendingBookingsById(int userId);
     }
 }

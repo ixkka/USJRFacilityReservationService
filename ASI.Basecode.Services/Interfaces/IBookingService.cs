@@ -12,5 +12,10 @@ namespace ASI.Basecode.Services.Interfaces
     {
         IEnumerable<BookingViewModel> GetAllBookings();
         void AddBooking(BookingViewModel model);
+        IEnumerable<BookingViewModel> GetBookingById(int userId);
+
+        IEnumerable<BookingViewModel> GetPendingBookings();
+
+        IEnumerable<BookingViewModel> GetPendingBookingsById(int userId);
     }
 }
