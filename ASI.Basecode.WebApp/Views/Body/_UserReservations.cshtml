@@ -3,9 +3,7 @@
 @using ASI.Basecode.Services.ServiceModels
 @using X.PagedList
 @using X.PagedList.Mvc.Core
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+
 @{
     int userRole = Context.Session.GetInt32("Role") ?? 0;
     int userId = Context.Session.GetInt32("UserID") ?? 0;
@@ -19,9 +17,11 @@
         border-bottom: 4px solid #137301;
         color: #137301;
     }
+
     .fliterClick {
         cursor: pointer;
     }
+
     .filterClicked {
         background-color: rgba(19, 115, 1, 0.4)
     }
@@ -100,14 +100,14 @@
     <!-- Row containing "your reservations" and "pending reservations" text-->
     <div class="container">
         <div class="row">
-            <div class="clickable clicked"  id="resBtn" style="margin-right: 3rem; padding: 0px 5px">
+            <div class="clickable clicked" id="resBtn"  style="margin-right: 3rem; padding: 0px 5px">
                 Your reservations
             </div>
 
             <div class="d-flex align-items-center clickable" id="reservationBtn" style="padding: 0px 5px;">
-                Reservation Requests
+                Pending Reservations
                 <div class="d-flex justify-content-center align-items-center" style="background-color: #FF8E8E; height: 25px; width: 25px; border-radius: 5px; margin-left: 5px;">
-                    @ViewBag.adminCount
+                    @ViewBag.count
                 </div>
             </div>
 
@@ -165,12 +165,12 @@
                                 {
                                     <p class="card-text">@booking.FullDayDuration</p>
                                 }
-                                
+
 
 
                                 <div class="col" style="margin-top: 95px; padding-left: 0px;">
                                     <p style="margin: 0px;">@booking.BookingDate.ToString("MMMM d, yyyy")</p>
-                                   
+
 
                                     <!--CONTAINS DATE STATUS AND DROPDOWN DOTS-->
                                     <div class="row" style="padding-left: 15px;">
@@ -212,118 +212,118 @@
 
     <!-- jQuery Script for Dropdown and Modal Handling -->
     <script>
-    $(document).ready(function () {
-        // Toggle the dropdown menu when the three dots are clicked
-        $('.menu-toggle').on('click', function (e) {
-            e.preventDefault(); // Prevent default click behavior
-            var menuId = $(this).data('menu-id'); // Get the menu id from the data attribute
+        $(document).ready(function () {
+            // Toggle the dropdown menu when the three dots are clicked
+            $('.menu-toggle').on('click', function (e) {
+                e.preventDefault(); // Prevent default click behavior
+                var menuId = $(this).data('menu-id'); // Get the menu id from the data attribute
 
-            // Hide other open dropdowns
-            $('.dropdown-menu').not('#' + menuId).hide();
+                // Hide other open dropdowns
+                $('.dropdown-menu').not('#' + menuId).hide();
 
-            // Toggle the current dropdown menu
-            $('#' + menuId).toggle();
+                // Toggle the current dropdown menu
+                $('#' + menuId).toggle();
+            });
+
+
+            // Close the dropdown if clicking outside of it
+            $(document).on('click', function (e) {
+                if (!$(e.target).closest('.menu-toggle, .dropdown-menu').length) {
+                    $('.dropdown-menu').hide(); // Hide the dropdown
+                }
+            });
+
+            // Handle the edit facility click
+            $('.edit-facility').on('click', function (e) {
+                e.preventDefault();
+
+                var url = $(this).data('url');
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function (data) {
+                        $('#main-content').html(data);
+                    },
+                    error: function () {
+                        alert('Failed to load the Edit Facility content.');
+                    }
+                });
+            });
         });
-        
 
-        // Close the dropdown if clicking outside of it
-        $(document).on('click', function (e) {
-            if (!$(e.target).closest('.menu-toggle, .dropdown-menu').length) {
-                $('.dropdown-menu').hide(); // Hide the dropdown
-            }
-        });
+        $(document).on("click", ".pagination a", function (e) {
+            e.preventDefault(); // Prevent default navigation behavior
 
-        // Handle the edit facility click
-        $('.edit-facility').on('click', function (e) {
-            e.preventDefault();
-
-            var url = $(this).data('url');
+            var url = $(this).attr("href"); // Get the target URL
             $.ajax({
                 url: url,
+                type: "GET",
+                success: function (data) {
+                    $("#BookingListContainer").html(data); // Replace the container content
+                    initializeDropdowns();
+                },
+                error: function () {
+                    alert("Error loading page.");
+                }
+            });
+        });
+
+        $(document).on('click', '.clickable', function () {
+            $('.clickable').removeClass('clicked');
+            $(this).addClass('clicked');
+        });
+
+
+        $(document).on('click', '.filterClick', function () {
+            $('.filterClick').removeClass('filterClicked');
+            $(this).addClass('filterClicked');
+        });
+
+        $(document).on('click', '#reservationBtn', function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: '/Body/PendingReservations',
                 type: 'GET',
                 success: function (data) {
                     $('#main-content').html(data);
                 },
                 error: function () {
-                    alert('Failed to load the Edit Facility content.');
+                    alert('Failed to load the Facility details.');
                 }
             });
         });
-    });
 
-    $(document).on("click", ".pagination a", function (e) {
-        e.preventDefault(); // Prevent default navigation behavior
-
-        var url = $(this).attr("href"); // Get the target URL
-        $.ajax({
-            url: url,
-            type: "GET",
-            success: function (data) {
-                $("#BookingListContainer").html(data); // Replace the container content
-                initializeDropdowns();
-            },
-            error: function () {
-                alert("Error loading page.");
-            }
-        });
-    });
-    
-    $(document).on('click', '.clickable', function () {
-        $('.clickable').removeClass('clicked');
-        $(this).addClass('clicked');
-    });
-
-
-    $(document).on('click', '.filterClick', function () {
-        $('.filterClick').removeClass('filterClicked');
-        $(this).addClass('filterClicked');
-    });
-
-    $(document).on('click', '#reservationBtn', function (e) {
-        e.preventDefault();
-        $.ajax({
-            url: '/Body/ReservationRequests',
-            type: 'GET',
-            success: function (data) {
-                $('#main-content').html(data);
-            },
-            error: function () {
-                alert('Failed to load the Facility details.');
-            }
-        });
-    });
-
-    $(document).on('click', '#resBtn', function (e) {
-        e.preventDefault();
-        $.ajax({
-            url: '/Body/Reservations',
-            type: 'GET',
-            success: function (data) {
-                $('#main-content').html(data);
-            },
-            error: function () {
-                alert('Failed to load the Facility details.');
-            }
-        });
-    });
-
-    $(document).ready(function () {
-        // When the Add Facility button is clicked
-        $('.add-booking-btn').on('click', function (e) {
+        $(document).on('click', '#resBtn', function (e) {
             e.preventDefault();
-
-            // Perform an AJAX request to load the _AddFacilities partial view
             $.ajax({
-                url: '/Body/SingleBookingReservation',
+                url: '/Body/Reservations',
                 type: 'GET',
                 success: function (data) {
-                    $('#main-content').html(data);  // Replace the main content with the partial view
+                    $('#main-content').html(data);
                 },
                 error: function () {
-                    alert('Failed to load the Add Facilities content.');
+                    alert('Failed to load the Facility details.');
                 }
             });
         });
-    });
+
+        $(document).ready(function () {
+            // When the Add Facility button is clicked
+            $('.add-booking-btn').on('click', function (e) {
+                e.preventDefault();
+
+                // Perform an AJAX request to load the _AddFacilities partial view
+                $.ajax({
+                    url: '/Body/SingleBookingReservation',
+                    type: 'GET',
+                    success: function (data) {
+                        $('#main-content').html(data);  // Replace the main content with the partial view
+                    },
+                    error: function () {
+                        alert('Failed to load the Add Facilities content.');
+                    }
+                });
+            });
+        });
     </script>
 

@@ -6,17 +6,18 @@
     int userId = Context.Session.GetInt32("UserId") ?? 0;
 }
 <style>
-    .clickable {
+    .clickableDiv {
         cursor: pointer;
         border: 2px solid grey;
         color: grey
     }
     /* Add a bottom border to the clicked column */
-    .clicked {
+    .clickedDiv {
         border: 2px solid #137301;
         background-color: rgba(19, 115, 1, 0.3);
         color: #137301;
     }
+
     .add-btn {
         height: 2.5rem;
         width: 7rem;
@@ -25,6 +26,7 @@
         background-color: #137301;
         color: white
     }
+
     .cancel-btn {
         height: 2.5rem;
         width: 7rem;
@@ -50,10 +52,10 @@
         <div class="d-flex align-items-center" style="margin-right: 2rem">
             <h5 class="mb-0" style="font-size: 25px; font-weight:500;">Create Booking</h5>
         </div>
-        <div id="CreateSingleBooking" class="d-flex justify-content-center align-items-center clickable clicked" style="padding: 7px; border-radius: 15px; margin-right: 1rem">
+        <div id="CreateSingleBooking" class="d-flex justify-content-center align-items-center clickableDiv" style="padding: 7px; border-radius: 15px; margin-right: 1rem">
             Single Booking
         </div>
-        <div id="CreateRecurringBooking"  class="d-flex justify-content-center align-items-center clickable" style="padding: 7px; border-radius: 15px; ">
+        <div id="CreateRecurringBooking" class="d-flex justify-content-center align-items-center clickableDiv clickedDiv" style="padding: 7px; border-radius: 15px; ">
             Recurring Booking
         </div>
     </div>
@@ -78,6 +80,7 @@
                                         data-name="@facility.FacilityName"
                                         data-duration="@facility.BookingDuration"
                                         data-price="@facility.BookingPrice"
+                                        data-days="@facility.BookingDays"
                                         selected>
                                     @facility.FacilityName
                                 </option>
@@ -87,7 +90,8 @@
                                 <option value="@facility.FacilityId"
                                         data-name="@facility.FacilityName"
                                         data-duration="@facility.BookingDuration"
-                                        data-price="@facility.BookingPrice">
+                                        data-price="@facility.BookingPrice"
+                                        data-days="@facility.BookingDays">
                                     @facility.FacilityName
                                 </option>
                             }
@@ -96,10 +100,24 @@
                     <input type="hidden" id="facilityName" asp-for="FacilityName" />
                 </div>
 
-                <!-- Booking Date -->
+                @* <!-- Booking Date -->
                 <div class="mb-4">
                     <label for="Booking Date" class="form-label">Booking Date</label>
                     <input asp-for="BookingDate" type="date" class="form-control">
+                </div> *@
+                <div class="mb-4">
+                    <label for="bookingDays" class="form-label ">Booking Days</label>
+                    <div class="d-grid gap-2">
+                        <button type="button" id="mondayBtn" class="btn btn-outline-secondary day-btn" data-day="M">M</button>
+                        <button type="button" id="tuesdayBtn" class="btn btn-outline-secondary day-btn" data-day="T">T</button>
+                        <button type="button" id="wednesdayBtn" class="btn btn-outline-secondary day-btn" data-day="W">W</button>
+                        <button type="button" id="thursdayBtn" class="btn btn-outline-secondary day-btn" data-day="Th">Th</button>
+                        <button type="button" id="fridayBtn" class="btn btn-outline-secondary day-btn" data-day="F">F</button>
+                        <button type="button" id="saturdayBtn" class="btn btn-outline-secondary day-btn" data-day="Sa">Sa</button>
+                        <button type="button" id="sundayBtn" class="btn btn-outline-secondary day-btn" data-day="Su">Su</button>
+                    </div>
+                    <input asp-for="BookingDays" type="hidden" id="bookingDaysInput" />
+                    <input asp-for="BookingDays" type="hidden" value="" />
                 </div>
 
                 <div class="mb-4" id="bookingHoursWrapper">
@@ -151,17 +169,17 @@
             </div>
         </div>
 
-        <input asp-for="BookingType" id="BookingType" type="hidden" data-initial-value="@ViewBag.BookingType" />
+        <input asp-for="BookingType" id="BookingType" type="hidden" data-initial-value="@ViewBag.Type" />
         <input asp-for="UserId" id="userId" type="hidden" value="@userId" />
-        <input asp-for="FullDayDuration" name="FullDayDuration"  id="FullDayDuration" type="hidden" />
+        <input asp-for="FullDayDuration" name="FullDayDuration" id="FullDayDuration" type="hidden" />
     </form>
 </div>
 
 <script>
     // FOR THE NAVIGATION your reservations and pending reservations
-    $(document).on('click', '.clickable', function () {
-        $('.clickable').removeClass('clicked');
-        $(this).addClass('clicked');
+    $(document).on('click', '.clickableDiv', function () {
+        $('.clickableDiv').removeClass('clickedDiv');
+        $(this).addClass('clickedDiv');
     });
 
     // Navigation for single booking
@@ -171,7 +189,7 @@
             url: '/Body/SingleBookingReservation',
             type: 'GET',
             success: function (data) {
-                $('#main-content').html(data); 
+                $('#main-content').html(data);
             },
             error: function () {
                 alert('Failed to load the Facility details.');
@@ -208,6 +226,19 @@
             }
         });
     });
+
+    document.querySelectorAll('.day-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            this.classList.toggle('active'); // Toggle the active state
+
+            // Collect selected days
+            const selectedDays = Array.from(document.querySelectorAll('.day-btn.active'))
+                .map(btn => btn.dataset.day); // Extract day value from data-day attribute
+
+            // Update the hidden input value
+            document.getElementById('bookingDaysInput').value = selectedDays.join(', ');
+        });
+    });
 </script>
 
 
@@ -218,8 +249,33 @@
         var facilityName = selectedOption.data('name');
         var bookingDuration = selectedOption.data('duration');
         var bookingPrice = selectedOption.data('price');
+        var bookingDays = selectedOption.data('days');
+        var bookingDaysArray = bookingDays ? bookingDays.split(',') : [];
+        var days = bookingDaysArray.map(day => day.trim());
+
+        // Map of day initials to button IDs
+        var dayButtonMap = {
+            "M": "mondayBtn",
+            "T": "tuesdayBtn",
+            "W": "wednesdayBtn",
+            "Th": "thursdayBtn",
+            "F": "fridayBtn",
+            "Sa": "saturdayBtn",
+            "Su": "sundayBtn"
+        };
 
         $('#facilityName').val(facilityName);
+
+        //Hide all Button Initially// Hide all day buttons initially
+        $('.day-btn').hide();
+
+        console.log(days);
+        days.forEach(function (day) {
+            var buttonId = dayButtonMap[day]; // Get button ID from map
+            if (buttonId) {
+                $('#' + buttonId).show(); // Show the button
+            }
+        });
 
         if (bookingDuration === "FullDay") {
             // Show full day booking, hide flexible booking
@@ -244,7 +300,7 @@
 
             // Clear the full day duration
             $('#FullDayDuration').val('');
-            
+
             // Reset price display
             // $('#bookingPriceDisplay').text('$0');
             // $('#BookingPrice').val('0');
@@ -268,14 +324,14 @@
     }
 
 
-    // To initialize values
+    // Initialize everything when document is ready
     $(document).ready(function () {
         // Set the initial value for BookingType hidden input
         var initialValue = $('#BookingType').data('initial-value');
         $('#BookingType').val(initialValue);
 
         // Bind the change event handler
-        $(document).on('change', '#facility', handleFacilityChange);
+        $('#facility').on('change', handleFacilityChange);
 
         // If facility has a value (pre-selected), trigger the change handler
         if ($('#facility').val()) {

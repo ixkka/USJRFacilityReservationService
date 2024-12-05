@@ -22,8 +22,11 @@ namespace ASI.Basecode.Services.ServiceModels
         public string FacilityName { get; set; }
 
         public DateTime BookingDate { get; set; }
-
+        public string FullDayDuration { get; set; }
         public string BookingType { get; set; }
+        public int BookingPrice { get; set; }
+
+        public string BookingDays { get; set; }
 
         //[Required(ErrorMessage = "Start Date is required.")]
         //public DateTime? StartDate { get; set; }

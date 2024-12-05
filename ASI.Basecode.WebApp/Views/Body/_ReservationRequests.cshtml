@@ -1,0 +1,333 @@
+﻿@model X.PagedList.IPagedList<ASI.Basecode.Services.ServiceModels.BookingViewModel>
+@using ASI.Basecode.Services.ServiceModels
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+
+@{
+    int userRole = Context.Session.GetInt32("Role") ?? 0;
+}
+
+<style>
+    .clickable {
+        cursor: pointer;
+    }
+
+    .clicked {
+        border-bottom: 4px solid #137301;
+        color: #137301;
+    }
+
+    .fliterClick {
+        cursor: pointer;
+    }
+
+    .filterClicked {
+        background-color: rgba(19, 115, 1, 0.4)
+    }
+
+    .dropdown-item {
+        border-radius: 10px;
+        transition: background-color 0.3s ease;
+    }
+
+     /* Hover color change to #137301 */
+     .dropdown-item:hover {
+         background-color: rgba(19, 115, 1, 0.3);
+         color: white;
+     }
+
+    
+    .text-danger:hover
+
+    {
+        background-color: #fdd;
+    }
+    
+    .pagination-container {
+        display: flex;
+        justify-content: center; 
+        align-items: center; 
+        margin-top: 20px; 
+    }
+
+    .pagination {
+        display: flex; 
+        list-style-type: none; 
+        margin: 0; 
+        padding: 0; 
+    } 
+
+    .pagination li {
+        margin: 0 5px; 
+    }
+
+    .pagination a {
+        display: inline-block; 
+        padding: 10px 15px; 
+        text-decoration: none; 
+        background-color: #f0f0f0; 
+        border-radius: 5px; 
+    }
+
+    .pagination a:hover {
+        background-color: #137301; 
+        color: white; 
+    }
+</style>
+
+<div id="BookingListContainer">
+    <!--HEADER PART (CONTAINS search bar, filters, book reservation button)-->
+    <div class="container-fluid d-flex justify-content-between align-items-center" style="padding-bottom: 10px;">
+        <div class="d-flex">
+        </div>
+
+        <div class="d-flex align-items-center" style="gap: 30px; margin-left: -10px;">
+            <div class="position-relative">
+                <input type="text" class="form-control" placeholder="Search" style="width: 300px; padding-left: 30px; border-radius: 5px;">
+                <img src="~/img/search.svg" alt="Search" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
+            </div>
+
+            <button class="btn btn-outline-secondary position-relative" style="border-radius: 5px; padding: 8px 25px; min-width: 120px;">
+                <img src="~/img/filter.svg" alt="Filters" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
+                Filters
+            </button>
+
+            <button type="button" class="btn btn-success position-relative add-booking-btn" data-url="/Body/BookReservation" style="border-radius: 5px; padding: 8px 25px; min-width: 120px; background-color: #137301">
+                <img src="~/img/calendar.svg">
+                Book Reservation
+            </button>
+        </div>
+    </div>
+
+    <!-- Row containing "your reservations" and "pending reservations" text-->
+    <div class="container">
+        <div class="row">
+            <div class="clickable" id="resBtn" style="margin-right: 3rem; padding: 0px 5px">
+                Your reservations
+            </div>
+
+            <div class="d-flex align-items-center clickable clicked" id="reservationBtn" style="padding: 0px 5px;">
+                Reservation Requests
+                <div class="d-flex justify-content-center align-items-center" style="background-color: #FF8E8E; height: 25px; width: 25px; border-radius: 5px; margin-left: 5px;">
+                    @ViewBag.adminCount
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <hr style="border: 1px solid rgba(19, 115, 1, 0.3); margin-top: 2px; margin-bottom: 20px;">
+
+    <!-- MAIN CONTENT -->
+    <div class="container-fluid d-flex justify-content-between align-items-center" style="background-color:#D0E3CC; padding: 10px; border-radius:10px;">
+        <!-- Left-aligned (User) -->
+        <div class="d-flex align-items-center" style="flex-basis: 25%;">
+            <label for="users" style="color:#137301; margin: 0;">Facility</label>
+        </div>
+
+        <!-- Center-aligned (ID) -->
+        <div class="d-flex align-items-center justify-content-center" style="flex-basis: 25%; text-align: center;">
+            <p style="color:#137301; margin: 0;">Type</p>
+        </div>
+
+        <!-- Department Column -->
+        <div class="d-flex align-items-center justify-content-center" style="flex-basis: 25%; text-align: center;">
+            <p style="color:#137301; margin: 0;">Date</p>
+        </div>
+
+        <!-- User Type Column -->
+        <div class="d-flex align-items-center justify-content-center" style="flex-basis: 25%; text-align: center;">
+            <p style="color:#137301; margin: 0;">Price</p>
+        </div>
+
+        <!-- Action Column -->
+        <div class="d-flex align-items-center justify-content-end" style="flex-basis: 10%; text-align: right;">
+            <p style="color:#137301; margin: 0;"></p>
+        </div>
+    </div>
+
+    @foreach (var booking in Model)
+    {
+        <!-- Booking Row 1 -->
+        <div class="container-fluid d-flex justify-content-between align-items-center py-2 border-bottom">
+            <!-- Facility Name Column -->
+            <div class="d-flex align-items-center" style="flex-basis: 25%; justify-content: flex-start;">
+                <span>@booking.FacilityName</span>
+            </div>
+
+            <!-- Booking Type Column -->
+            <div class="d-flex align-items-center justify-content-center" style="flex-basis: 35%; text-align: center; margin-left: 15px;">
+                <!--margin-left: 15px;-->
+                <p style="margin: 0;">@booking.BookingType Booking</p>
+            </div>
+
+            <!-- Date Time Column -->
+            <div class="d-flex align-items-center justify-content-center" style="flex-basis: 25%; text-align: center; margin-right: 25px; margin-left: 10px;">
+                <!--margin-left: 5px;-->
+                <p style="margin: 0;">@booking.BookingDate.ToString("MMMM d, yyyy")</p>
+            </div>
+
+            <!-- Price Column -->
+            <div class="d-flex align-items-center justify-content-center" style="flex-basis: 30%; text-align: center; margin-right: 10px;">
+                <!--margin-right:85px-->
+                <p style="margin: 0;">@booking.BookingPrice</p>
+            </div>
+
+            <!-- Three Dots Column -->
+            <div class="d-flex align-items-center justify-content-end position-relative" style="flex-basis: 10%;">
+                <img src="~/img/three.svg" class="menu-toggle" style="cursor: pointer;" />
+
+                <div class="dropdown-menu" style="display: none; position: absolute; top: 30px; background-color: white; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); border-radius: 20px; z-index: 1000; width: 200px;">
+                    <a href="#" class="dropdown-item view-booking" style="padding: 10px; display: flex; align-items: center;"
+                       data-toggle="modal" data-target="#viewBookingModal"
+                       data-userid="@booking.BookingId">
+                        <img src="~/img/booking.png" alt="booking placeholder" style="border-radius: 50%; margin-right: 10px;">
+                        View Booking
+                    </a>
+
+                    <a href="#" class="dropdown-item edit-booking-details" style="padding: 10px; display: flex; align-items: center;"
+                       data-toggle="modal" data-target="#editDetailsModal"
+                       data-userid="@booking.BookingId">
+                        <img src="~/img/check.png" alt="check placeholder" style="border-radius: 50%; margin-right: 10px;">
+                        Accept
+                    </a>
+
+                    <a href="#" class="dropdown-item text-danger" style="padding: 10px; display: flex; align-items: center;"
+                       data-toggle="modal" data-target="#deleteBookingModal" data-id="@booking.BookingId">
+                        <img src="~/img/close.png" alt="reject placeholder" style="border-radius: 50%; margin-right: 10px;">
+                        Reject
+                    </a>
+
+
+                </div>
+
+
+                @* <!-- Delete Confirmation Modal -->
+                <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content" style="border-radius: 20px; padding: 20px;">
+                            <div class="modal-header text-center">
+                                <h5 class="modal-title" id="deleteModalTitle" style="width: 100%;">Confirm Deletion</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+                            <!-- Form for Deletion -->
+                            <form action="/Account/DeleteUser" method="POST" id="deleteUserForm">
+                                <input type="hidden" name="id" id="deleteUserId" />
+                                <div class="modal-footer justify-content-center">
+                                    <!-- Yes Button -->
+                                    <button type="submit" class="btn btn-danger" style="border-radius: 20px; padding: 10px 20px; background-color: #FF6B6B;">Yes</button>
+                                    <!-- Cancel Button -->
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 20px; padding: 10px 20px;">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div> *@
+            </div>
+        </div>     
+    }
+
+
+    <div class="pagination-container text-center">
+        @Html.PagedListPager(Model, page => Url.Action("PendingReservations", new { page }))
+    </div>
+</div> @* end of pagination div *@
+
+
+
+    <script>
+        $(document).on('click', '#resBtn', function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: '/Body/Reservations',
+                type: 'GET',
+                success: function (data) {
+                    $('#main-content').html(data);
+                },
+                error: function () {
+                    alert('Failed to load the Facility details.');
+                }
+            });
+        });
+
+        $(document).on('click', '#reservationBtn', function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: '/Body/ReservationRequests',
+                type: 'GET',
+                success: function (data) {
+                    $('#main-content').html(data);
+                },
+                error: function () {
+                    alert('Failed to load the Facility details.');
+                }
+            });
+        });
+
+        $(document).on("click", ".pagination a", function (e) {
+            e.preventDefault(); 
+
+            var url = $(this).attr("href"); 
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function (data) {
+                    $("#BookingListContainer").html(data); 
+                    initializeDropdowns();
+                },
+                error: function () {
+                    alert("Error loading page.");
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            // When the Add Facility button is clicked
+            $('.add-booking-btn').on('click', function (e) {
+                e.preventDefault();
+
+                // Perform an AJAX request to load the _AddFacilities partial view
+                $.ajax({
+                    url: '/Body/SingleBookingReservation',
+                    type: 'GET',
+                    success: function (data) {
+                        $('#main-content').html(data);  // Replace the main content with the partial view
+                    },
+                    error: function () {
+                        alert('Failed to load the Add Facilities content.');
+                    }
+                });
+            });
+        });
+
+        document.querySelectorAll('.menu-toggle').forEach(function (menuToggle) {
+            menuToggle.addEventListener('click', function () {
+                const dropdown = this.nextElementSibling;
+
+                // Toggle the display property of the dropdown menu
+                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+
+                // Position dropdown absolutely relative to its parent
+                dropdown.style.position = 'absolute';
+                dropdown.style.top = '100%';
+                dropdown.style.right = '0';
+                dropdown.style.left = 'auto';
+            });
+        });
+
+        // Close dropdowns if clicked outside of them
+        document.addEventListener('click', function (event) {
+            document.querySelectorAll('.dropdown-menu').forEach(function (dropdown) {
+                const menuToggle = dropdown.previousElementSibling;
+
+                if (!menuToggle.contains(event.target) && !dropdown.contains(event.target)) {
+                    dropdown.style.display = 'none';
+                }
+            });
+        });
+    </script>
+
+      
+

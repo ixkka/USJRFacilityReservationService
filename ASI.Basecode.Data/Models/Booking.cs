@@ -21,9 +21,9 @@ namespace ASI.Basecode.Data.Models
         public string Notes { get; set; }
         public string BookingType { get; set; }
         public DateTime BookingDate { get; set; }
-        //public DateTime? StartDate { get; set; }
-        //public DateTime? EndDate { get; set; }
-
+        public string FullDayDuration { get; set; }
+        public string BookingDays { get; set; }
+        public int BookingPrice { get; set; }
         public TimeSpan? BookingTimeStart { get; set; }
         public TimeSpan? BookingTimeEnd { get; set; }
         public string CreatedBy { get; set; }
