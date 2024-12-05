@@ -18,5 +18,6 @@ namespace ASI.Basecode.Data.Models
 
         public int UserTypeId { get; set; }
         public UserType UserType { get; set; }
+        public virtual ICollection<BookingPreference> BookingPreferences { get; set; }
     }
 }

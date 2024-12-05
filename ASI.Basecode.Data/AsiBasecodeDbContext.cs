@@ -20,6 +20,8 @@ namespace ASI.Basecode.Data
         public virtual DbSet<User> Users {get; set;}
         public virtual DbSet<UserType> UserType { get; set; }
         public virtual DbSet<Facility> Facility { get; set; }
+        public DbSet<BookingPreference> BookingPreferences { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
            // Set default values for Department and UserTypeId
@@ -116,6 +118,55 @@ namespace ASI.Basecode.Data
                     .HasColumnType("datetime")
                     .HasColumnName("UpdatedDT");
             });
+
+            modelBuilder.Entity<BookingPreference>(entity =>
+            {
+                entity.ToTable("BookingPreference");
+
+                entity.HasKey(e => e.BookingPreferenceId);
+
+                entity.Property(e => e.BookingPreferenceId)
+                    .HasColumnName("BookingPreferenceID")
+                    .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.UserId).IsRequired(false);
+
+                entity.Property(e => e.SingleBookingStartTime)
+                    .HasColumnType("time")
+                    .IsRequired(false);
+
+                entity.Property(e => e.SingleBookingEndTime)
+                    .HasColumnType("time")
+                    .IsRequired(false);
+
+                entity.Property(e => e.SingleBookingNotes)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RecurrentBookingStartTime)
+                    .HasColumnType("time")
+                    .IsRequired(false);
+
+                entity.Property(e => e.RecurrentBookingEndTime)
+                    .HasColumnType("time")
+                    .IsRequired(false);
+
+                entity.Property(e => e.RecurrentBookingDays)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RecurrentBookingNotes)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.BookingPreferences)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_BookingPreference_User");
+            });
+
+
 
             ModelBuilderExtensions.Seed(modelBuilder);
             base.OnModelCreating(modelBuilder);
