@@ -225,15 +225,15 @@
         </div>
 
         <div class="d-flex align-items-center" style="gap: 30px; margin-left: -10px;">
-            <div class="position-relative">
-                <input type="text" class="form-control" placeholder="Search" style="width: 300px; padding-left: 30px; border-radius: 5px;">
-                <img src="~/img/search.svg" alt="Search" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
-            </div>
-
-            <button class="btn btn-outline-secondary position-relative" style="border-radius: 5px; padding: 8px 25px; min-width: 120px;">
-                <img src="~/img/filter.svg" alt="Filters" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
-                Filters
-            </button>
+             @* <div class="position-relative">
+                 <input type="text" class="form-control" placeholder="Search" style="width: 300px; padding-left: 30px; border-radius: 5px;">
+                 <img src="~/img/search.svg" alt="Search" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
+             </div>
+ *@
+             @* <button class="btn btn-outline-secondary position-relative" style="border-radius: 5px; padding: 8px 25px; min-width: 120px;">
+                 <img src="~/img/filter.svg" alt="Filters" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
+                 Filters
+             </button> *@
 
             <button type="button" class="btn btn-success position-relative" style="border-radius: 5px; padding: 8px 25px; min-width: 120px;"
                     data-toggle="modal" data-target="#addUserModal" data-title="Add User">
@@ -390,9 +390,10 @@
 
 
 
+    @{
 
-
-
+    int currentId = @Context.Session.GetInt32("Id") ?? 0;
+    }
 
     @foreach (var user in Model)
     {
@@ -468,11 +469,18 @@
                         Edit Details
                     </a>
 
-                    <a href="#" class="dropdown-item text-danger" style="padding: 10px; display: flex; align-items: center;"
-                       data-toggle="modal" data-target="#deleteUserModal" data-id="@user.Id">
-                        <img src="~/img/delete.svg" alt="delete placeholder" style="border-radius: 50%; margin-right: 10px;">
-                        Delete user
-                    </a>
+                    @if (currentId == user.Id)
+                    {
+
+                    }
+                    else
+                    {
+                        <a href="#" class="dropdown-item text-danger" style="padding: 10px; display: flex; align-items: center;"
+                           data-toggle="modal" data-target="#deleteUserModal" data-id="@user.Id">
+                            <img src="~/img/delete.svg" alt="delete placeholder" style="border-radius: 50%; margin-right: 10px;">
+                            Delete user
+                        </a>
+                    }
 
 
                 </div>
