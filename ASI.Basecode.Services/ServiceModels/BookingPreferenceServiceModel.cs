@@ -1,16 +1,16 @@
-﻿using System;
+﻿using ASI.Basecode.Data.Models;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-// ASI.Basecode.Data.Models/BookingPreference.cs
-namespace ASI.Basecode.Data.Models
+namespace ASI.Basecode.Services.ServiceModels
 {
-    public class BookingPreference
+    public class BookingPreferenceServiceModel
     {
         public int BookingPreferenceId { get; set; }
-        public int? UserId { get; set; }
         public TimeSpan? SingleBookingStartTime { get; set; }
         public TimeSpan? SingleBookingEndTime { get; set; }
         public string SingleBookingNotes { get; set; }

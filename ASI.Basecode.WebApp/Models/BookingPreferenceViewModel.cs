@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-// ASI.Basecode.Data.Models/BookingPreference.cs
-namespace ASI.Basecode.Data.Models
+namespace ASI.Basecode.WebApp.Models
 {
-    public class BookingPreference
+    public class BookingPreferenceViewModel
     {
-        public int BookingPreferenceId { get; set; }
-        public int? UserId { get; set; }
         public TimeSpan? SingleBookingStartTime { get; set; }
         public TimeSpan? SingleBookingEndTime { get; set; }
         public string SingleBookingNotes { get; set; }
@@ -20,4 +13,3 @@ namespace ASI.Basecode.Data.Models
         public string RecurrentBookingNotes { get; set; }
     }
 }
-
