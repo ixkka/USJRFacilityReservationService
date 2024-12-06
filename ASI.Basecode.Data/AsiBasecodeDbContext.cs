@@ -118,7 +118,6 @@ namespace ASI.Basecode.Data
                     .HasColumnType("datetime")
                     .HasColumnName("UpdatedDT");
 
-                entity.Property(e => e.Confirmation).IsRequired().HasDefaultValue(1);
             });
 
             modelBuilder.Entity<BookingPreference>(entity =>

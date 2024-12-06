@@ -171,16 +171,6 @@
         </div>
 
         <div class="d-flex align-items-center" style="gap: 30px; margin-left: -10px;">
-            <div class="position-relative">
-                <input type="text" class="form-control" placeholder="Search" style="width: 300px; padding-left: 30px; border-radius: 5px;">
-                <img src="~/img/search.svg" alt="Search" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
-            </div>
-
-            <button class="btn btn-outline-secondary position-relative" style="border-radius: 5px; padding: 8px 25px; min-width: 120px;">
-                <img src="~/img/filter.svg" alt="Filters" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
-                Filters
-            </button>
-
 
             @if (userRole == 1 || userRole == 3)
             {
@@ -210,28 +200,11 @@
 
                         <!--TRIAL-->
                         <p style="padding:5px 10px 0px 10px; color: black; font-size: 21px; margin: 0;">@facility.FacilityName</p>
-                        <p style="padding: 5px 10px 0px 10px; color: grey; font-size:15px; margin: 0;">@facility.Location</p>
+                        <p style="padding: 1px 10px 0px 10px; color: grey; font-size:15px; margin: 0;">@facility.Location</p>
+                        <p style="padding: 10px 10px 0px 10px; color: black; font-size:15px; margin: 0;">@facility.BookingHoursStart to @facility.BookingHoursEnd</p>
                         <div class="d-flex flex-row mt-auto" style="width: 100%; align-items: center; padding: 0px 10px 0px 20px;">
                             <p style="font-weight: bold; font-size: 20px; color: black;">PHP @facility.BookingPrice / @facility.BookingDuration</p>
                             <div style="width:25px; margin-left: 180px; margin-bottom:10px; position:absolute; padding-left:55px">
-                                <img src="~/img/threeDots_horizontal.png" class="menu-toggle" style="cursor:pointer;" data-menu-id="dropdownMenu1" />
-                                <div class="dropdown-menu" id="dropdownMenu1" style="display: none; position: absolute; top: 40px; left: 0; background-color: white; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); border-radius: 20px; z-index: 1000; width: 200px;">
-                                    <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;" data-toggle="modal" data-title="View Facility" id="cont1">
-                                        <img src="~/img/location.svg" alt="profile placeholder" style="border-radius: 50%; margin-right: 10px;">
-                                        View Facility
-                                    </a>
-                                    @if (userRole == 1 || userRole == 3)
-                                    {
-                                        <a href="#" class="dropdown-item edit-facility" style="padding: 10px; display: flex; align-items: center;" data-url="/Account/LoadAddFacilities?isEdit=true">
-                                            <img src="~/img/pencil-fill.svg" alt="Edit Facility" style="border-radius: 50%; margin-right: 10px;">
-                                            Edit Facility
-                                        </a>
-                                        <a href="#" class="dropdown-item text-danger" style="padding: 10px; display: flex; align-items: center;" data-toggle="modal" data-target="#deleteFacilityModal">
-                                            <img src="~/img/delete.svg" alt="delete placeholder" style="border-radius: 50%; margin-right: 10px;">
-                                            Delete Facility
-                                        </a>
-                                    }
-                                </div>
                             </div>
                         </div>
                         <!--TRIAL-->

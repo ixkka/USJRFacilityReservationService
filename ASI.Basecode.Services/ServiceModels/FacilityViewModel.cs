@@ -34,10 +34,15 @@ namespace ASI.Basecode.Services.ServiceModels
         public IEnumerable<FacilityViewModel> facilityList { get; set; }
         public BookingViewModel BookingViewModel { get; set; }
         //public int BookingDuration { get; set; }
+        [Display(Name = "Booking Days")]
         public string BookingDays { get; set; }
+        [Display(Name = "Booking Hours Start")]
         public string BookingHoursStart { get; set; }
+        [Display(Name = "Booking Hours End")]
         public string BookingHoursEnd { get; set; }
+        [Display(Name = "Booking Duration")]
         public string BookingDuration { get; set; }
+        [Display(Name = "Booking Price")]
         public int BookingPrice { get; set; }
         [Display(Name = "Confirmation")] 
         public bool Confirmation { get; set; }
