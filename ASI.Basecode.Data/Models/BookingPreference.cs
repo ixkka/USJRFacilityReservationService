@@ -18,6 +18,8 @@ namespace ASI.Basecode.Data.Models
         public TimeSpan? RecurrentBookingEndTime { get; set; }
         public string RecurrentBookingDays { get; set; }
         public string RecurrentBookingNotes { get; set; }
+
+        public virtual User User { get; set; }
     }
 }
 

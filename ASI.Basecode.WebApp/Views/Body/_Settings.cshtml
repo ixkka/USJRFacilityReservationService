@@ -1,4 +1,4 @@
-﻿@model ASI.Basecode.Services.ServiceModels.BookingPreferenceServiceModel
+﻿@model ASI.Basecode.WebApp.Models.BookingPreferenceViewModel
 
 <h3>Settings & Preferences</h3>
 <hr style="border: 1px solid rgba(19, 115, 1, 0.3);" />
@@ -11,28 +11,34 @@
             <div style="width:50%; border-right: 1px solid rgba(19, 115, 1, 0.3); padding-right: 2%;">
                 <p style="font-size: 20px;">Single Bookings</p>
                 <div class="input-group" style="margin-bottom: 30px;">
-                    <input type="time" class="form-control" name="SingleBookingStartTime" style="border-radius: 10px; margin-right: 20px;">
+                    <input type="time" class="form-control" asp-for="SingleBookingStartTime" style="border-radius: 10px; margin-right: 20px;">
                     <span class="input-group-text" style="border-radius: 10px; margin-right: 20px;">to</span>
-                    <input type="time" class="form-control" name="SingleBookingEndTime" style="border-radius: 10px;">
+                    <input type="time" class="form-control" asp-for="SingleBookingEndTime" style="border-radius: 10px;">
                 </div>
-                <textarea name="SingleBookingNotes" style="width: 100%; min-height:150px; resize: none;" placeholder="Enter Notes/Additional Instructions"></textarea>
+                <textarea name="SingleBookingNotes" asp-for="SingleBookingNotes" style="width: 100%; min-height:150px; resize: none;" placeholder="Enter Notes/Additional Instructions"></textarea>
             </div>
 
             <div style="width:50%; padding-left: 2%; border-left: 1px solid rgba(19, 115, 1, 0.3);">
                 <p style="font-size: 20px;">Recurrent Bookings</p>
                 <div class="input-group" style="margin-bottom: 10px;">
-                    <input type="time" class="form-control" name="RecurrentBookingStartTime" style="border-radius: 10px; margin-right: 20px;">
+                    <input type="time" class="form-control" asp-for="RecurrentBookingStartTime" style="border-radius: 10px; margin-right: 20px;">
                     <span class="input-group-text" style="border-radius: 10px; margin-right: 20px;">to</span>
-                    <input type="time" class="form-control" name="RecurrentBookingEndTime" style="border-radius: 10px;">
+                    <input type="time" class="form-control" asp-for="RecurrentBookingEndTime" style="border-radius: 10px;">
                 </div>
                 <div class="mb-4" style="margin-top: 20px;">
                     <label for="bookingDays" class="form-label">Booking Days</label>
                     <div class="d-grid gap-2">
-                        <!-- Day buttons -->
+                        <button type="button" class="btn btn-outline-secondary day-btn" data-day="M">M</button>
+                        <button type="button" class="btn btn-outline-secondary day-btn" data-day="T">T</button>
+                        <button type="button" class="btn btn-outline-secondary day-btn" data-day="W">W</button>
+                        <button type="button" class="btn btn-outline-secondary day-btn" data-day="Th">Th</button>
+                        <button type="button" class="btn btn-outline-secondary day-btn" data-day="F">F</button>
+                        <button type="button" class="btn btn-outline-secondary day-btn" data-day="Sa">Sa</button>
+                        <button type="button" class="btn btn-outline-secondary day-btn" data-day="Su">Su</button>
                     </div>
-                    <input type="hidden" id="bookingDaysInput" name="RecurrentBookingDays" />
+                    <input type="hidden" id="bookingDaysInput" asp-for="RecurrentBookingDays" />
                 </div>
-                <textarea name="RecurrentBookingNotes" style="width: 100%; min-height:150px; resize: none;" placeholder="Enter Notes/Additional Instructions"></textarea>
+                <textarea name="RecurrentBookingNotes" asp-for="RecurrentBookingNotes" style="width: 100%; min-height:150px; resize: none;" placeholder="Enter Notes/Additional Instructions"></textarea>
             </div>
         </div>
 

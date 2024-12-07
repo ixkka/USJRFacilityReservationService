@@ -161,12 +161,12 @@ namespace ASI.Basecode.Data
                     .HasMaxLength(500)
                     .IsUnicode(false);
 
-                // Define the foreign key relationship with the User entity
-                //entity.HasOne(d => d.User)
-                //    .WithMany(p => p.BookingPreferences) // One User can have many BookingPreferences
-                //    .HasForeignKey(d => d.UserId) // Foreign key for UserId
-                //    .OnDelete(DeleteBehavior.Cascade) // If User is deleted, delete associated BookingPreferences
-                //    .HasConstraintName("FK_BookingPreference_User"); // Specify constraint name
+                
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.BookingPreferences) // One User can have many BookingPreferences
+                    .HasForeignKey(d => d.UserId) // Foreign key for UserId
+                    .OnDelete(DeleteBehavior.Cascade) // If User is deleted, delete associated BookingPreferences
+                    .HasConstraintName("FK_BookingPreference_User"); // Specify constraint name
             });
 
 

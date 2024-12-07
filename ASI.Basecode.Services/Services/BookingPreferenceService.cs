@@ -30,6 +30,8 @@ namespace ASI.Basecode.Services.Services
         {
             var bookingPreference = new BookingPreference
             {
+                BookingPreferenceId = serviceModel.BookingPreferenceId,
+                UserId = serviceModel.UserId,
                 SingleBookingStartTime = serviceModel.SingleBookingStartTime,
                 SingleBookingEndTime = serviceModel.SingleBookingEndTime,
                 SingleBookingNotes = serviceModel.SingleBookingNotes,
@@ -48,6 +50,7 @@ namespace ASI.Basecode.Services.Services
             var bookingPreference = new BookingPreference
             {
                 BookingPreferenceId = serviceModel.BookingPreferenceId,
+                UserId = serviceModel.UserId,
                 SingleBookingStartTime = serviceModel.SingleBookingStartTime,
                 SingleBookingEndTime = serviceModel.SingleBookingEndTime,
                 SingleBookingNotes = serviceModel.SingleBookingNotes,
