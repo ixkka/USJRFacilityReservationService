@@ -1,0 +1,383 @@
+﻿@model ASI.Basecode.Services.ServiceModels.BookingViewModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    int userId = Context.Session.GetInt32("UserId") ?? 0;
+}
+<style>
+    .booking-form-container {
+        padding-top: 2rem;
+        display: flex;
+        height: 100vh;
+    }
+
+    .booking-add-btn {
+        height: 2.5rem;
+        width: 7rem;
+        border: none;
+        cursor: pointer;
+        background-color: #137301;
+        color: white
+    }
+
+    .booking-cancel-btn {
+        height: 2.5rem;
+        width: 7rem;
+        border: none;
+        cursor: pointer;
+        background-color: #8B8B8B;
+        color: white
+    }
+</style>
+
+<!--HEADER PART-->
+<div class="container-fluid d-flex justify-content-between align-items-center" style="padding-bottom: 10px;">
+    <div class="d-flex align-items-center" style="margin-left: -10px;">
+
+        <!-- Back Button -->
+        <div class="d-flex align-items-center" id="bookingBackBtn" style="cursor:pointer; margin-right: 2rem;">
+            <img src="~/img/arrow_back.svg" />
+        </div>
+
+        <!-- View Booking Text -->
+        <div class="d-flex align-items-center" style="margin-right: 2rem">
+            <h5 class="mb-0" style="font-size: 25px; font-weight:500;">Edit Booking</h5>
+        </div>
+    </div>
+</div>
+
+<div class="booking-form-container">
+    <div class="container">
+        <div class="row">
+            <!-- First Column - View Details -->
+            <div class="col-md-6">
+                <!-- Facility Name -->
+                <div class="mb-4">
+                    <label class="form-label" for="booking-facility">Facility</label>
+                    <div id="booking-price-display-view" class="text-black d-flex align-items-center"
+                         style="height: 37px; border-radius: 5px; border: 1px solid rgba(192, 192, 192);
+                         background-color: white; padding: 0px 13px;">
+                        @Model.FacilityName
+                    </div>
+                </div>
+
+                <!-- Booking Days -->
+                <div class="mb-4">
+                    <label for="booking-date-view" class="form-label">Booking Days</label>
+                    <div id="booking-date-display-view" class="text-black d-flex align-items-center"
+                         style="height: 37px; border-radius: 5px; border: 1px solid rgba(192, 192, 192);
+                         background-color: white; padding: 0px 13px;">
+                        @Model.BookingDays
+                    </div>
+                </div>
+
+                <!-- Booking Date -->
+                <div class="mb-4">
+                    <label for="booking-date-view" class="form-label">Booking Date</label>
+                    <div id="booking-date-display-view" class="text-black d-flex align-items-center"
+                         style="height: 37px; border-radius: 5px; border: 1px solid rgba(192, 192, 192);
+                         background-color: white; padding: 0px 13px;">
+                        @Model.BookingDate.ToString("MMMM dd, yyyy")
+                    </div>
+                </div>
+
+                <!-- Booking Status-->
+                <div class="mb-4">
+                    <label for="booking-status-view" class="form-label">Booking Status</label>
+                    <div id="booking-status-display-view" class="text-black d-flex align-items-center"
+                         style="height: 37px; border-radius: 5px; border: 1px solid rgba(192, 192, 192);
+                         background-color: white; padding: 0px 13px;">
+                        @Model.BookingStatus
+                    </div>
+                </div>
+
+                <!-- Booking Duration -->
+                <div class="mb-4" id="booking-hours-wrapper-view">
+                    <div id="booking-hours-view">
+                        <label for="booking-hours-view" class="form-label">Booking Duration</label>
+                        <div id="booking-duration-display-view" class="text-black d-flex align-items-center"
+                             style="height: 37px; border-radius: 5px; border: 1px solid rgba(192, 192, 192);
+                              background-color: white; padding: 0px 13px;">
+                            @if (Model.FullDayDuration == null)
+                            {
+                                <p style="margin: 0px">@Model.BookingTimeStart to @Model.BookingTimeEnd</p>
+                            }
+                            else
+                            {
+                                @Model.FullDayDuration
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Price Display -->
+                <div class="mb-4" id="booking-price-wrapper-view">
+                    <label class="form-label">Price</label>
+                    <div id="booking-price-display-detail" class="text-black d-flex align-items-center"
+                         style="height: 37px; border-radius: 5px; border: 1px solid rgba(192, 192, 192);
+                         background-color: white; padding: 0px 13px;">
+                        $@Model.BookingPrice
+                    </div>
+                </div>
+
+                <!-- Booking Type -->
+                <div class="mb-4" id="booking-type-wrapper-view">
+                    <label class="form-label">Booking Type</label>
+                    <div id="booking-type-display-view" class="text-black d-flex align-items-center"
+                         style="height: 37px; border-radius: 5px; border: 1px solid rgba(192, 192, 192);
+                         background-color: white; padding: 0px 13px;">
+                        @Model.BookingType
+                    </div>
+                </div>
+
+                <!-- Notes Textarea -->
+                <div class="mb-4">
+                    <label for="booking-notes-view" class="form-label">Notes</label>
+                    <textarea asp-for="Notes" class="form-control" rows="5" readonly>@Model.Notes</textarea>
+                </div>
+            </div>
+
+            <!-- Second Column - Edit Form -->
+            <div class="col-md-6">
+                <form asp-controller="Body" asp-action="UpdateBooking" method="post" class="container">
+                    <div class="mb-4">
+                        <label class="form-label" for="booking-facility-select">Facility</label>
+                        <select id="booking-facility-select" class="form-control" asp-for="FacilityId">
+                            <option value="" disabled selected>Select Facility</option>
+                            @foreach (var facility in ViewBag.facilities)
+                            {
+                                <option value="@facility.FacilityId"
+                                        data-name="@facility.FacilityName"
+                                        data-duration="@facility.BookingDuration"
+                                        data-price="@facility.BookingPrice"
+                                        data-days="@facility.BookingDays"
+                                        data-thumbnail="@facility.Thumbnail"
+                                        selected="@(facility.FacilityId == Model.FacilityId)">
+                                    @facility.FacilityName
+                                </option>
+                            }
+                        </select>
+                        <input type="hidden" id="booking-facility-name" asp-for="FacilityName" />
+                    </div>
+
+                    <!-- Booking Days -->
+                    <div class="mb-4">
+                        <label for="bookingDays" class="form-label ">Booking Days</label>
+                        <div class="d-grid gap-2">
+                            <button type="button" id="mondayBtn" class="btn btn-outline-secondary day-btn" data-day="M">M</button>
+                            <button type="button" id="tuesdayBtn" class="btn btn-outline-secondary day-btn" data-day="T">T</button>
+                            <button type="button" id="wednesdayBtn" class="btn btn-outline-secondary day-btn" data-day="W">W</button>
+                            <button type="button" id="thursdayBtn" class="btn btn-outline-secondary day-btn" data-day="Th">Th</button>
+                            <button type="button" id="fridayBtn" class="btn btn-outline-secondary day-btn" data-day="F">F</button>
+                            <button type="button" id="saturdayBtn" class="btn btn-outline-secondary day-btn" data-day="Sa">Sa</button>
+                            <button type="button" id="sundayBtn" class="btn btn-outline-secondary day-btn" data-day="Su">Su</button>
+                        </div>
+                        <input asp-for="BookingDays" type="hidden" id="bookingDaysInput" />
+                        @* <input asp-for="BookingDays" type="hidden" value="" /> *@
+                    </div>
+
+                    <div class="mb-4" id="booking-hours-wrapper-edit">
+                        <!-- This div will be shown/hidden based on booking type -->
+                        <div id="booking-hours-edit">
+                            <label for="booking-time-start" class="form-label">Booking Duration</label>
+                            <div class="input-group">
+                                <input asp-for="BookingTimeStart" type="time" class="form-control booking-time-input" id="booking-time-start">
+                                <span class="input-group-text">to</span>
+                                <input asp-for="BookingTimeEnd" type="time" class="form-control booking-time-input" id="booking-time-end">
+                            </div>
+                        </div>
+
+                        <!-- This div will be shown/hidden based on booking type -->
+                        <div id="booking-full-day" style="display: none;">
+                            <label class="form-label">Booking Duration</label>
+                            <div id="booking-duration-display-edit" class="text-black d-flex align-items-center"
+                                 style="height: 37px; border-radius: 5px; border: 1px solid rgba(192, 192, 192);
+                                 background-color: white; padding: 0px 13px;">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Price Display -->
+                    <div class="mb-4" id="booking-price-wrapper-edit">
+                        <label class="form-label">Price</label>
+                        <div id="booking-price-display-edit" class="text-black d-flex align-items-center"
+                             style="height: 37px; border-radius: 5px; border: 1px solid rgba(192, 192, 192);
+                             background-color: white; padding: 0px 13px;">
+                            $0
+                        </div>
+                        <input asp-for="BookingPrice" type="hidden" id="booking-price-input" />
+                    </div>
+
+                    <!-- Notes Textarea -->
+                    <div class="mb-4">
+                        <label for="booking-notes-edit" class="form-label">Notes</label>
+                        <textarea asp-for="Notes" class="form-control" rows="5" id="booking-notes-edit"></textarea>
+                    </div>
+
+                    <!-- Add and Cancel Buttons -->
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="booking-add-btn" style="border-radius: 10px; margin-right: 10px">Edit</button>
+                        <button type="button" id="booking-cancel-btn" class="booking-cancel-btn" style="border-radius: 10px;">Cancel</button>
+                    </div>
+
+                    @* <input asp-for="BookingType" id="booking-type-input" type="hidden" data-initial-value="@ViewBag.BookingType" /> *@
+                    <input asp-for="UserId" id="booking-user-id" type="hidden" value="@userId" />
+                    <input asp-for="FullDayDuration" name="FullDayDuration" id="booking-full-day-duration" type="hidden" />
+                    <input asp-for="BookingDate" name="BookingDate" value="@DateTime.Now.ToString("yyyy-MM-dd")" type="hidden" />
+                    <input asp-for="BookingId" type="hidden" />
+                    <input asp-for="BookingStatus" type="hidden" />
+                    <input asp-for="Thumbnail" id="thumbnail" type="hidden" />
+                    <input asp-for="BookingType" type="hidden" />
+                    <p>@Model.BookingType</p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // For the back button
+    $(document).on('click', '#bookingBackBtn', function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: '/Body/ReservationRequests',
+            type: 'GET',
+            success: function (data) {
+                $('#main-content').html(data);
+            },
+            error: function () {
+                alert('Failed to load the Facility details.');
+            }
+        });
+    });
+</script>
+
+<script>
+    // For the cancel booking button
+    $(document).on('click', '#booking-cancel-btn', function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: '/Body/Reservations',
+            type: 'GET',
+            success: function (data) {
+                $('#main-content').html(data);
+            },
+            error: function () {
+                alert('Failed to load the Facility details.');
+            }
+        });
+    });
+
+    document.querySelectorAll('.day-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            this.classList.toggle('active'); // Toggle the active state
+
+            // Collect selected days
+            const selectedDays = Array.from(document.querySelectorAll('.day-btn.active'))
+                .map(btn => btn.dataset.day); // Extract day value from data-day attribute
+
+            // Update the hidden input value
+            document.getElementById('bookingDaysInput').value = selectedDays.join(', ');
+        });
+    });
+</script>
+
+<script>
+    function handleFacilityChange() {
+        var selectedOption = $('#booking-facility-select').find(':selected');
+        var facilityName = selectedOption.data('name');
+        var bookingDuration = selectedOption.data('duration');
+        var bookingPrice = selectedOption.data('price');
+        var thumbnail = selectedOption.data('thumbnail');
+        var bookingDays = selectedOption.data('days');
+        var bookingDaysArray = bookingDays ? bookingDays.split(',') : [];
+        var days = bookingDaysArray.map(day => day.trim());
+
+        // Map of day initials to button IDs
+        var dayButtonMap = {
+            "M": "mondayBtn",
+            "T": "tuesdayBtn",
+            "W": "wednesdayBtn",
+            "Th": "thursdayBtn",
+            "F": "fridayBtn",
+            "Sa": "saturdayBtn",
+            "Su": "sundayBtn"
+        };
+
+        $('#booking-facility-name').val(facilityName);
+        $('#thumbnail').val(thumbnail);
+
+        $('.day-btn').hide();
+
+        console.log(days);
+        days.forEach(function (day) {
+            var buttonId = dayButtonMap[day]; // Get button ID from map
+            if (buttonId) {
+                $('#' + buttonId).show(); // Show the button
+            }
+        });
+
+        if (bookingDuration === "FullDay") {
+            // Show full day booking, hide flexible booking
+            $('#booking-hours-edit').hide();
+            $('#booking-full-day').show();
+
+            // Update the display and hidden inputs
+            $('#booking-duration-display-edit').text(bookingDuration);
+            $('#booking-full-day-duration').val(bookingDuration);
+
+            // Clear the time inputs
+            $('#booking-time-start').val('');
+            $('#booking-time-end').val('');
+
+            // Update price display and hidden input
+            $('#booking-price-display-edit').text('$' + bookingPrice);
+            $('#booking-price-input').val(bookingPrice);
+        } else {
+            // Show flexible booking, hide full day booking
+            $('#booking-hours-edit').show();
+            $('#booking-full-day').hide();
+
+            // Clear the full day duration
+            $('#booking-full-day-duration').val('');
+
+            // Add the event handler for time changes
+            $('.booking-time-input').on('change', function () {
+                var startTime = $('#booking-time-start').val();
+                var endTime = $('#booking-time-end').val();
+                if (startTime && endTime) {
+                    var start = new Date("1970-01-01T" + startTime);
+                    var end = new Date("1970-01-01T" + endTime);
+                    var diffInMillis = end - start;
+                    var diffInHours = diffInMillis / (1000 * 60 * 60);
+                    var totalPrice = (diffInHours * bookingPrice).toFixed(2);
+                    $('#booking-price-display-edit').text('$' + totalPrice);
+                    $('#booking-price-input').val(Number(totalPrice));
+                }
+            });
+        }
+    }
+
+    // To initialize values
+    $(document).ready(function () {
+        // Set the initial value for BookingType hidden input
+        // var initialValue = $('#booking-type-input').data('initial-value');
+        // $('#booking-type-input').val(initialValue);
+
+        // Bind the change event handler
+        $(document).on('change', '#booking-facility-select', handleFacilityChange);
+
+        // If facility has a value (pre-selected), trigger the change handler
+        if ($('#booking-facility-select').val()) {
+            handleFacilityChange();
+        }
+
+        // Clear times when facility changes
+        $('#booking-facility-select').on('change', function () {
+            $('.booking-time-input').val('');
+            $('#booking-price-display-edit').text('$0');
+            $('#booking-price-input').val('0');
+        });
+    });
+</script>

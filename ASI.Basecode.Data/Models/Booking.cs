@@ -15,6 +15,7 @@ namespace ASI.Basecode.Data.Models
 
         public int BookingId { get; set; }
         public int? UserId { get; set; }
+        public string Thumbnail { get; set; }
         public int? FacilityId { get; set; }
         public string BookingStatus { get; set; }
         public string FacilityName { get; set; }

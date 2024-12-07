@@ -16,12 +16,12 @@ namespace ASI.Basecode.Services.ServiceModels
         }
         public int BookingId { get; set; }
         public int? UserId { get; set; }
+        public string Thumbnail { get; set; }
         public int? FacilityId { get; set; }
         public string BookingStatus { get; set; }
         public string Notes { get; set; }
         public string FacilityName { get; set; }
-
-        public DateTime BookingDate { get; set; }
+        public DateTime BookingDate { get; set; }     
         public string FullDayDuration { get; set; }
         public string BookingType { get; set; }
         public int BookingPrice { get; set; }
@@ -34,8 +34,9 @@ namespace ASI.Basecode.Services.ServiceModels
 
         //[Required(ErrorMessage = "End Date is required.")]
         //public DateTime? EndDate { get; set; }
-
+   
         public TimeSpan? BookingTimeStart { get; set; }
+
         public TimeSpan? BookingTimeEnd { get; set; }
         public DateTime? DtCreated { get; set; }
         public DateTime? DtUpdated { get; set; }
