@@ -12,10 +12,16 @@ namespace ASI.Basecode.Services.Interfaces
     {
         IEnumerable<BookingViewModel> GetAllBookings();
         void AddBooking(BookingViewModel model);
-        IEnumerable<BookingViewModel> GetBookingById(int userId);
+        IEnumerable<BookingViewModel> GetBookingByUserId(int userId);
 
         IEnumerable<BookingViewModel> GetPendingBookings();
+        //void DeleteBooking(BookingViewModel booking);
+        void DeleteBooking(int id);
+        void UpdateBooking(BookingViewModel model);
+        void RejectBooking(int id);
+        void AcceptBooking(int id);
 
+        BookingViewModel GetSpecificBooking(int bookingId);
         IEnumerable<BookingViewModel> GetPendingBookingsById(int userId);
     }
 }

@@ -82,11 +82,6 @@
         </div>
 
         <div class="d-flex align-items-center" style="gap: 30px; margin-left: -10px;">
-            <div class="position-relative">
-                <input type="text" class="form-control" placeholder="Search" style="width: 300px; padding-left: 30px; border-radius: 5px;">
-                <img src="~/img/search.svg" alt="Search" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
-            </div>
-
             <button class="btn btn-outline-secondary position-relative" style="border-radius: 5px; padding: 8px 25px; min-width: 120px;">
                 <img src="~/img/filter.svg" alt="Filters" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
                 Filters
@@ -179,42 +174,39 @@
                 <div class="dropdown-menu" style="display: none; position: absolute; top: 30px; background-color: white; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); border-radius: 20px; z-index: 1000; width: 200px;">
                     <a href="#" class="dropdown-item view-booking" style="padding: 10px; display: flex; align-items: center;"
                        data-toggle="modal" data-target="#viewBookingModal"
-                       data-userid="@booking.BookingId">
+                       data-id="@booking.BookingId">
                         <img src="~/img/booking.png" alt="booking placeholder" style="border-radius: 50%; margin-right: 10px;">
                         View Booking
                     </a>
 
-                    <a href="#" class="dropdown-item edit-booking-details" style="padding: 10px; display: flex; align-items: center;"
-                       data-toggle="modal" data-target="#editDetailsModal"
-                       data-userid="@booking.BookingId">
+                    <a href="#" class="dropdown-item accept-booking" style="padding: 10px; display: flex; align-items: center;"
+                       data-toggle="modal" data-target="#acceptBookingModal" data-id="@booking.BookingId">
                         <img src="~/img/check.png" alt="check placeholder" style="border-radius: 50%; margin-right: 10px;">
                         Accept
                     </a>
 
                     <a href="#" class="dropdown-item text-danger" style="padding: 10px; display: flex; align-items: center;"
-                       data-toggle="modal" data-target="#deleteBookingModal" data-id="@booking.BookingId">
+                       data-toggle="modal" data-target="#rejectBookingModal" data-id="@booking.BookingId">
                         <img src="~/img/close.png" alt="reject placeholder" style="border-radius: 50%; margin-right: 10px;">
                         Reject
                     </a>
 
 
                 </div>
-
-
-                @* <!-- Delete Confirmation Modal -->
-                <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
+                <!-- Accept Confirmation Modal -->
+                <div class="modal fade" id="acceptBookingModal" tabindex="-1" role="dialog" aria-labelledby="acceptModalTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content" style="border-radius: 20px; padding: 20px;">
                             <div class="modal-header text-center">
-                                <h5 class="modal-title" id="deleteModalTitle" style="width: 100%;">Confirm Deletion</h5>
+                                <h5 class="modal-title" id="acceptModalTitle" style="width: 100%; margin-left: 35px">Are you sure you want to accept?</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
 
-                            <!-- Form for Deletion -->
-                            <form action="/Account/DeleteUser" method="POST" id="deleteUserForm">
-                                <input type="hidden" name="id" id="deleteUserId" />
+                            <!-- Form for Accept -->
+                            <form action="/Body/AcceptBooking" method="POST" id="acceptBookingForm">
+                                <input type="hidden" name="id" id="acceptBookingId" />
                                 <div class="modal-footer justify-content-center">
                                     <!-- Yes Button -->
                                     <button type="submit" class="btn btn-danger" style="border-radius: 20px; padding: 10px 20px; background-color: #FF6B6B;">Yes</button>
@@ -224,7 +216,32 @@
                             </form>
                         </div>
                     </div>
-                </div> *@
+                </div>
+
+                <!-- Delete Confirmation Modal -->
+                <div class="modal fade" id="rejectBookingModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content" style="border-radius: 20px; padding: 20px;">
+                            <div class="modal-header text-center">
+                                <h5 class="modal-title" id="deleteModalTitle" style="width: 100%; margin-left: 35px">Are you sure you want to reject?</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+                            <!-- Form for Deletion -->
+                            <form action="/Body/RejectBooking" method="POST" id="rejectBookingForm">
+                                <input type="hidden" name="id" id="deleteBookingId" />
+                                <div class="modal-footer justify-content-center">
+                                    <!-- Yes Button -->
+                                    <button type="submit" class="btn btn-danger" style="border-radius: 20px; padding: 10px 20px; background-color: #FF6B6B;">Yes</button>
+                                    <!-- Cancel Button -->
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 20px; padding: 10px 20px;">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>     
     }
@@ -325,6 +342,55 @@
                 if (!menuToggle.contains(event.target) && !dropdown.contains(event.target)) {
                     dropdown.style.display = 'none';
                 }
+            });
+        });
+
+        //TRIGGER REJECT MODAL
+        $(document).ready(function () {
+            // When "Delete user" is clicked, show the delete confirmation modal and set the user ID
+            $('.dropdown-item.text-danger').on('click', function () {
+                var bookingId = $(this).data('id');  // Capture the user ID
+                $('#deleteBookingId').val(bookingId);   // Set the user ID in the hidden input field
+                $('#rejectBookingModal').modal('show');  // Show the delete confirmation modal
+            });
+
+            // When the "Yes" button is clicked, the form will be submitted
+            $('#rejectBookingForm').submit(function () {
+                // You can perform any additional validation or actions here before the form submits
+            });
+        });
+
+        //TRIGGER ACCEPT MODAL
+        $(document).ready(function () {
+            $('.dropdown-item.accept-booking').on('click', function () {
+                var bookingId = $(this).data('id');  // Capture the user ID
+                $('#acceptBookingId').val(bookingId);   // Set the user ID in the hidden input field
+                $('#acceptBookingModal').modal('show');  // Show the delete confirmation modal
+            });
+
+            // When the "Yes" button is clicked, the form will be submitted
+            $('#acceptBookingForm').submit(function () {
+                // You can perform any additional validation or actions here before the form submits
+            });
+        });
+
+        // NAVIGATE TO VIEW BOOKING PAGE
+        $(document).ready(function () {
+            $('.dropdown-item.view-booking').click(function () {
+                var bookingId = $(this).data('id');
+                console.log('Booking ID:', bookingId);
+
+                $.ajax({
+                    url: '/Body/ViewBooking',
+                    type: 'GET',
+                    data: { bookingId: bookingId },
+                    success: function (response) {
+                        $('#main-content').html(response);
+                    },
+                    error: function (xhr) {
+                        alert('Failed to load the content.');
+                    }
+                });
             });
         });
     </script>

@@ -27,7 +27,7 @@ namespace ASI.Basecode.Data.Repositories
             UnitOfWork.SaveChanges();
         }
 
-        public IQueryable<Booking> GetBookingById(int userId)
+        public IQueryable<Booking> GetBookingByUserId(int userId)
         {
             return this.GetDbSet<Booking>().Where(u => u.UserId == userId);
         }
@@ -41,5 +41,58 @@ namespace ASI.Basecode.Data.Repositories
         {
             return this.GetDbSet<Booking>().Where(u => u.BookingStatus == "Pending" && u.UserId == userId);
         }
+
+        public void UpdateBooking(Booking booking)
+        {
+            this.GetDbSet<Booking>().Update(booking);
+            UnitOfWork.SaveChanges();
+        }
+        public void RejectBooking(int bookingId)
+        {
+            var booking = this.GetDbSet<Booking>()
+                .Where(b => b.BookingId == bookingId)
+                .SingleOrDefault();
+
+            if (booking != null)
+            {
+                booking.BookingStatus = "Rejected";
+                this.GetDbSet<Booking>().Update(booking);
+                UnitOfWork.SaveChanges();
+            }
+        }
+        public Booking GetSpecificBooking(int bookingId)
+        {
+            return this.GetDbSet<Booking>().FirstOrDefault(u => u.BookingId == bookingId);
+        }
+        public void DeleteBooking(int bookingId)
+        {
+            var booking = this.GetDbSet<Booking>()
+                .Where(b => b.BookingId == bookingId)
+                .SingleOrDefault();
+
+            if (booking != null)
+            {
+                booking.BookingStatus = "Booked";
+                this.GetDbSet<Booking>().Remove(booking);
+                UnitOfWork.SaveChanges();
+            }
+        }
+
+        public void AcceptBooking(int bookingId)
+        {
+            var booking = this.GetDbSet<Booking>()
+                .Where(b => b.BookingId == bookingId)
+                .SingleOrDefault();
+
+            if (booking != null)
+            {
+                booking.BookingStatus = "Booked";
+                this.GetDbSet<Booking>().Update(booking);
+                UnitOfWork.SaveChanges();
+            }
+        }
+
+
+
     }
 }

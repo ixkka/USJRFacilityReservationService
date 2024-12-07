@@ -81,6 +81,7 @@
                                         data-duration="@facility.BookingDuration"
                                         data-price="@facility.BookingPrice"
                                         data-days="@facility.BookingDays"
+                                        data-thumbnail="@facility.Thumbnail"
                                         selected>
                                     @facility.FacilityName
                                 </option>
@@ -91,13 +92,15 @@
                                         data-name="@facility.FacilityName"
                                         data-duration="@facility.BookingDuration"
                                         data-price="@facility.BookingPrice"
-                                        data-days="@facility.BookingDays">
+                                        data-days="@facility.BookingDays"
+                                        data-thumbnail="@facility.Thumbnail">
                                     @facility.FacilityName
                                 </option>
                             }
                         }
                     </select>
                     <input type="hidden" id="facilityName" asp-for="FacilityName" />
+                    <input type="hidden" id="thumbnail" asp-for="Thumbnail" />
                 </div>
 
                 @* <!-- Booking Date -->
@@ -117,7 +120,7 @@
                         <button type="button" id="sundayBtn" class="btn btn-outline-secondary day-btn" data-day="Su">Su</button>
                     </div>
                     <input asp-for="BookingDays" type="hidden" id="bookingDaysInput" />
-                    <input asp-for="BookingDays" type="hidden" value="" />
+                    @* <input asp-for="BookingDays" type="hidden" value="" /> *@
                 </div>
 
                 <div class="mb-4" id="bookingHoursWrapper">
@@ -129,6 +132,7 @@
                             <span class="input-group-text">to</span>
                             <input asp-for="BookingTimeEnd" type="time" class="form-control booking-time">
                         </div>
+                        <div id="bookingTimeError" class="text-danger mt-1" style="display: none; margin-left: 120px;"></div>
                     </div>
 
                     <!-- This div will be shown/hidden based on booking type -->
@@ -163,7 +167,7 @@
 
                 <!-- Add and Cancel Buttons -->
                 <div class="d-flex justify-content-end">
-                    <button type="submit" class="add-btn" style="border-radius: 10px; margin-right: 10px">Create</button>
+                    <button type="submit" class="add-btn" style="border-radius: 10px; margin-right: 10px; cursor: pointer">Create</button>
                     <button type="button" id="createBookingBackBTN" class="cancel-btn" style="border-radius: 10px;">Cancel</button>
                 </div>
             </div>
@@ -172,6 +176,7 @@
         <input asp-for="BookingType" id="BookingType" type="hidden" data-initial-value="@ViewBag.Type" />
         <input asp-for="UserId" id="userId" type="hidden" value="@userId" />
         <input asp-for="FullDayDuration" name="FullDayDuration" id="FullDayDuration" type="hidden" />
+        <input asp-for="BookingDate" name="BookingDate" value="@DateTime.Now.ToString("yyyy-MM-dd")" type="hidden" />
     </form>
 </div>
 
@@ -249,6 +254,7 @@
         var facilityName = selectedOption.data('name');
         var bookingDuration = selectedOption.data('duration');
         var bookingPrice = selectedOption.data('price');
+        var thumbnail = selectedOption.data('thumbnail');
         var bookingDays = selectedOption.data('days');
         var bookingDaysArray = bookingDays ? bookingDays.split(',') : [];
         var days = bookingDaysArray.map(day => day.trim());
@@ -265,6 +271,7 @@
         };
 
         $('#facilityName').val(facilityName);
+        $('#thumbnail').val(thumbnail); 
 
         //Hide all Button Initially// Hide all day buttons initially
         $('.day-btn').hide();
@@ -344,5 +351,5 @@
             $('#bookingPriceDisplay').text('$0');
             $('#BookingPrice').val('0');
         });
-    });
+    }); 
 </script>

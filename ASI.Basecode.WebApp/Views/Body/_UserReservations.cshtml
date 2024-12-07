@@ -33,7 +33,7 @@
 
         /* Hover color change to #137301 */
         .dropdown-item:hover {
-            background-color: #137301;
+            background-color: rgba(19, 115, 1, 0.3);
             color: white; /* Optional: Make the text white for better contrast */
         }
 
@@ -80,11 +80,6 @@
         </div>
 
         <div class="d-flex align-items-center" style="gap: 30px; margin-left: -10px;">
-            <div class="position-relative">
-                <input type="text" class="form-control" placeholder="Search" style="width: 300px; padding-left: 30px; border-radius: 5px;">
-                <img src="~/img/search.svg" alt="Search" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
-            </div>
-
             <button class="btn btn-outline-secondary position-relative" style="border-radius: 5px; padding: 8px 25px; min-width: 120px;">
                 <img src="~/img/filter.svg" alt="Filters" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
                 Filters
@@ -105,7 +100,7 @@
             </div>
 
             <div class="d-flex align-items-center clickable" id="reservationBtn" style="padding: 0px 5px;">
-                Pending Reservations
+                Pending reservations
                 <div class="d-flex justify-content-center align-items-center" style="background-color: #FF8E8E; height: 25px; width: 25px; border-radius: 5px; margin-left: 5px;">
                     @ViewBag.count
                 </div>
@@ -151,7 +146,7 @@
                             <!-- Image column -->
                             <div class="col-5">
                                 <div class="h-100" style="min-height: 220px; position: relative;">
-                                    <img src="~/img/facilities_icon.png" class="position-absolute w-100 h-100" style="border-radius: 1rem; object-fit: cover; top: 0; left: 0;" alt="ImageTitle">
+                                    <img src="@Url.Content("~/uploads/" + @booking.Thumbnail)" class="position-absolute w-100 h-100" style="border-radius: 1rem; object-fit: cover; top: 0; left: 0;" alt="ImageTitle">
                                 </div>
                             </div>
                             <!-- Text content column - decreased from col-8 to col-7 -->
@@ -179,19 +174,44 @@
                                         <div style="width:25px; margin-left: 225px; margin-top: 15px; position:absolute; padding-left:60px">
                                             <img src="~/img/threeDots_horizontal.png" class="menu-toggle" style="cursor:pointer;" data-menu-id="@booking.BookingId" />
                                             <div class="dropdown-menu" id="@booking.BookingId" style="display: none; position: absolute; top: 20px; left: -110px; background-color: white; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); border-radius: 20px; z-index: 1000; width: 200px;">
-                                                <a href="#" class="dropdown-item" style="padding: 10px; display: flex; align-items: center;" data-toggle="modal" data-title="View Bookings" id="cont1">
-                                                    <img src="~/img/booking.ngg" alt="booking placeholder" style="border-radius: 50%; margin-right: 10px;">
+                                                <a href="#" class="dropdown-item view-booking" style="padding: 10px; display: flex; align-items: center;" data-toggle="modal" data-title="View Bookings" id="cont1" data-id="@booking.BookingId">
+                                                    <img src="~/img/booking.png" alt="booking placeholder" style="border-radius: 50%; margin-right: 10px;">
                                                     View Booking
                                                 </a>
-                                                <a href="#" class="dropdown-item edit-booking" style="padding: 10px; display: flex; align-items: center;">
+                                                <a href="#" class="dropdown-item edit-booking" style="padding: 10px; display: flex; align-items: center;" data-id="@booking.BookingId">
                                                     <!--data-url="/Account/LoadAddFacilities?isEdit=true-->      <!-- ADD THIS TO THIS LINE -->
                                                     <img src="~/img/pencil-fill.svg" alt="Edit Booking" style="border-radius: 50%; margin-right: 10px;">
                                                     Edit Booking
                                                 </a>
-                                                <a href="#" class="dropdown-item text-danger" style="padding: 10px; display: flex; align-items: center;" data-toggle="modal" data-target="#deleteFacilityModal">
+                                                <a href="#" class="dropdown-item text-danger" style="padding: 10px; display: flex; align-items: center;" data-toggle="modal" data-target="#deleteBookingModal" data-id="@booking.BookingId">
                                                     <img src="~/img/delete.png" alt="delete placeholder" style="border-radius: 50%; margin-right: 10px;">
                                                     Cancel Booking
                                                 </a>
+                                            </div>
+                                        </div>
+
+                                        <!-- Delete Confirmation Modal -->
+                                        <div class="modal fade" id="deleteBookingModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content" style="border-radius: 20px; padding: 20px;">
+                                                    <div class="modal-header text-center">
+                                                        <h5 class="modal-title" id="deleteModalTitle" style="width: 100%; margin-left: 35px">Are you sure you want to cancel this booking?</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+
+                                                    <!-- Form for Deletion -->
+                                                    <form action="/Body/DeleteBooking" method="POST" id="deleteBookingForm">
+                                                        <input type="hidden" name="id" id="deleteBookingId" />
+                                                        <div class="modal-footer justify-content-center">
+                                                            <!-- Yes Button -->
+                                                            <button type="submit" class="btn btn-danger" style="border-radius: 20px; padding: 10px 20px; background-color: #FF6B6B;">Confirm</button>
+                                                            <!-- Cancel Button -->
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 20px; padding: 10px 20px;">Cancel</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -325,5 +345,64 @@
                 });
             });
         });
+
+        //TRIGGER REJECT MODAL
+        $(document).ready(function () {
+            $('.dropdown-item.text-danger').on('click', function () {
+                var bookingId = $(this).data('id');
+                $('#deleteBookingId').val(bookingId);
+                $('#deleteBookingModal').modal('show');
+            });
+
+
+            $('#deleteBookingForm').submit(function () {
+            });
+        });
+
+        // NAVIGATE TO EDIT PAGE
+        $(document).ready(function () {
+            $('.edit-booking').click(function () {
+                var bookingId = $(this).data('id');
+                console.log('Booking ID:', bookingId);
+                console.log('Click event triggered');
+
+                $.ajax({
+                    url: '/Body/EditBooking',
+                    type: 'GET',
+                    data: { bookingId: bookingId },
+                    success: function (response) {
+                        console.log('AJAX success', response);
+                        $('#main-content').html(response);
+                   },
+                   error: function (xhr) {
+                        console.error('AJAX error', xhr);
+                        alert('Failed to load the content.');
+                   }
+               });
+            });
+         });
+
+        // NAVIGATE TO EDIT PAGE
+        $(document).ready(function () {
+            $('.view-booking').click(function () {
+                var bookingId = $(this).data('id');
+                console.log('Booking ID:', bookingId);
+                console.log('Click event triggered');
+
+                $.ajax({
+                    url: '/Body/UserAdminViewBooking',
+                    type: 'GET',
+                    data: { bookingId: bookingId },
+                    success: function (response) {
+                        console.log('AJAX success', response);
+                        $('#main-content').html(response);
+                   },
+                   error: function (xhr) {
+                        console.error('AJAX error', xhr);
+                        alert('Failed to load the content.');
+                   }
+               });
+            });
+         });
     </script>
 

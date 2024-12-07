@@ -82,11 +82,6 @@
         </div>
 
         <div class="d-flex align-items-center" style="gap: 30px; margin-left: -10px;">
-            <div class="position-relative">
-                <input type="text" class="form-control" placeholder="Search" style="width: 300px; padding-left: 30px; border-radius: 5px;">
-                <img src="~/img/search.svg" alt="Search" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
-            </div>
-
             <button class="btn btn-outline-secondary position-relative" style="border-radius: 5px; padding: 8px 25px; min-width: 120px;">
                 <img src="~/img/filter.svg" alt="Filters" class="position-absolute" style="left: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
                 Filters
@@ -119,27 +114,27 @@
 
     <!-- MAIN CONTENT -->
     <div class="container-fluid d-flex justify-content-between align-items-center" style="background-color:#D0E3CC; padding: 10px; border-radius:10px;">
-        <!-- Left-aligned (User) -->
+        <!-- Facility -->
         <div class="d-flex align-items-center" style="flex-basis: 25%;">
             <label for="users" style="color:#137301; margin: 0;">Facility</label>
         </div>
 
-        <!-- Center-aligned (ID) -->
+        <!-- Type -->
         <div class="d-flex align-items-center justify-content-center" style="flex-basis: 25%; text-align: center;">
             <p style="color:#137301; margin: 0;">Type</p>
         </div>
 
-        <!-- Department Column -->
+        <!-- Date -->
         <div class="d-flex align-items-center justify-content-center" style="flex-basis: 25%; text-align: center;">
             <p style="color:#137301; margin: 0;">Date</p>
         </div>
 
-        <!-- User Type Column -->
+        <!-- Price -->
         <div class="d-flex align-items-center justify-content-center" style="flex-basis: 25%; text-align: center;">
             <p style="color:#137301; margin: 0;">Price</p>
         </div>
 
-        <!-- Action Column -->
+        <!-- Three Dots -->
         <div class="d-flex align-items-center justify-content-end" style="flex-basis: 10%; text-align: right;">
             <p style="color:#137301; margin: 0;"></p>
         </div>
@@ -151,7 +146,6 @@
         <div class="container-fluid d-flex justify-content-between align-items-center py-2 border-bottom">
             <!-- Facility Name Column -->
             <div class="d-flex align-items-center" style="flex-basis: 25%; justify-content: flex-start;">
-                <input type="checkbox" id="user1" style="width: 15px; height: 15px; margin-right: 8px;" />
                 <span>@booking.FacilityName</span>
             </div>
 
@@ -180,52 +174,11 @@
                 <div class="dropdown-menu" style="display: none; position: absolute; top: 30px; background-color: white; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); border-radius: 20px; z-index: 1000; width: 200px;">
                     <a href="#" class="dropdown-item view-booking" style="padding: 10px; display: flex; align-items: center;"
                        data-toggle="modal" data-target="#viewBookingModal"
-                       data-userid="@booking.BookingId">
+                       data-id="@booking.BookingId">
                         <img src="~/img/booking.png" alt="booking placeholder" style="border-radius: 50%; margin-right: 10px;">
                         View Booking
                     </a>
-
-                    <a href="#" class="dropdown-item edit-booking-details" style="padding: 10px; display: flex; align-items: center;"
-                       data-toggle="modal" data-target="#editDetailsModal"
-                       data-userid="@booking.BookingId">
-                        <img src="~/img/check.png" alt="check placeholder" style="border-radius: 50%; margin-right: 10px;">
-                        Accept
-                    </a>
-
-                    <a href="#" class="dropdown-item text-danger" style="padding: 10px; display: flex; align-items: center;"
-                       data-toggle="modal" data-target="#deleteBookingModal" data-id="@booking.BookingId">
-                        <img src="~/img/close.png" alt="reject placeholder" style="border-radius: 50%; margin-right: 10px;">
-                        Reject
-                    </a>
-
-
                 </div>
-
-
-                @* <!-- Delete Confirmation Modal -->
-            <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-            <div class="modal-content" style="border-radius: 20px; padding: 20px;">
-            <div class="modal-header text-center">
-            <h5 class="modal-title" id="deleteModalTitle" style="width: 100%;">Confirm Deletion</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-            </div>
-
-            <!-- Form for Deletion -->
-            <form action="/Account/DeleteUser" method="POST" id="deleteUserForm">
-            <input type="hidden" name="id" id="deleteUserId" />
-            <div class="modal-footer justify-content-center">
-            <!-- Yes Button -->
-            <button type="submit" class="btn btn-danger" style="border-radius: 20px; padding: 10px 20px; background-color: #FF6B6B;">Yes</button>
-            <!-- Cancel Button -->
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 20px; padding: 10px 20px;">Cancel</button>
-            </div>
-            </form>
-            </div>
-            </div>
-            </div> *@
             </div>
         </div>
     }
@@ -328,6 +281,29 @@
                 }
             });
         });
+
+        // NAVIGATE TO VIEW BOOKING PAGE
+        $(document).ready(function () {
+            $('.view-booking').click(function () {
+                var bookingId = $(this).data('id');
+                console.log("Booking ID:", bookingId); // Debugging
+       
+
+                $.ajax({
+                    url: '/Body/UserAdminViewBooking',
+                    type: 'GET',
+                    data: { bookingId: bookingId },
+                    success: function (response) {
+                        console.log('AJAX success', response);
+                        $('#main-content').html(response);
+                   },
+                   error: function (xhr) {
+                        console.error('AJAX error', xhr);
+                        alert('Failed to load the content.');
+                   }
+               });
+            });
+         });
     </script>
 
 
