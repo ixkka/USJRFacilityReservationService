@@ -1,13 +1,14 @@
-﻿using System;
+﻿using ASI.Basecode.Data.Models;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-// ASI.Basecode.Data.Models/BookingPreference.cs
-namespace ASI.Basecode.Data.Models
+namespace ASI.Basecode.Services.ServiceModels
 {
-    public class BookingPreference
+    public class BookingPreferenceServiceModel
     {
         public int BookingPreferenceId { get; set; }
         public int? UserId { get; set; }
@@ -20,6 +21,7 @@ namespace ASI.Basecode.Data.Models
         public string RecurrentBookingNotes { get; set; }
 
         public virtual User User { get; set; }
+
     }
 }
 

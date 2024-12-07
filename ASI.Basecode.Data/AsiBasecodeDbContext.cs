@@ -21,7 +21,6 @@ namespace ASI.Basecode.Data
         public virtual DbSet<UserType> UserType { get; set; }
         public virtual DbSet<Facility> Facility { get; set; }
         public DbSet<BookingPreference> BookingPreferences { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
            // Set default values for Department and UserTypeId
@@ -130,7 +129,8 @@ namespace ASI.Basecode.Data
                     .HasColumnName("BookingPreferenceID")
                     .ValueGeneratedOnAdd();
 
-                entity.Property(e => e.UserId).IsRequired(false);
+                entity.Property(e => e.UserId)
+                    .IsRequired(false); 
 
                 entity.Property(e => e.SingleBookingStartTime)
                     .HasColumnType("time")
@@ -142,7 +142,7 @@ namespace ASI.Basecode.Data
 
                 entity.Property(e => e.SingleBookingNotes)
                     .HasMaxLength(500)
-                    .IsUnicode(false);
+                    .IsUnicode(false); 
 
                 entity.Property(e => e.RecurrentBookingStartTime)
                     .HasColumnType("time")
@@ -154,19 +154,19 @@ namespace ASI.Basecode.Data
 
                 entity.Property(e => e.RecurrentBookingDays)
                     .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .IsUnicode(false); 
 
                 entity.Property(e => e.RecurrentBookingNotes)
                     .HasMaxLength(500)
                     .IsUnicode(false);
 
+                
                 entity.HasOne(d => d.User)
-                    .WithMany(p => p.BookingPreferences)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK_BookingPreference_User");
+                    .WithMany(p => p.BookingPreferences) // One User can have many BookingPreferences
+                    .HasForeignKey(d => d.UserId) // Foreign key for UserId
+                    .OnDelete(DeleteBehavior.Cascade) // If User is deleted, delete associated BookingPreferences
+                    .HasConstraintName("FK_BookingPreference_User"); // Specify constraint name
             });
-
 
 
             ModelBuilderExtensions.Seed(modelBuilder);

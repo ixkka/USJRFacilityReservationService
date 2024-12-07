@@ -124,6 +124,15 @@ namespace ASI.Basecode.WebApp.Controllers
                 this._session.SetInt32("UserId", user.Id);
                 this._session.SetInt32("Id", user.Id);
 
+                /*var bookingPreference = new BookingPreferenceServiceModel
+                {
+                    UserID = user.Id,  // Saving the logged-in user's ID
+                                       // Add any default or previously saved booking preferences if applicable
+                };*/
+
+                // Save booking preferences to the table
+                //_bookingPreferenceService.AddPreference(bookingPreference);
+
                 // Pass the role to the view
                 ViewData["UserRole"] = user.UserTypeId;
 

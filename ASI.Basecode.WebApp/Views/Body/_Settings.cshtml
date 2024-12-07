@@ -1,31 +1,33 @@
-﻿<h3>Settings & Preferences</h3>
+﻿@model ASI.Basecode.WebApp.Models.BookingPreferenceViewModel
+
+
+<h3>Settings & Preferences</h3>
 <hr style="border: 1px solid rgba(19, 115, 1, 0.3);" />
-    <div class="preferences">
-        <h4 class="booking-header" style="margin-top: 40px;">Booking Settings</h4>
-        <p style="color:gray;">Set up default booking preferences</p>
-    <form style="width: 100%;">
-    <div class="settings-body" style="display:flex; margin-top:40px; width: 100%;">
-    
+<div class="preferences">
+    <h4 class="booking-header" style="margin-top: 40px;">Booking Settings</h4>
+    <p style="color:gray;">Set up default booking preferences</p>
+
+    <form asp-controller="BookingPreference" asp-action="Save" method="post" style="width: 100%;">
+        <div class="settings-body" style="display:flex; margin-top:40px; width: 100%;">
             <div style="width:50%; border-right: 1px solid rgba(19, 115, 1, 0.3); padding-right: 2%;">
                 <p style="font-size: 20px;">Single Bookings</p>
-                <p>Booking Hours</p>
-                <div class="input-group" style="margin-bottom: 30px; ">
-                    <input type="time" class="form-control" style="border-radius: 10px; margin-right: 20px;">
+                <div class="input-group" style="margin-bottom: 30px;">
+                    <input type="time" class="form-control" asp-for="SingleBookingStartTime" style="border-radius: 10px; margin-right: 20px;">
                     <span class="input-group-text" style="border-radius: 10px; margin-right: 20px;">to</span>
-                    <input type="time" class="form-control" style="border-radius: 10px; ">
+                    <input type="time" class="form-control" asp-for="SingleBookingEndTime" style="border-radius: 10px;">
                 </div>
-                <textarea style="width: 100%; min-height:150px; resize: none;" placeholder="Enter Notes/Additional Instructions"></textarea>
+                <textarea name="SingleBookingNotes" asp-for="SingleBookingNotes" style="width: 100%; min-height:150px; resize: none;" placeholder="Enter Notes/Additional Instructions"></textarea>
             </div>
+
             <div style="width:50%; padding-left: 2%; border-left: 1px solid rgba(19, 115, 1, 0.3);">
                 <p style="font-size: 20px;">Recurrent Bookings</p>
-                <p>Booking Hours</p>
-                <div class="input-group" style="margin-bottom: 10px; ">
-                    <input type="time" class="form-control" style="border-radius: 10px; margin-right: 20px;">
+                <div class="input-group" style="margin-bottom: 10px;">
+                    <input type="time" class="form-control" asp-for="RecurrentBookingStartTime" style="border-radius: 10px; margin-right: 20px;">
                     <span class="input-group-text" style="border-radius: 10px; margin-right: 20px;">to</span>
-                    <input type="time" class="form-control" style="border-radius: 10px; ">
+                    <input type="time" class="form-control" asp-for="RecurrentBookingEndTime" style="border-radius: 10px;">
                 </div>
                 <div class="mb-4" style="margin-top: 20px;">
-                    <label for="bookingDays" class="form-label ">Booking Days</label>
+                    <label for="bookingDays" class="form-label">Booking Days</label>
                     <div class="d-grid gap-2">
                         <button type="button" class="btn btn-outline-secondary day-btn" data-day="M">M</button>
                         <button type="button" class="btn btn-outline-secondary day-btn" data-day="T">T</button>
@@ -35,32 +37,27 @@
                         <button type="button" class="btn btn-outline-secondary day-btn" data-day="Sa">Sa</button>
                         <button type="button" class="btn btn-outline-secondary day-btn" data-day="Su">Su</button>
                     </div>
-                    <input type="hidden" id="bookingDaysInput" />
+                    <input type="hidden" id="bookingDaysInput" asp-for="RecurrentBookingDays" />
                 </div>
-                <div>
-                    <textarea style="width: 100%; min-height:150px; resize: none;" placeholder="Enter Notes/Additional Instructions"></textarea>
-                </div>
+                <textarea name="RecurrentBookingNotes" asp-for="RecurrentBookingNotes" style="width: 100%; min-height:150px; resize: none;" placeholder="Enter Notes/Additional Instructions"></textarea>
             </div>
-    </div>
-    </form>
-
-        <div>
-        <button class="btn btn-success position-relative add-facility-btn"style="border-radius: 5px; padding: 8px 25px; min-width: 150px; min-height: 50px" >Save</button>
         </div>
 
-    </div>
+        <div class="d-flex justify-content-between mt-4">
+            <button type="submit" class="btn btn-primary">Save Preferences</button>
+        </div>
+       @*  <input asp-for="UserId" id="userId" type="hidden" value="@userId" /> *@
+    </form>
+</div>
 
-   <script>
-      document.querySelectorAll('.day-btn').forEach(button => {
+<script>
+    // JavaScript for handling selected days
+    document.querySelectorAll('.day-btn').forEach(button => {
         button.addEventListener('click', function () {
-            this.classList.toggle('active'); // Toggle the active state
-
-            // Collect selected days
+            this.classList.toggle('active');
             const selectedDays = Array.from(document.querySelectorAll('.day-btn.active'))
-                .map(btn => btn.dataset.day); // Extract day value from data-day attribute
-
-            // Update the hidden input value
+                .map(btn => btn.dataset.day);
             document.getElementById('bookingDaysInput').value = selectedDays.join(', ');
         });
     });
-   </script>
+</script>
