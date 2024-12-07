@@ -79,10 +79,7 @@ namespace ASI.Basecode.WebApp.Controllers
 
 
 
-        /// <summary>
-        /// Login Method
-        /// </summary>
-        /// <returns>Created response view</returns>
+        /// Clears the session and prepares a new login view for unauthenticated users.
         [HttpGet]
         [AllowAnonymous]
         public ActionResult Login()
@@ -101,7 +98,7 @@ namespace ASI.Basecode.WebApp.Controllers
         /// <returns> Created response view </returns>
         ///
 
-
+        ///Authenticates user credentials and establishes a session with user information upon successful login.
         [HttpPost]
         [AllowAnonymous]
 
@@ -137,7 +134,10 @@ namespace ASI.Basecode.WebApp.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Displays the user registration form.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Register()
@@ -145,6 +145,7 @@ namespace ASI.Basecode.WebApp.Controllers
             return View();
         }
 
+        ///Processes user registration including profile picture upload and saves new user information to the database.
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Register(UserViewModel model)
@@ -218,6 +219,7 @@ namespace ASI.Basecode.WebApp.Controllers
             }
         }
 
+        ///Signs out the current user and redirects to the login page.
         [AllowAnonymous]
         public async Task<IActionResult> SignOutUser()
         {
@@ -242,6 +244,7 @@ namespace ASI.Basecode.WebApp.Controllers
             return PartialView("/Views/Body/_Users.cshtml", users.ToPagedList(page, 10));
         }
 
+        ///Retrieves and returns a paginated list of all users for display.
         [HttpGet]
         public IActionResult LoadFacilities(int page =1)
         {
@@ -262,12 +265,13 @@ namespace ASI.Basecode.WebApp.Controllers
             }
         }
 
+        ///Retrieves and returns a paginated list of facilities for display.
         public IActionResult ViewFacility()
         {
             return PartialView("/Views/Body/_SpecificFacility.cshtml");
         }
 
-
+        ///Returns a partial view for adding or editing facility information based on the isEdit parameter.
         [HttpGet]
         public IActionResult LoadAddFacilities(bool isEdit = false)
         {
@@ -286,7 +290,7 @@ namespace ASI.Basecode.WebApp.Controllers
             }
         }
 
-
+        ///Retrieves and returns a complete list of all users.
         [HttpGet]
         public IActionResult GetUsers()
         {
@@ -295,6 +299,7 @@ namespace ASI.Basecode.WebApp.Controllers
             return View(users);
         }
 
+        ///Removes a specified user from the system based on their ID.
         [HttpPost]
         [Route("Account/DeleteUser")]
         public IActionResult DeleteUser(int id)
@@ -311,7 +316,7 @@ namespace ASI.Basecode.WebApp.Controllers
             return Redirect(Request.Headers["Referer"].ToString());
         }
 
-
+        ///Updates an existing user's information including optional profile picture upload.
         [HttpPost]
         [Route("Account/UpdateUser")]
         public async Task<IActionResult> UpdateUser(string userId, string userName, string department, int userTypeId, string? password, IFormFile profilePicture)
@@ -372,7 +377,7 @@ namespace ASI.Basecode.WebApp.Controllers
             return Redirect(Request.Headers["Referer"].ToString());
         }
 
-
+        ///Processes the creation of a new user including profile picture upload and validation.
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> CreateUser(UserViewModel model)
@@ -437,7 +442,7 @@ namespace ASI.Basecode.WebApp.Controllers
 
 
 
-
+        ///Returns a partial view of the Users page.
         public IActionResult Return()
         {
             return PartialView("/Views/Body/Users.cshtml");

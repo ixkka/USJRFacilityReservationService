@@ -32,6 +32,7 @@ namespace ASI.Basecode.WebApp.Controllers
             this._facilityService = facilityService;
         }
 
+        ///Processes and saves a new facility record including thumbnail image upload to the server.
         [HttpPost]
         public async Task<IActionResult> AddFacility(FacilityViewModel facility)
         {
@@ -70,6 +71,8 @@ namespace ASI.Basecode.WebApp.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+
+        ///Retrieves and returns a specific facility's details based on the provided facility ID.
      //[HttpGet]
         public IActionResult GetspecFacility(int facilityId)
         {
@@ -85,6 +88,7 @@ namespace ASI.Basecode.WebApp.Controllers
             //return View();
         }
 
+        ///Removes a specified facility from the system based on the provided facility data.
         [HttpPost]
         public IActionResult DeleteFacility(FacilityViewModel room)
         {
@@ -105,7 +109,7 @@ namespace ASI.Basecode.WebApp.Controllers
             }
         }
 
-        // Update Facility GET action to load the update form
+        ///Retrieves and displays a form pre-populated with a specific facility's details for editing.
         [HttpGet]
         public IActionResult Edit(int facilityId)
         {
@@ -120,7 +124,7 @@ namespace ASI.Basecode.WebApp.Controllers
             return View(facility);
         }
 
-        // Update Facility POST action to handle form submission
+        ///Processes and saves the updates made to an existing facility's information.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(FacilityViewModel facility)
@@ -144,9 +148,6 @@ namespace ASI.Basecode.WebApp.Controllers
             // If we got this far, something failed, redisplay form
             return View(facility);
         }
-
-        // Other controller actions
-
 
         public IActionResult Index()
         {

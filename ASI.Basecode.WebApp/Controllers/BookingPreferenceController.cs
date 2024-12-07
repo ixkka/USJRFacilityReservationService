@@ -25,6 +25,7 @@ namespace ASI.Basecode.WebApp.Controllers
             _bookingPreferenceService = bookingPreferenceService ?? throw new ArgumentNullException(nameof(bookingPreferenceService));
         }
 
+        ///Returns a partial view with an empty booking preference form for users to input their preferences.
         [HttpGet]
         public IActionResult Save()
         {
@@ -32,6 +33,7 @@ namespace ASI.Basecode.WebApp.Controllers
             return PartialView("~/Views/Body/_Settings.cshtml", model);  // Ensure correct path
         }
 
+        ///Processes and saves a user's booking preferences including single and recurrent booking details to the database, associated with their user ID.
         [HttpPost]
         public IActionResult Save(BookingPreferenceServiceModel model)
         {

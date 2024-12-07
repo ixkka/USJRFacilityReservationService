@@ -36,6 +36,7 @@ namespace ASI.Basecode.WebApp.Controllers
             this._facilityRepository = facilityRepository;
         }
 
+        // Retrieves paginated list of reservations based on user role and ID
         [HttpGet]
         public IActionResult Reservations(int page = 1)
         {
@@ -82,6 +83,7 @@ namespace ASI.Basecode.WebApp.Controllers
             }
         }
 
+        // Displays form for creating a one-time facility booking
         [HttpGet]
         public IActionResult SingleBookingReservation()
         {
@@ -92,6 +94,8 @@ namespace ASI.Basecode.WebApp.Controllers
             return PartialView("/Views/Body/_CreateSingleBooking.cshtml");
         }
 
+
+        // Displays form for creating recurring facility bookings
         [HttpGet]
         public IActionResult RecurringBookingReservation()
         {
@@ -102,12 +106,14 @@ namespace ASI.Basecode.WebApp.Controllers
             return PartialView("/Views/Body/_CreateRecurringBooking.cshtml");
         }
 
+        // Loads user settings page
         [HttpGet]
         public IActionResult Settings()
         {
             return PartialView("/Views/Body/_Settings.cshtml");
         }
 
+        // Shows booking form with pre-selected facility
         [HttpGet]
         public IActionResult SingleBookingReservationFromSpecFacility(int facilityId)
         {
@@ -118,6 +124,7 @@ namespace ASI.Basecode.WebApp.Controllers
             return PartialView("/Views/Body/_CreateSingleBooking.cshtml");
         }
 
+        // Displays all pending reservation requests for administrators
         [HttpGet]
         public IActionResult ReservationRequests(int page = 1)
         {
@@ -128,9 +135,9 @@ namespace ASI.Basecode.WebApp.Controllers
             var pagedBookings = bookings.ToPagedList(page, pageSize);
 
             return PartialView("/Views/Body/_ReservationRequests.cshtml", pagedBookings);
-            
-
         }
+
+        // Shows user's pending reservations in a paginated list
         [HttpGet]
         public IActionResult PendingReservations(int page = 1)
         {
@@ -152,13 +159,7 @@ namespace ASI.Basecode.WebApp.Controllers
             }
         }
 
-        public IActionResult CancelBooking()
-        {
-            // Logic to handle cancellation
-            return RedirectToAction("/Views/Body/_PendingAndRequests.cshtml"); // Or any other action
-        }
-        [HttpPost]
-
+        // Creates new facility booking from submitted form data
         [HttpPost]
         public IActionResult CreateBooking(BookingViewModel booking)
         {
@@ -179,6 +180,7 @@ namespace ASI.Basecode.WebApp.Controllers
 
         }
 
+        // Processes administrator's rejection of a booking request
         [HttpPost]
         public IActionResult RejectBooking(int id)
         {
@@ -194,6 +196,7 @@ namespace ASI.Basecode.WebApp.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        // Processes administrator's approval of a booking request
         [HttpPost]
         [HttpGet]
         public IActionResult AcceptBooking(int id)
@@ -210,6 +213,7 @@ namespace ASI.Basecode.WebApp.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        // Removes existing booking from the system
         [HttpPost]
         public IActionResult DeleteBooking(int id)
         {
@@ -225,6 +229,7 @@ namespace ASI.Basecode.WebApp.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        // Displays detailed information for a specific booking
         public IActionResult ViewBooking(int bookingId)
         {
             var newId = bookingId;
@@ -237,6 +242,8 @@ namespace ASI.Basecode.WebApp.Controllers
 
             return PartialView("/Views/Body/_ViewBooking.cshtml", booking);
         }
+
+        // Shows booking details with admin/user specific view options
         public IActionResult UserAdminViewBooking(int bookingId)
         {
             var newId = bookingId;
@@ -251,6 +258,7 @@ namespace ASI.Basecode.WebApp.Controllers
             return PartialView("/Views/Body/_UserAdminViewBooking.cshtml", booking);
         }
 
+        // Loads edit form for existing booking with current data
         public IActionResult EditBooking(int bookingId)
         {
             var newId = bookingId;
@@ -274,6 +282,7 @@ namespace ASI.Basecode.WebApp.Controllers
             }
         }
 
+        // Processes form submission to update existing booking
         [HttpPost]
         public IActionResult UpdateBooking(BookingViewModel booking)
         {
