@@ -13,6 +13,7 @@ using System.Linq;
 using X.PagedList.Extensions;
 using ASI.Basecode.WebApp.Models;
 
+
 namespace ASI.Basecode.WebApp.Controllers
 {
     public class BookingPreferenceController : Controller
@@ -36,26 +37,33 @@ namespace ASI.Basecode.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-              
-                var serviceModel = new BookingPreferenceServiceModel    
-                {
-                    UserId = model.UserId,
-                    SingleBookingStartTime = model.SingleBookingStartTime,
-                    SingleBookingEndTime = model.SingleBookingEndTime,
-                    SingleBookingNotes = model.SingleBookingNotes,
-                    RecurrentBookingStartTime = model.RecurrentBookingStartTime,
-                    RecurrentBookingEndTime = model.RecurrentBookingEndTime,
-                    RecurrentBookingDays = model.RecurrentBookingDays,
-                    RecurrentBookingNotes = model.RecurrentBookingNotes
-                };
 
-                // Save the preferences via the service
-                _bookingPreferenceService.AddPreference(serviceModel);
-                // Redirect to another view after saving    
-                return RedirectToAction("Index", "Home");
+                var userId = HttpContext.Session.GetInt32("UserId");
+
+                if (userId.HasValue){
+                    var serviceModel = new BookingPreferenceServiceModel
+                    {
+                        UserId = userId,
+                        SingleBookingStartTime = model.SingleBookingStartTime,
+                        SingleBookingEndTime = model.SingleBookingEndTime,
+                        SingleBookingNotes = model.SingleBookingNotes,
+                        RecurrentBookingStartTime = model.RecurrentBookingStartTime,
+                        RecurrentBookingEndTime = model.RecurrentBookingEndTime,
+                        RecurrentBookingDays = model.RecurrentBookingDays,
+                        RecurrentBookingNotes = model.RecurrentBookingNotes
+                    };
+
+                    // Save the preferences via the service
+                    _bookingPreferenceService.AddPreference(serviceModel);
+                    // Redirect to another view after saving    
+                    return RedirectToAction("Index", "Home");
+                }
+                
             }
 
             return View("~/Views/Body/_Settings.cshtml", model);
         }
     }
+
+
 }
