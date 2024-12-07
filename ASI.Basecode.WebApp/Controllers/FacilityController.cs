@@ -57,15 +57,12 @@ namespace ASI.Basecode.WebApp.Controllers
                     try
                     {
                         await facility.FacilityThumbnailImg.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
-                        //return Json(new { success = true, message = "Image uploaded successfully" });
                         _facilityService.AddFacility2(facility);
                         return RedirectToAction("Index", "Home");
-                        //return Ok("Success");
                     }
                     catch (Exception ex)
                     {
                         ModelState.AddModelError("ImageUpload", "Image upload failed: " + ex.Message);
-                        //return Json(new { success = false, message = "Image upload failed: " + ex.Message });
                         TempData["ErrorMessage"] = Resources.Messages.Errors.ServerError;
                     }
                 }
@@ -99,7 +96,6 @@ namespace ASI.Basecode.WebApp.Controllers
             try
             {
                 _facilityService.DeleteFacility(room);
-                //return Ok("Facility deleted successfully.");
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception ex)

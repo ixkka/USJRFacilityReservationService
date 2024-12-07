@@ -103,11 +103,6 @@
                     <input type="hidden" id="thumbnail" asp-for="Thumbnail" />
                 </div>
 
-                @* <!-- Booking Date -->
-                <div class="mb-4">
-                    <label for="Booking Date" class="form-label">Booking Date</label>
-                    <input asp-for="BookingDate" type="date" class="form-control">
-                </div> *@
                 <div class="mb-4">
                     <label for="bookingDays" class="form-label ">Booking Days</label>
                     <div class="d-grid gap-2">
@@ -307,10 +302,6 @@
 
             // Clear the full day duration
             $('#FullDayDuration').val('');
-
-            // Reset price display
-            // $('#bookingPriceDisplay').text('$0');
-            // $('#BookingPrice').val('0');
 
             // Add the event handler for time changes
             $('.booking-time').on('change', function () {

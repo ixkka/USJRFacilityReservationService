@@ -1,11 +1,7 @@
-﻿@* @model IEnumerable<ASI.Basecode.Services.ServiceModels.BookingViewModel> *@
-@model X.PagedList.IPagedList<ASI.Basecode.Services.ServiceModels.BookingViewModel>
+﻿@model X.PagedList.IPagedList<ASI.Basecode.Services.ServiceModels.BookingViewModel>
 @using ASI.Basecode.Services.ServiceModels
 @using X.PagedList
 @using X.PagedList.Mvc.Core
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
 @{
     int userRole = Context.Session.GetInt32("Role") ?? 0;
     int userId = Context.Session.GetInt32("UserID") ?? 0;
@@ -14,7 +10,6 @@
     .clickable {
         cursor: pointer;
     }
-    /* Add a bottom border to the clicked column */
     .clicked {
         border-bottom: 4px solid #137301;
         color: #137301;
@@ -31,11 +26,11 @@
         transition: background-color 0.3s ease;
     }
 
-        /* Hover color change to #137301 */
-        .dropdown-item:hover {
-            background-color: rgba(19, 115, 1, 0.3);
-            color: white; /* Optional: Make the text white for better contrast */
-        }
+  
+    .dropdown-item:hover {
+        background-color: rgba(19, 115, 1, 0.3);
+        color: white; 
+    }
 
     .text-danger:hover {
         background-color: #fdd;
@@ -43,34 +38,34 @@
 
     .pagination-container {
         display: flex;
-        justify-content: center; /* Centers the pagination */
-        align-items: center; /* Vertically aligns if needed */
-        margin-top: 20px; /* Optional: Adds some spacing on top */
+        justify-content: center; 
+        align-items: center; 
+        margin-top: 20px; 
     }
 
     .pagination {
-        display: flex; /* Use flex to align items horizontally */
-        list-style-type: none; /* Removes default list styles */
-        margin: 0; /* Removes any default margin */
-        padding: 0; /* Removes any default padding */
+        display: flex; 
+        list-style-type: none; 
+        margin: 0; 
+        padding: 0; 
     }
 
-        .pagination li {
-            margin: 0 5px; /* Add spacing between the pagination items */
-        }
+    .pagination li {
+        margin: 0 5px; 
+    }
 
-        .pagination a {
-            display: inline-block; /* Ensures that the pagination items are inline */
-            padding: 10px 15px; /* Adjust the button padding */
-            text-decoration: none; /* Remove default underline */
-            background-color: #f0f0f0; /* Optional: Background for pagination items */
-            border-radius: 5px; /* Optional: Rounded corners */
-        }
+    .pagination a {
+        display: inline-block; 
+        padding: 10px 15px; 
+        text-decoration: none; 
+        background-color: #f0f0f0; 
+        border-radius: 5px; 
+    }
 
-            .pagination a:hover {
-                background-color: #137301; /* Optional: Hover color */
-                color: white; /* Change text color on hover */
-            }
+    .pagination a:hover {
+        background-color: #137301;
+        color: white; 
+    }
 </style>
 
 <div id="BookingListContainer">
@@ -206,9 +201,11 @@
     <!-- jQuery Script for Dropdown and Modal Handling -->
     <script>
     $(document).ready(function () {
+
         // Toggle the dropdown menu when the three dots are clicked
         $('.menu-toggle').on('click', function (e) {
             e.preventDefault(); // Prevent default click behavior
+
             var menuId = $(this).data('menu-id'); // Get the menu id from the data attribute
 
             // Hide other open dropdowns

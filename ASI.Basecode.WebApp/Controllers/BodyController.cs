@@ -236,7 +236,6 @@ namespace ASI.Basecode.WebApp.Controllers
             }
 
             return PartialView("/Views/Body/_ViewBooking.cshtml", booking);
-            //return View();
         }
         public IActionResult UserAdminViewBooking(int bookingId)
         {
@@ -250,7 +249,6 @@ namespace ASI.Basecode.WebApp.Controllers
             }
 
             return PartialView("/Views/Body/_UserAdminViewBooking.cshtml", booking);
-            //return View();
         }
 
         public IActionResult EditBooking(int bookingId)

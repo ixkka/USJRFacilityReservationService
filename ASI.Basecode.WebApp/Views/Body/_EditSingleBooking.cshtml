@@ -150,10 +150,6 @@
                         <input type="hidden" id="booking-facility-name" asp-for="FacilityName" />
                     </div>
 
-                    @* @foreach(var facility in ViewBag.facilities)
-                    {
-                        @facility.BookingHoursStart
-                    } *@
                     <!-- Booking Date -->
                     <div class="mb-4">
                         <label for="booking-date-select" class="form-label">Booking Date</label>
@@ -305,10 +301,6 @@
 
     // To initialize values
     $(document).ready(function () {
-        // Set the initial value for BookingType hidden input
-        // var initialValue = $('#booking-type-input').data('initial-value');
-        // $('#booking-type-input').val(initialValue);
-
         // Bind the change event handler
         $(document).on('change', '#booking-facility-select', handleFacilityChange);
 

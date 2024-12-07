@@ -1,9 +1,4 @@
 ﻿@model ASI.Basecode.Services.ServiceModels.BookingViewModel
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
 <style>
     .form-container {
         padding-top: 2rem;
@@ -120,7 +115,7 @@
 </div>
 
 <script>
-    // For the create booknig button
+    // For the create booking button
     $(document).on('click', '#backBtn', function (e) {
         e.preventDefault();
         $.ajax({
@@ -134,29 +129,4 @@
             }
         });
     });
-
-    // $(document).ready(function () {
-    //     $(document).on('click', '.acceptBooking', function (e) {
-    //         e.preventDefault();
-    //         var bookingId = $(this).data('id');
-    //         console.log("Booking ID:", bookingId); 
-    //         if (!bookingId || bookingId === 0) {
-    //             alert('Invalid Booking ID');
-    //             return;
-    //         }
-
-    //         $.ajax({
-    //             url: '/Body/AcceptBooking',
-    //             type: 'POST', 
-    //             data: { id: bookingId },  
-    //             success: function (data) {
-    //                 $('#main-content').html(data);
-    //             },
-    //             error: function (xhr, status, error) {
-    //                 console.error("Error:", error);
-    //                 alert('Failed to load the Facility details.');
-    //             }
-    //         });
-    //     });
-    // });
 </script>

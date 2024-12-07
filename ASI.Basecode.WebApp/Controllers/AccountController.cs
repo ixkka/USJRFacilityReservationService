@@ -124,15 +124,6 @@ namespace ASI.Basecode.WebApp.Controllers
                 this._session.SetInt32("UserId", user.Id);
                 this._session.SetInt32("Id", user.Id);
 
-                /*var bookingPreference = new BookingPreferenceServiceModel
-                {
-                    UserID = user.Id,  // Saving the logged-in user's ID
-                                       // Add any default or previously saved booking preferences if applicable
-                };*/
-
-                // Save booking preferences to the table
-                //_bookingPreferenceService.AddPreference(bookingPreference);
-
                 // Pass the role to the view
                 ViewData["UserRole"] = user.UserTypeId;
 
@@ -145,8 +136,6 @@ namespace ASI.Basecode.WebApp.Controllers
                 return View();
             }
         }
-
-
 
 
         [HttpGet]
@@ -229,26 +218,12 @@ namespace ASI.Basecode.WebApp.Controllers
             }
         }
 
-
-
-
-
-
         [AllowAnonymous]
         public async Task<IActionResult> SignOutUser()
         {
             await this._signInManager.SignOutAsync();
             return RedirectToAction("Login", "Account");
         }
-
-        //public IActionResult LoadUsers()
-        //{
-        //    var users = _userService.GetAllUsers();
-        //    ViewBag.UserRole = HttpContext.Session.GetInt32("Role") ?? 0;
-        //    ViewBag.UserCount = users.Count();
-        //    return PartialView("/Views/Body/_Users.cshtml", users);
-
-
 
         public IActionResult LoadUsers(int page = 1)
         {
@@ -270,9 +245,6 @@ namespace ASI.Basecode.WebApp.Controllers
         [HttpGet]
         public IActionResult LoadFacilities(int page =1)
         {
-            /*ViewBag.CurrentView = "Facilities"; // Set the current view flag
-            return PartialView("/Views/Body/_Facilities.cshtml");*/
-
             try
             {
                 ViewBag.CurrentView = "Facilities";
@@ -292,14 +264,6 @@ namespace ASI.Basecode.WebApp.Controllers
 
         public IActionResult ViewFacility()
         {
-            /*var facility = _facilityService.GetFacilityByIdService(id);
-
-            if (facility == null)
-            {
-                return NotFound("Facility Not Found");
-            }
-*/
-            //return PartialView("/Views/Body/_SpecificFacility.cshtml", facility);
             return PartialView("/Views/Body/_SpecificFacility.cshtml");
         }
 
@@ -312,9 +276,6 @@ namespace ASI.Basecode.WebApp.Controllers
                 // Set ViewBag based on whether it's an Add or Edit operation
                 ViewBag.CurrentView = isEdit ? "EditFacility" : "AddFacility";
                 ViewBag.ShowAddFacilities = true;
-
-                // If editing, you can retrieve facility data from the database
-                // Example: if (isEdit) { var facility = GetFacility(id); return PartialView("_AddFacilities", facility); }
 
                 return PartialView("/Views/Body/_AddFacilities.cshtml");
             }
@@ -334,19 +295,6 @@ namespace ASI.Basecode.WebApp.Controllers
             return View(users);
         }
 
-
-
-
-        //[HttpGet]
-        //public IActionResult Index()
-        //{
-        //    var users = _userService.GetAllUsers().ToList(); // Fetch users from the database
-        //    var userCount = users.Count; // Get the count of users
-        //    ViewBag.UserCount = userCount; // Pass the count to the view
-        //    return View(users); // Return the view with users
-        //}
-
-
         [HttpPost]
         [Route("Account/DeleteUser")]
         public IActionResult DeleteUser(int id)
@@ -362,18 +310,6 @@ namespace ASI.Basecode.WebApp.Controllers
             }
             return Redirect(Request.Headers["Referer"].ToString());
         }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         [HttpPost]
@@ -435,15 +371,6 @@ namespace ASI.Basecode.WebApp.Controllers
 
             return Redirect(Request.Headers["Referer"].ToString());
         }
-
-
-
-
-
-
-
-
-
 
 
         [HttpPost]
